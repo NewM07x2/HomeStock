@@ -2,17 +2,22 @@
 import React, { useEffect, useState } from 'react'
 import { fetchItemById } from '@/lib/mockApi'
 
-export default function ItemDetail({ id }: { id: string }) {
-  const [item, setItem] = useState<any | null>(null)
-  const [loading, setLoading] = useState(true)
+export default function ItemDetail({ id, item: initialItem }: { id?: string, item?: any }) {
+  const [item, setItem] = useState<any | null>(initialItem ?? null)
+  const [loading, setLoading] = useState(!initialItem)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     let mounted = true
-    setLoading(true)
-    fetchItemById(id).then(i => { if (mounted) setItem(i) }).catch(e => { if (mounted) setError(String(e)) }).finally(() => { if (mounted) setLoading(false) })
+    if (!initialItem && id) {
+      setLoading(true)
+      fetchItemById(id)
+        .then(i => { if (mounted) setItem(i) })
+        .catch(e => { if (mounted) setError(String(e)) })
+        .finally(() => { if (mounted) setLoading(false) })
+    }
     return () => { mounted = false }
-  }, [id])
+  }, [id, initialItem])
 
   if (loading) return <div>読み込み中...</div>
   if (error) return <div className="text-red-600">エラー: {error}</div>
