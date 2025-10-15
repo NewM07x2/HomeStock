@@ -36,11 +36,9 @@ export default function ItemsList() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-2">
         <SearchBar value={query} onChange={val => { setQuery(val); setPage(1) }} />
-        <div>
-          <CreateButton />
-        </div>
+        <CreateButton />
       </div>
 
       
