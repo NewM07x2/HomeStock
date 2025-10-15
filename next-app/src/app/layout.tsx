@@ -6,6 +6,7 @@ import "@/styles/globals.css";
 import React from 'react';
 
 import { Providers } from './providers'
+import Header from '@/components/base/Header'
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,23 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html className="h-full overflow-hidden">
       <body className="flex flex-col min-h-screen">
         <Providers>
-          <header className="flex-shrink-0 fixed top-0 left-0 right-0 z-10">
-            <nav className="bg-gray-800 w-screen">
-              <div className="flex items-center pl-8 h-14">
-                <div className="flex space-x-4">
-                  <Link href="/" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Home</Link>
-                  <Link href="/type-script" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">TypeScript</Link>
-                  <Link href="/blog-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Blog</Link>
-                  <Link href="/contact-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Contact</Link>
-                  <Link href="/modal-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Modal</Link>
-                  <Link href="/reducer-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Reducer</Link>
-                  <Link href="/redux-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Redux</Link>
-                  <Link href="/api" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">API</Link>
-                  <Link href="/graphql" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Graphql</Link>
-                </div>
-              </div>
-            </nav>
-          </header>
+          <Header />
           <main className="flex-1 w-full mt-14 mb-12 overflow-y-auto">
             {children}
           </main>
