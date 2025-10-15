@@ -50,7 +50,7 @@ export default function ItemsList() {
             {items.map(item => (
               <tr key={item.id} className="border-b last:border-b-0 hover:bg-gray-50">
                 <td className="py-2 px-3">
-                  <a href={`/items/${item.id}`} className="text-blue-600 hover:underline">{item.code}</a>
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-item-detail', { detail: item.id }))} className="text-blue-600 hover:underline">{item.code}</button>
                 </td>
                 <td className="py-2 px-3">{item.name}</td>
                 <td className="py-2 px-3">{item.category ?? '-'}</td>
