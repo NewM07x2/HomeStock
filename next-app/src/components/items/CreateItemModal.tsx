@@ -1,11 +1,11 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { createItem } from '@/lib/mockApi'
+import { createItem, updateItem } from '@/lib/mockApi'
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
-export default function CreateItemModal({ handleCloseClick }: handleCloseClickModel) {
+export default function CreateItemModal({ handleCloseClick, item, isEdit }: handleCloseClickModel & { item?: any; isEdit?: boolean }) {
   const [form, setForm] = useState<any>({ name: '', category: '', price: '', qty: '', purchase_store: '', purchase_date: '', notes: '' })
   const [loading, setLoading] = useState(false)
   const { bump } = useRefresh()
@@ -16,22 +16,33 @@ export default function CreateItemModal({ handleCloseClick }: handleCloseClickMo
     return () => setMounted(false)
   }, [])
 
+  useEffect(() => {
+    if (item) {
+      // initialize form with existing item when editing
+      setForm({ ...item })
+    }
+  }, [item])
+
   const submit = async () => {
     setLoading(true)
     try {
-      await createItem(form)
+      if (isEdit && form?.id) {
+        await updateItem(form.id, form)
+      } else {
+        await createItem(form)
+      }
       bump()
       handleCloseClick()
     } catch (e) {
       console.error(e)
-      alert('登録に失敗しました')
+      alert(isEdit ? '更新に失敗しました' : '登録に失敗しました')
     } finally { setLoading(false) }
   }
 
   const modal = (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
       <div className="bg-white rounded shadow p-6 w-11/12 max-w-xl">
-        <h3 className="text-lg font-medium mb-3">アイテム作成</h3>
+        <h3 className="text-lg font-medium mb-3">{isEdit ? 'アイテム編集' : 'アイテム作成'}</h3>
         <div className="space-y-2 text-sm">
           <div>
             <label className="block">名称</label>
@@ -62,9 +73,9 @@ export default function CreateItemModal({ handleCloseClick }: handleCloseClickMo
             <textarea className="border rounded w-full px-2 py-1" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} />
           </div>
         </div>
-        <div className="mt-4 flex justify-end gap-2">
+          <div className="mt-4 flex justify-end gap-2">
           <button className="px-3 py-1 border rounded" onClick={() => handleCloseClick()} disabled={loading}>キャンセル</button>
-          <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={submit} disabled={loading}>{loading ? '登録中...' : '登録'}</button>
+          <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={submit} disabled={loading}>{loading ? (isEdit ? '更新中...' : '登録中...') : (isEdit ? '更新' : '登録')}</button>
         </div>
       </div>
     </div>

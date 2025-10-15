@@ -48,7 +48,12 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
     <ModalContext.Provider value={{ openCreateItem, closeCreateItem }}>
       {children}
   {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} />}
-  {detailId && <ItemDetailModal handleCloseClick={() => { setDetailId(null); setDetailItem(null); setDetailEditable(false) }} id={detailId} item={detailItem} editable={detailEditable} />}
+  {detailId && detailEditable && (
+    <CreateItemModal handleCloseClick={() => { setDetailId(null); setDetailItem(null); setDetailEditable(false) }} item={detailItem} isEdit={true} />
+  )}
+  {detailId && !detailEditable && (
+    <ItemDetailModal handleCloseClick={() => { setDetailId(null); setDetailItem(null); setDetailEditable(false) }} id={detailId} item={detailItem} editable={detailEditable} />
+  )}
     </ModalContext.Provider>
   )
 }
