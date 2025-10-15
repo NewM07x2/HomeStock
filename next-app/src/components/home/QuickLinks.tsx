@@ -1,14 +1,9 @@
 "use client"
 import React from 'react'
 import Link from 'next/link'
+import CreateButton from '@/components/items/CreateButton'
 
 export default function QuickLinks() {
-  const openCreate = () => {
-    if (typeof window !== 'undefined') {
-      window.dispatchEvent(new CustomEvent('open-create-item'))
-    }
-  }
-
   return (
     <div className="bg-white rounded-lg shadow p-4">
       <h2 className="text-lg font-medium mb-3">クイックリンク</h2>
@@ -20,7 +15,7 @@ export default function QuickLinks() {
           <Link href="/bulk" className="text-blue-600">一括処理（CSV）</Link>
         </li>
         <li>
-          <button onClick={openCreate} className="text-blue-600 underline">アイテム作成</button>
+          <CreateButton />
         </li>
         <li>
           <Link href="/audit" className="text-blue-600">監査ログ</Link>

@@ -4,6 +4,7 @@ import SearchBar from './SearchBar'
 import Pagination from './Pagination'
 import { fetchItems } from '@/lib/mockApi'
 import { useRefresh } from '@/components/ui/RefreshContext'
+import { useModal } from '@/components/ui/ModalProvider'
 
 type Item = {
   id: string
@@ -37,14 +38,11 @@ export default function ItemsList() {
       <div className="flex items-center justify-between">
         <SearchBar value={query} onChange={val => { setQuery(val); setPage(1) }} />
         <div>
-          <button
-            className="px-3 py-1 bg-blue-600 text-white rounded"
-            onClick={() => window.dispatchEvent(new CustomEvent('open-create-item'))}
-          >
-            新規作成
-          </button>
+          <CreateButton />
         </div>
       </div>
+
+      
 
       <div className="bg-white rounded shadow overflow-x-auto">
         <table className="min-w-full text-sm">
