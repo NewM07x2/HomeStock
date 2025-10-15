@@ -15,10 +15,16 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   const openCreateItem = () => setCreateOpen(true)
   const closeCreateItem = () => setCreateOpen(false)
 
+  React.useEffect(() => {
+    const handler = () => setCreateOpen(true)
+    window.addEventListener('open-create-item', handler as EventListener)
+    return () => window.removeEventListener('open-create-item', handler as EventListener)
+  }, [])
+
   return (
     <ModalContext.Provider value={{ openCreateItem, closeCreateItem }}>
       {children}
-      {isCreateOpen && <CreateItemModal onClose={closeCreateItem} />}
+      {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} />}
     </ModalContext.Provider>
   )
 }
