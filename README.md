@@ -1,6 +1,7 @@
 # 在庫管理アプリ
 
-![在庫管理アプリ - ヒーロー画像](.\docs\img\w-icon.png)
+![在庫管理アプリ - ヒーロー画像]<img width="1536" height="1024" alt="w-icon" src="https://github.com/user-attachments/assets/ee6c8da9-9b31-4393-93ea-3f0fe16ce0e4" />
+
 
 
 このリポジトリは社内向けのシンプルな在庫管理アプリのサンプル実装です。
