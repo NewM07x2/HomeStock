@@ -1,6 +1,6 @@
 # 在庫管理アプリ
 
-<img width="662" height="274" alt="HomeStock" src="https://github.com/user-attachments/assets/e1fe6d93-57a7-4d2b-a1e0-61c1f5c7e4bc" />
+<p align="center"><img width="100%" height="auto" alt="HomeStock" src="https://github.com/user-attachments/assets/e1fe6d93-57a7-4d2b-a1e0-61c1f5c7e4bc" /></p>
 
 このリポジトリは社内向けのシンプルな在庫管理アプリのサンプル実装です。
 フロントエンドに Next.js（TypeScript）、バックエンドに Go を使った構成になっており、ローカルでは Docker / docker-compose で起動するか、個別に開発サーバーを立ち上げて開発できます。
