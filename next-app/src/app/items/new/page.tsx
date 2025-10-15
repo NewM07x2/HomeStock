@@ -1,15 +1,16 @@
 "use client"
-import React, { useState } from 'react'
-import CreateItemModal from '@/components/items/CreateItemModal'
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 export default function NewItemPage() {
   const router = useRouter()
-  const [open, setOpen] = useState(true)
 
-  return (
-    <div>
-      {open && <CreateItemModal onClose={() => { setOpen(false); router.push('/items') }} />}
-    </div>
-  )
+  // /items/new へ直接アクセスしたときはモーダルを自動で開かないよう
+  // 単に一覧にリダイレクトします。モーダルはホームや一覧画面からの
+  // イベント発火で開く実装を使ってください。
+  useEffect(() => {
+    router.replace('/items')
+  }, [router])
+
+  return null
 }
