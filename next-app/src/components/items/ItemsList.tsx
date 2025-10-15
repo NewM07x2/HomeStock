@@ -1,6 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
+import CreateButton from './CreateButton'
 import Pagination from './Pagination'
 import { fetchItems } from '@/lib/mockApi'
 import { useRefresh } from '@/components/ui/RefreshContext'
