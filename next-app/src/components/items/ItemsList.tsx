@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import Pagination from './Pagination'
 import { fetchItems } from '@/lib/mockApi'
+import { useRefresh } from '@/components/ui/RefreshContext'
 
 type Item = {
   id: string
@@ -19,6 +20,8 @@ export default function ItemsList() {
   const [total, setTotal] = useState(0)
   const limit = 10
 
+  const { refreshCount } = useRefresh()
+
   useEffect(() => {
     let mounted = true
     fetchItems({ q: query, page, limit }).then(res => {
@@ -27,7 +30,7 @@ export default function ItemsList() {
       setTotal(res.total)
     })
     return () => { mounted = false }
-  }, [query, page])
+  }, [query, page, refreshCount])
 
   return (
     <div className="space-y-4">

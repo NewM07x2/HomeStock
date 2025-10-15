@@ -1,16 +1,20 @@
 "use client"
 import React, { useState } from 'react'
 import { createItem } from '@/lib/mockApi'
+import { handleCloseClickModel } from '@/model/modal'
+import { useRefresh } from '@/components/ui/RefreshContext'
 
-export default function CreateItemModal({ onClose }: { onClose: () => void }) {
+export default function CreateItemModal({ handleCloseClick }: handleCloseClickModel) {
   const [form, setForm] = useState<any>({ name: '', category: '', price: '', qty: '', purchase_store: '', purchase_date: '', notes: '' })
   const [loading, setLoading] = useState(false)
+  const { bump } = useRefresh()
 
   const submit = async () => {
     setLoading(true)
     try {
       await createItem(form)
-      onClose()
+      bump()
+      handleCloseClick()
     } catch (e) {
       console.error(e)
       alert('登録に失敗しました')
@@ -52,7 +56,7 @@ export default function CreateItemModal({ onClose }: { onClose: () => void }) {
           </div>
         </div>
         <div className="mt-4 flex justify-end gap-2">
-          <button className="px-3 py-1 border rounded" onClick={onClose} disabled={loading}>キャンセル</button>
+          <button className="px-3 py-1 border rounded" onClick={() => handleCloseClick()} disabled={loading}>キャンセル</button>
           <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={submit} disabled={loading}>{loading ? '登録中...' : '登録'}</button>
         </div>
       </div>
