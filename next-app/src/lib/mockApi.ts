@@ -48,3 +48,12 @@ export async function createItem(payload: Partial<any>) {
   await new Promise(res => setTimeout(res, 120))
   return newItem
 }
+
+export async function updateItem(id: string, payload: Partial<any>) {
+  const idx = ALL.findIndex(i => i.id === id)
+  if (idx === -1) throw new Error('not found')
+  const updated = { ...ALL[idx], ...payload }
+  ALL = [...ALL.slice(0, idx), updated, ...ALL.slice(idx + 1)]
+  await new Promise(res => setTimeout(res, 120))
+  return updated
+}

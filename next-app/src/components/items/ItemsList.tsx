@@ -34,7 +34,17 @@ export default function ItemsList() {
 
   return (
     <div className="space-y-4">
-      <SearchBar value={query} onChange={val => { setQuery(val); setPage(1) }} />
+      <div className="flex items-center justify-between">
+        <SearchBar value={query} onChange={val => { setQuery(val); setPage(1) }} />
+        <div>
+          <button
+            className="px-3 py-1 bg-blue-600 text-white rounded"
+            onClick={() => window.dispatchEvent(new CustomEvent('open-create-item'))}
+          >
+            新規作成
+          </button>
+        </div>
+      </div>
 
       <div className="bg-white rounded shadow overflow-x-auto">
         <table className="min-w-full text-sm">
@@ -50,7 +60,7 @@ export default function ItemsList() {
             {items.map(item => (
               <tr key={item.id} className="border-b last:border-b-0 hover:bg-gray-50">
                 <td className="py-2 px-3">
-                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-item-detail', { detail: item.id }))} className="text-blue-600 hover:underline">{item.code}</button>
+                  <button onClick={() => window.dispatchEvent(new CustomEvent('open-item-detail', { detail: { id: item.id, editable: true } }))} className="text-blue-600 hover:underline">{item.code}</button>
                 </td>
                 <td className="py-2 px-3">{item.name}</td>
                 <td className="py-2 px-3">{item.category ?? '-'}</td>

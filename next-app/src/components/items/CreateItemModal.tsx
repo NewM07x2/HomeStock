@@ -1,5 +1,6 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { createItem } from '@/lib/mockApi'
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
@@ -8,6 +9,12 @@ export default function CreateItemModal({ handleCloseClick }: handleCloseClickMo
   const [form, setForm] = useState<any>({ name: '', category: '', price: '', qty: '', purchase_store: '', purchase_date: '', notes: '' })
   const [loading, setLoading] = useState(false)
   const { bump } = useRefresh()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+    return () => setMounted(false)
+  }, [])
 
   const submit = async () => {
     setLoading(true)
@@ -21,7 +28,7 @@ export default function CreateItemModal({ handleCloseClick }: handleCloseClickMo
     } finally { setLoading(false) }
   }
 
-  return (
+  const modal = (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center">
       <div className="bg-white rounded shadow p-6 w-11/12 max-w-xl">
         <h3 className="text-lg font-medium mb-3">アイテム作成</h3>
@@ -62,4 +69,7 @@ export default function CreateItemModal({ handleCloseClick }: handleCloseClickMo
       </div>
     </div>
   )
+
+  if (!mounted) return null
+  return createPortal(modal, document.body)
 }
