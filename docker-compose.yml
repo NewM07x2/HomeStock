@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  go-app:
+    container_name: go
+    build:
+      context: ./go-app
+      dockerfile: ../docker/Dockerfile.backend
+    ports:
+      - "8080:8080"
+    # volumes:
+      # - ./go-app:/app
+    environment:
+      - DB_HOST=next-go-db
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=next-go-task-db
+
+  next-app:
+    container_name: next
+    build:
+      context: ./next-app
+      dockerfile: ../docker/Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./next-app:/app
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8080
+
+  db:
+    container_name: next-go-db
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: next-go-task-db
+    volumes:
+      - next-go-task-db_data:/var/lib/postgresql/data
+
+  # 本番環境用のNginx設定
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - "80:80"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf
+  #     - ./next-app/out:/usr/share/nginx/html
+  #   depends_on:
+  #     - frontend
+  #     - backend
+
+volumes:
+  next-go-task-db_data:
