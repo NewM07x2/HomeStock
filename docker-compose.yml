@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   go-app:
-    container_name: go-stock-app
+    container_name: go-hsm-app
     build:
       context: ./go-app
       dockerfile: ../docker/Dockerfile.backend
@@ -10,13 +10,13 @@ services:
       - "8080:8080"
 
     environment:
-      - DB_HOST=stock-db
-      - DB_USER=stock
-      - DB_PASSWORD=stock
-      - DB_NAME=stock-db
+      - DB_HOST=hsm-db
+      - DB_USER=hsm
+      - DB_PASSWORD=hsm
+      - DB_NAME=hsm-db
 
   next-app:
-    container_name: next-stock-app
+    container_name: next-hsm-app
     build:
       context: ./next-app
       dockerfile: ../docker/Dockerfile.frontend
@@ -28,16 +28,16 @@ services:
       - NEXT_PUBLIC_API_URL=http://localhost:8080
 
   db:
-    container_name: stock-db
+    container_name: hsm-db
     image: postgres:15
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: stock
-      POSTGRES_PASSWORD: stock
-      POSTGRES_DB: stock-db
+      POSTGRES_USER: hsm
+      POSTGRES_PASSWORD: hsm
+      POSTGRES_DB: hsm-db
     volumes:
-      - stock-db_data:/var/lib/postgresql/data
+      - hsm-db_data:/var/lib/postgresql/data
 
   # 本番環境用のNginx設定
   # nginx:
@@ -52,4 +52,4 @@ services:
   #     - backend
 
 volumes:
-  stock-db_data:
+  hsm-db_data:
