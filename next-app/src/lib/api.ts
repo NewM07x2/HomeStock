@@ -1,4 +1,5 @@
 import { API_URL } from '@/const/url';
+import axios from 'axios';
 
 export interface BlogPost {
   id: number;
@@ -23,22 +24,28 @@ export const getPosts = async (): Promise<BlogPost[]> => {
   }
 }
 
-import { AsyncCountResponse } from './getJsonData';
-
-const saveItem = async (item: any): Promise<AsyncCountResponse> => {
-  const response = await fetch('/api/items', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item),
-  });
-
-  if (!response.ok) {
+const saveItem = async (item: any): Promise<any> => {
+  try {
+    const response = await axios.post('/api/items', item, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Failed to save item:', error);
     throw new Error('Failed to save item');
   }
-
-  return response.json();
 };
 
-export { saveItem };
+const fetchItems = async (): Promise<any> => {
+  try {
+    const response = await axios.get('/api/items');
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch items:', error);
+    throw new Error('Failed to fetch items');
+  }
+};
+
+export { saveItem, fetchItems };
