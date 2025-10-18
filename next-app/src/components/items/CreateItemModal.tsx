@@ -58,7 +58,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex flex-col">
             <div>
-              <label className="block w-24">名称<span className="text-red-500">※</span></label>
+              <label className="block w-24">名称<span className="text-red-500 text-xs">※</span></label>
               <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
             </div>
             <div>
@@ -66,7 +66,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
             </div>
           </div>
           <div className="flex flex-row">
-            <label className="w-24">カテゴリ<span className="text-red-500">※</span></label>
+            <label className="w-24">カテゴリ<span className="text-red-500 text-xs">※</span></label>
             <input className="border rounded w-full px-2 py-1" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
             {errors.category && <span className="text-red-500 text-xs">{errors.category}</span>}
           </div>
