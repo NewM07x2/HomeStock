@@ -57,9 +57,13 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         <h3 className="text-lg font-medium mb-3">{isEdit ? 'アイテム編集' : 'アイテム作成'}</h3>
         <div className="flex flex-col gap-2 text-sm">
           <div className="flex flex-col gap-2">
-            <label className="block">名称<span className="text-red-500">※</span></label>
-            <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-            {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
+            <div>
+              <label className="block">名称<span className="text-red-500">※</span></label>
+              <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
+            </div>
+            <div>
+              {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
+            </div>
           </div>
           <div className="flex flex-col gap-2">
             <label className="block">カテゴリ<span className="text-red-500">※</span></label>
