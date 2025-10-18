@@ -43,7 +43,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center px-2">
       <div className="bg-white rounded shadow p-4 sm:p-6 w-full max-w-xl mx-auto max-h-[90vh] overflow-y-auto">
         <h3 className="text-lg font-medium mb-3">{isEdit ? 'アイテム編集' : 'アイテム作成'}</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
+        <div className="grid grid-cols-1 gap-2 text-sm">
           <div>
             <label className="block">名称</label>
             <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
