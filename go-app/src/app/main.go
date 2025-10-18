@@ -12,6 +12,9 @@ import (
 )
 
 func main() {
+	// データベース初期化
+	graph.InitDB()
+
 	e := echo.New()
 
 	e.GET("/test", func(c echo.Context) error {
