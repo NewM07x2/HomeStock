@@ -61,8 +61,12 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
               <label className="flex items-center">名称<span className="text-red-500 text-xxs">※</span></label>
             </div>
             <div className='w-full flex flex-col'>
-              <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-              {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
+              <input
+                className={`border rounded w-full px-2 py-1 ${errors.name ? 'border-red-500' : ''}`}
+                value={form.name}
+                onChange={e => setForm({ ...form, name: e.target.value })}
+                placeholder={errors.name || '名称を入力してください'}
+              />
             </div>
           </div>
           <div className="flex flex-row gap-2">
@@ -76,18 +80,25 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
                 onChange={e => setForm({ ...form, category: e.target.value })}
                 placeholder={errors.category || 'カテゴリを入力してください'}
               />
-              {errors.category && <span className="text-red-500 text-xs">{errors.category}</span>}
             </div>
           </div>
           <div className="flex flex-row gap-2">
             <label className="flex items-center w-24">価格</label>
-            <input className="border rounded w-full px-2 py-1" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
-            {errors.price && <span className="text-red-500 text-xs">{errors.price}</span>}
+            <input
+              className={`border rounded w-full px-2 py-1 ${errors.price ? 'border-red-500' : ''}`}
+              value={form.price}
+              onChange={e => setForm({ ...form, price: e.target.value })}
+              placeholder={errors.price || '価格を入力してください'}
+            />
           </div>
           <div className="flex flex-row gap-2">
             <label className="flex items-center w-24">在庫</label>
-            <input className="border rounded w-full px-2 py-1" value={form.qty} onChange={e => setForm({ ...form, qty: e.target.value })} />
-            {errors.qty && <span className="text-red-500 text-xs">{errors.qty}</span>}
+            <input
+              className={`border rounded w-full px-2 py-1 ${errors.qty ? 'border-red-500' : ''}`}
+              value={form.qty}
+              onChange={e => setForm({ ...form, qty: e.target.value })}
+              placeholder={errors.qty || '在庫を入力してください'}
+            />
           </div>
           <div className="flex flex-row gap-2">
             <label className="flex items-center w-24">購入店舗</label>
