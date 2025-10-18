@@ -1,5 +1,5 @@
 # Go Dockerfile
-FROM golang:1.23
+FROM golang:1.25.1
 
 WORKDIR /app
 
@@ -8,8 +8,8 @@ COPY go.sum ./
 
 RUN go mod download
 
-COPY src/ ./
+COPY . .
 
-RUN go build -o main ./app
+RUN go build -o main .
 
 CMD ["/app/main"]
