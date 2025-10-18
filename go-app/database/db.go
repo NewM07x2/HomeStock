@@ -15,9 +15,9 @@ var DB *sql.DB
 func InitDB() error {
 	host := getEnv("DB_HOST", "localhost")
 	port := getEnv("DB_PORT", "5432")
-	user := getEnv("DB_USER", "postgres")
-	password := getEnv("DB_PASSWORD", "postgres")
-	dbname := getEnv("DB_NAME", "homestock")
+	user := getEnv("DB_USER", "hsm")
+	password := getEnv("DB_PASSWORD", "hsm")
+	dbname := getEnv("DB_NAME", "hsm-db")
 
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=disable",
