@@ -6,7 +6,7 @@ import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
 export default function CreateItemModal({ handleCloseClick, item, isEdit }: handleCloseClickModel & { item?: any; isEdit?: boolean }) {
-  const [form, setForm] = useState<any>({ name: '', category: '', price: '', qty: '', purchase_store: '', purchase_date: '', notes: '' })
+  const [form, setForm] = useState<any>({ name: '', category: '', price: '100', qty: '0', purchase_store: '', purchase_date: new Date().toISOString().split('T')[0], notes: '' })
   const [loading, setLoading] = useState(false)
   const { bump } = useRefresh()
   const [mounted, setMounted] = useState(false)
