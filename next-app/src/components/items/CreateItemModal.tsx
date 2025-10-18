@@ -66,9 +66,13 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
             </div>
           </div>
           <div className="flex flex-row">
+            <div>
             <label className="w-24">カテゴリ<span className="text-red-500 text-xs">※</span></label>
             <input className="border rounded w-full px-2 py-1" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
-            {errors.category && <span className="text-red-500 text-xs">{errors.category}</span>}
+            </div>
+            <div>
+              {errors.category && <span className="text-red-500 text-xs">{errors.category}</span>}
+            </div>
           </div>
           <div className="flex flex-row">
             <label className="w-24">価格</label>
