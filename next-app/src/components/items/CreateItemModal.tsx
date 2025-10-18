@@ -56,7 +56,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
       <div className="bg-white rounded shadow p-4 sm:p-6 w-full max-w-xl mx-auto max-h-[90vh] overflow-y-auto">
         <h3 className="text-lg font-medium mb-3">{isEdit ? 'アイテム編集' : 'アイテム作成'}</h3>
         <div className="flex flex-col gap-2 text-sm">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
             <div>
               <label className="block w-24">名称<span className="text-red-500">※</span></label>
               <input className="border rounded w-full px-2 py-1" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
@@ -65,30 +65,30 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
               {errors.name && <span className="text-red-500 text-xs">{errors.name}</span>}
             </div>
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <label className="w-24">カテゴリ<span className="text-red-500">※</span></label>
             <input className="border rounded w-full px-2 py-1" value={form.category} onChange={e => setForm({ ...form, category: e.target.value })} />
             {errors.category && <span className="text-red-500 text-xs">{errors.category}</span>}
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <label className="w-24">価格</label>
             <input className="border rounded w-full px-2 py-1" value={form.price} onChange={e => setForm({ ...form, price: e.target.value })} />
             {errors.price && <span className="text-red-500 text-xs">{errors.price}</span>}
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <label className="w-24">在庫</label>
             <input className="border rounded w-full px-2 py-1" value={form.qty} onChange={e => setForm({ ...form, qty: e.target.value })} />
             {errors.qty && <span className="text-red-500 text-xs">{errors.qty}</span>}
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <label className="w-24">購入店舗</label>
             <input className="border rounded w-full px-2 py-1" value={form.purchase_store} onChange={e => setForm({ ...form, purchase_store: e.target.value })} />
           </div>
-          <div className="flex flex-row gap-2">
+          <div className="flex flex-row">
             <label className="w-24">購入日</label>
             <input type="date" className="border rounded w-full px-2 py-1" value={form.purchase_date} onChange={e => setForm({ ...form, purchase_date: e.target.value })} />
           </div>
-          <div className="sm:col-span-2 flex flex-row gap-2">
+          <div className="sm:col-span-2 flex flex-row">
             <label className="w-24">備考</label>
             <textarea className="border rounded w-full px-2 py-1" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} />
           </div>
