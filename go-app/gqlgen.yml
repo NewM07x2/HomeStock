@@ -1,12 +1,35 @@
+# gqlgen configuration
 schema:
   - schema.graphql
+
 exec:
   filename: graph/generated/generated.go
   package: generated
+
 model:
   filename: graph/model/models_gen.go
   package: model
+
 resolver:
   layout: follow-schema
   dir: graph
   package: graph
+  filename_template: "{name}.resolvers.go"
+
+# Skip generating the complexity root
+omit_complexity: true
+
+# Autobind models
+autobind:
+  - go-hsm-app/graph/model
+
+models:
+  ID:
+    model:
+      - github.com/99designs/gqlgen/graphql.ID
+  Int:
+    model:
+      - github.com/99designs/gqlgen/graphql.Int
+  String:
+    model:
+      - github.com/99designs/gqlgen/graphql.String

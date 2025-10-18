@@ -7,24 +7,152 @@ package graph
 import (
 	"context"
 	"fmt"
-	graph "go-hsm-app"
+	"go-hsm-app/graph/generated"
+	"go-hsm-app/graph/model"
 )
 
 // CreateItem is the resolver for the createItem field.
-func (r *mutationResolver) CreateItem(ctx context.Context, name string) (string, error) {
-	panic(fmt.Errorf("not implemented: CreateItem - createItem"))
+func (r *mutationResolver) CreateItem(ctx context.Context, input model.NewItem) (*model.Item, error) {
+	query := `
+		INSERT INTO items (name, description, quantity, created_at, updated_at)
+		VALUES ($1, $2, $3, NOW(), NOW())
+		RETURNING id, name, description, quantity, created_at, updated_at
+	`
+
+	item := &model.Item{}
+	var createdAt, updatedAt string
+	var description *string
+
+	err := r.DB.QueryRowContext(ctx, query, input.Name, input.Description, input.Quantity).
+		Scan(&item.ID, &item.Name, &description, &item.Quantity, &createdAt, &updatedAt)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to create item: %w", err)
+	}
+
+	if description != nil {
+		item.Description = description
+	}
+	item.CreatedAt = createdAt
+	item.UpdatedAt = updatedAt
+
+	return item, nil
 }
 
-// Hello is the resolver for the hello field.
-func (r *queryResolver) Hello(ctx context.Context) (string, error) {
-	panic(fmt.Errorf("not implemented: Hello - hello"))
+// UpdateItem is the resolver for the updateItem field.
+func (r *mutationResolver) UpdateItem(ctx context.Context, id string, input model.UpdateItem) (*model.Item, error) {
+	query := `
+		UPDATE items
+		SET name = COALESCE($1, name),
+		    description = COALESCE($2, description),
+		    quantity = COALESCE($3, quantity),
+		    updated_at = NOW()
+		WHERE id = $4
+		RETURNING id, name, description, quantity, created_at, updated_at
+	`
+
+	item := &model.Item{}
+	var createdAt, updatedAt string
+	var description *string
+
+	err := r.DB.QueryRowContext(ctx, query, input.Name, input.Description, input.Quantity, id).
+		Scan(&item.ID, &item.Name, &description, &item.Quantity, &createdAt, &updatedAt)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to update item: %w", err)
+	}
+
+	if description != nil {
+		item.Description = description
+	}
+	item.CreatedAt = createdAt
+	item.UpdatedAt = updatedAt
+
+	return item, nil
 }
 
-// Mutation returns graph.MutationResolver implementation.
-func (r *Resolver) Mutation() graph.MutationResolver { return &mutationResolver{r} }
+// DeleteItem is the resolver for the deleteItem field.
+func (r *mutationResolver) DeleteItem(ctx context.Context, id string) (bool, error) {
+	query := `DELETE FROM items WHERE id = $1`
 
-// Query returns graph.QueryResolver implementation.
-func (r *Resolver) Query() graph.QueryResolver { return &queryResolver{r} }
+	result, err := r.DB.ExecContext(ctx, query, id)
+	if err != nil {
+		return false, fmt.Errorf("failed to delete item: %w", err)
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		return false, fmt.Errorf("failed to get rows affected: %w", err)
+	}
+
+	return rowsAffected > 0, nil
+}
+
+// Items is the resolver for the items field.
+func (r *queryResolver) Items(ctx context.Context) ([]*model.Item, error) {
+	query := `SELECT id, name, description, quantity, created_at, updated_at FROM items ORDER BY created_at DESC`
+
+	rows, err := r.DB.QueryContext(ctx, query)
+	if err != nil {
+		return nil, fmt.Errorf("failed to query items: %w", err)
+	}
+	defer rows.Close()
+
+	var items []*model.Item
+	for rows.Next() {
+		item := &model.Item{}
+		var createdAt, updatedAt string
+		var description *string
+
+		if err := rows.Scan(&item.ID, &item.Name, &description, &item.Quantity, &createdAt, &updatedAt); err != nil {
+			return nil, fmt.Errorf("failed to scan item: %w", err)
+		}
+
+		if description != nil {
+			item.Description = description
+		}
+		item.CreatedAt = createdAt
+		item.UpdatedAt = updatedAt
+
+		items = append(items, item)
+	}
+
+	if err := rows.Err(); err != nil {
+		return nil, fmt.Errorf("error iterating items: %w", err)
+	}
+
+	return items, nil
+}
+
+// Item is the resolver for the item field.
+func (r *queryResolver) Item(ctx context.Context, id string) (*model.Item, error) {
+	query := `SELECT id, name, description, quantity, created_at, updated_at FROM items WHERE id = $1`
+
+	item := &model.Item{}
+	var createdAt, updatedAt string
+	var description *string
+
+	err := r.DB.QueryRowContext(ctx, query, id).
+		Scan(&item.ID, &item.Name, &description, &item.Quantity, &createdAt, &updatedAt)
+
+	if err != nil {
+		return nil, fmt.Errorf("failed to query item: %w", err)
+	}
+
+	if description != nil {
+		item.Description = description
+	}
+	item.CreatedAt = createdAt
+	item.UpdatedAt = updatedAt
+
+	return item, nil
+}
+
+// Mutation returns generated.MutationResolver implementation.
+func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
+
+// Query returns generated.QueryResolver implementation.
+func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

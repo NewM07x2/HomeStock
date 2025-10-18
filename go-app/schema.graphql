@@ -1,8 +1,31 @@
-# schema.graphql
 type Query {
-  hello: String!
+  items: [Item!]!
+  item(id: ID!): Item
 }
 
 type Mutation {
-  createItem(name: String!): String!
+  createItem(input: NewItem!): Item!
+  updateItem(id: ID!, input: UpdateItem!): Item!
+  deleteItem(id: ID!): Boolean!
+}
+
+type Item {
+  id: ID!
+  name: String!
+  description: String
+  quantity: Int!
+  createdAt: String!
+  updatedAt: String!
+}
+
+input NewItem {
+  name: String!
+  description: String
+  quantity: Int!
+}
+
+input UpdateItem {
+  name: String
+  description: String
+  quantity: Int
 }
