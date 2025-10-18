@@ -1,24 +1,8 @@
+# schema.graphql
+type Query {
+  hello: String!
+}
+
 type Mutation {
-  createItem(input: CreateItemInput!): Item!
-}
-
-input CreateItemInput {
-  name: String!
-  category: String!
-  price: Float!
-  qty: Int!
-  purchase_store: String
-  purchase_date: String
-  notes: String
-}
-
-type Item {
-  id: ID!
-  name: String!
-  category: String!
-  price: Float!
-  qty: Int!
-  purchase_store: String
-  purchase_date: String
-  notes: String
+  createItem(name: String!): String!
 }

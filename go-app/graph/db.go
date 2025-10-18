@@ -1,40 +1,24 @@
 package graph
 
 import (
-	"fmt"
-	"os"
+	"database/sql"
+	"log"
 
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
+	_ "github.com/lib/pq"
 )
 
-var DB *gorm.DB
+var db *sql.DB
 
 func InitDB() {
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=5432 sslmode=disable",
-		os.Getenv("DB_HOST"),
-		os.Getenv("DB_USER"),
-		os.Getenv("DB_PASSWORD"),
-		os.Getenv("DB_NAME"),
-	)
-
 	var err error
-	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
+	db, err = sql.Open("postgres", "user=youruser password=yourpassword dbname=yourdb sslmode=disable")
 	if err != nil {
-		panic("failed to connect database")
+		log.Fatalf("Failed to connect to the database: %v", err)
 	}
 
-	// マイグレーション
-	DB.AutoMigrate(&Item{})
-}
+	if err = db.Ping(); err != nil {
+		log.Fatalf("Failed to ping the database: %v", err)
+	}
 
-type Item struct {
-	ID            uint `gorm:"primaryKey"`
-	Name          string
-	Category      string
-	Price         float64
-	Qty           int
-	PurchaseStore string
-	PurchaseDate  string
-	Notes         string
+	log.Println("Database connection established")
 }
