@@ -6,7 +6,7 @@ import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
 export default function CreateItemModal({ handleCloseClick, item, isEdit }: handleCloseClickModel & { item?: any; isEdit?: boolean }) {
-  const [form, setForm] = useState<any>({ name: '', category: '', price: '100', qty: '0', purchase_store: '', purchase_date: new Date().toISOString().split('T')[0], notes: '' })
+  const [form, setForm] = useState<any>({ name: '', category: '', price: '100', qty: '1', purchase_store: '', purchase_date: new Date().toISOString().split('T')[0], notes: '' })
   const [loading, setLoading] = useState(false)
   const { bump } = useRefresh()
   const [mounted, setMounted] = useState(false)
@@ -33,6 +33,13 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
+
+  const handleInputChange = (field: string, value: string) => {
+    if ((field === 'price' || field === 'qty') && !/^[0-9]*$/.test(value)) {
+      return; // Prevent non-numeric input for price and qty
+    }
+    setForm({ ...form, [field]: value });
+  };
 
   const submit = async () => {
     if (!validateForm()) return
@@ -87,7 +94,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
             <input
               className={`border rounded w-full px-2 py-1 ${errors.price ? 'border-red-500' : ''}`}
               value={form.price}
-              onChange={e => setForm({ ...form, price: e.target.value })}
+              onChange={e => handleInputChange('price', e.target.value)}
               placeholder={errors.price || '価格を入力してください'}
             />
           </div>
@@ -96,7 +103,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
             <input
               className={`border rounded w-full px-2 py-1 ${errors.qty ? 'border-red-500' : ''}`}
               value={form.qty}
-              onChange={e => setForm({ ...form, qty: e.target.value })}
+              onChange={e => handleInputChange('qty', e.target.value)}
               placeholder={errors.qty || '在庫を入力してください'}
             />
           </div>
