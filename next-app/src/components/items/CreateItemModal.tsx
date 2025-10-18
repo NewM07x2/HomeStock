@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import { createItem, updateItem } from '@/lib/mockApi'
+import { saveItem } from '@/lib/api';
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
@@ -42,21 +43,19 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
   };
 
   const submit = async () => {
-    if (!validateForm()) return
-    setLoading(true)
+    if (!validateForm()) return;
+    setLoading(true);
     try {
-      if (isEdit && form?.id) {
-        await updateItem(form.id, form)
-      } else {
-        await createItem(form)
-      }
-      bump()
-      handleCloseClick()
+      await saveItem(form);
+      bump();
+      handleCloseClick();
     } catch (e) {
-      console.error(e)
-      alert(isEdit ? '更新に失敗しました' : '登録に失敗しました')
-    } finally { setLoading(false) }
-  }
+      console.error(e);
+      alert('登録に失敗しました');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const modal = (
     <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center px-2">

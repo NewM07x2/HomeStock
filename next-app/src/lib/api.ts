@@ -21,4 +21,24 @@ export const getPosts = async (): Promise<BlogPost[]> => {
     console.error('Failed to fetch posts:', error);
     throw new Error('Failed to fetch posts. Please try again later.');
   }
+}
+
+import { AsyncCountResponse } from './getJsonData';
+
+const saveItem = async (item: any): Promise<AsyncCountResponse> => {
+  const response = await fetch('/api/items', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(item),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to save item');
+  }
+
+  return response.json();
 };
+
+export { saveItem };
