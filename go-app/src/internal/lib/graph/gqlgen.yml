@@ -1,18 +1,18 @@
 # gqlgen configuration
 schema:
-  - schema.graphql
+  - schema/*.graphql
 
 exec:
-  filename: graph/generated/generated.go
+  filename: generated/generated.go
   package: generated
 
 model:
-  filename: graph/model/models_gen.go
+  filename: model/models_gen.go
   package: model
 
 resolver:
   layout: follow-schema
-  dir: graph
+  dir: resolver
   package: graph
   filename_template: "{name}.resolvers.go"
 
@@ -21,7 +21,7 @@ omit_complexity: true
 
 # Autobind models
 autobind:
-  - go-hsm-app/graph/model
+  - go-hsm-app/internal/lib/graph/model
 
 models:
   ID:

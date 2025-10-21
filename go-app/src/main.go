@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"go-hsm-app/database"
-	"go-hsm-app/graph"
-	"go-hsm-app/graph/generated"
+	"go-hsm-app/internal/common"
+	"go-hsm-app/internal/lib/graph/generated"
+	graph "go-hsm-app/internal/lib/graph/resolver"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -16,10 +16,10 @@ import (
 
 func main() {
 	// Initialize database
-	if err := database.InitDB(); err != nil {
+	if err := common.InitDB(); err != nil {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
-	defer database.CloseDB()
+	defer common.CloseDB()
 
 	// Create Echo instance
 	e := echo.New()
@@ -40,7 +40,7 @@ func main() {
 	// GraphQL handler
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
 		Resolvers: &graph.Resolver{
-			DB: database.DB,
+			DB: common.DB,
 		},
 	}))
 

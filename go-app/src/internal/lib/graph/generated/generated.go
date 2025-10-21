@@ -7,7 +7,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"go-hsm-app/graph/model"
+	"go-hsm-app/internal/lib/graph/model"
 	"strconv"
 	"sync"
 	"sync/atomic"

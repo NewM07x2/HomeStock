@@ -3,13 +3,17 @@ FROM golang:1.25.1
 
 WORKDIR /app
 
-COPY go.mod ./
-COPY go.sum ./
+# Copy go.mod and go.sum from the root
+COPY go.mod go.sum ./
 
+# Download dependencies
 RUN go mod download
 
-COPY . .
+# Copy source code from src directory to the root of /app
+COPY src/ ./
 
+# Build the application
 RUN go build -o main .
 
+# Run the application
 CMD ["/app/main"]

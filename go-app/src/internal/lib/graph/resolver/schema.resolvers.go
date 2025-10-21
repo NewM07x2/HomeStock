@@ -7,8 +7,8 @@ package graph
 import (
 	"context"
 	"fmt"
-	"go-hsm-app/graph/generated"
-	"go-hsm-app/graph/model"
+	"go-hsm-app/internal/lib/graph/generated"
+	"go-hsm-app/internal/lib/graph/model"
 )
 
 // CreateItem is the resolver for the createItem field.
