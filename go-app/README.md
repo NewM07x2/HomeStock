@@ -236,16 +236,34 @@ mutation {
 ```
 go-app/
 ├── main.go              # エントリーポイント
-├── schema.graphql       # GraphQLスキーマ定義
-├── gqlgen.yml          # gqlgen設定ファイル
-├── database/           # データベース接続
-│   └── db.go
-├── graph/              # GraphQL関連
-│   ├── resolver.go     # リゾルバルート
-│   ├── schema.resolvers.go  # リゾルバ実装
-│   ├── model/          # モデル定義
-│   └── generated/      # gqlgen自動生成コード
-└── README.md
+├── go.mod               # Go モジュール定義
+├── go.sum               # 依存ハッシュ
+├── .env.example         # 環境変数サンプル
+├── .dockerignore        # Docker ビルドの除外設定
+├── README.md            # このファイル
+├── docs/                # ドキュメント
+└── internal/            # 内部パッケージ（外部からは利用不可）
+  ├── common/          # 共通ユーティリティ（DB接続等）
+  │   ├── db.go
+  │   └── common.go
+  ├── controller/      # HTTP コントローラ
+  ├── lib/             # 外部ライブラリ周り（gqlgen 生成物など）
+  │   └── graph/
+  │       ├── gqlgen.yml
+  │       ├── schema/
+  │       │   └── schema.graphql
+  │       ├── resolver/
+  │       │   ├── resolver.go
+  │       │   └── schema.resolvers.go
+  │       ├── model/
+  │       │   ├── model.go
+  │       │   └── models_gen.go
+  │       └── generated/
+  │           └── generated.go
+  ├── logic/           # ビジネスロジック層
+  ├── model/           # ドメインモデル
+  ├── repository/      # DBアクセス層
+  └── service/         # サービス層
 ```
 
 ## 開発

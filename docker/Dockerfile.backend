@@ -3,14 +3,14 @@ FROM golang:1.25.1
 
 WORKDIR /app
 
-# Copy go.mod and go.sum from the root
+# Copy go.mod and go.sum for dependency caching
 COPY go.mod go.sum ./
 
 # Download dependencies
 RUN go mod download
 
-# Copy source code from src directory to the root of /app
-COPY src/ ./
+# Copy all source code
+COPY . .
 
 # Build the application
 RUN go build -o main .

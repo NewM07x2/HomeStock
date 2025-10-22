@@ -1,0 +1,22 @@
+# Ignore documentation and development files
+README.md
+docs/
+.env.example
+
+# Ignore built binaries
+*.exe
+*.bin
+main
+
+# Ignore development and temporary files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Ignore logs
+*.log
+
+# Ignore test files and coverage
+*_test.go
+coverage.out
