@@ -11,7 +11,10 @@ export default function Header(){
       <nav className="bg-gray-800 w-screen">
         <div className="flex items-center justify-between pl-4 pr-4 h-14">
           <div className="flex items-center">
-            <Link href="/" className="text-gray-300 mr-2 ml-2">Home</Link>
+            <Link href="/" className="text-gray-300 mr-2 ml-2">HomeStock</Link>
+            <span className="ml-4 text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
+              ENTERPRISE
+            </span>
             {/* Desktop links: show when viewport >= 1000px */}
             <div className="hidden" style={{display:'none'}} data-desktop>
               {/* placeholder for CSS media query to show */}
@@ -22,12 +25,6 @@ export default function Header(){
           <button aria-label="menu" className="mobile-only text-gray-300" onClick={() => setOpen(true)}>
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
-
-          {/* Desktop links container (will be shown by CSS when viewport >= 1000px) */}
-          <div className="desktop-links hidden space-x-4">
-            {/* <Link href="/contact-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Contact</Link>
             <Link href="/modal-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Modal</Link>
             <Link href="/reducer-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Reducer</Link>
             <Link href="/redux-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Redux</Link>

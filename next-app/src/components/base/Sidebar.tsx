@@ -89,7 +89,7 @@ export default function Sidebar({
   userPlan = 'enterprise', // デフォルトはエンタープライズ（開発用）
 }: SidebarProps) {
   const pathname = usePathname();
-  const [expandedItems, setExpandedItems] = useState<string[]>(['設定']);
+  const [expandedItems, setExpandedItems] = useState<string[]>([]); // 初期状態は空配列で閉じた状態
 
   const toggleExpand = (itemName: string) => {
     setExpandedItems(prev => 
