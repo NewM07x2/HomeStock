@@ -15,6 +15,7 @@ export interface Item {
   name: string;
   category?: string;
   unit: string;
+  quantity?: number;
   status: string;
   created_at: string;
   updated_at: string;

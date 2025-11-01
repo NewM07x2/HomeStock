@@ -52,6 +52,7 @@ CREATE TABLE IF NOT EXISTS items (
   name          TEXT NOT NULL,
   category      TEXT,
   unit          TEXT NOT NULL,
+  quantity      INTEGER,
   status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
   attributes    JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_by    UUID REFERENCES users(id),
@@ -63,6 +64,7 @@ CREATE TABLE IF NOT EXISTS items (
 -- items テーブル:
 --  管理対象のアイテム（SKU相当）を保持します。
 --  - code は業務で利用する一意キー（SKUコード）
+--  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
 --  - attributes は任意属性を JSONB で保存（例: ブランド、寸法など）
 --  - created_by は作成者ユーザーの参照
 --  - deleted_at に値が入ると論理削除扱いになります
@@ -182,13 +184,13 @@ INSERT INTO locations (code, name) VALUES
 ON CONFLICT (code) DO NOTHING;
 
 -- Sample items
-INSERT INTO items (code, name, category, unit, status, attributes) VALUES
-    ('SKU-0001', 'ねじM5', '金具', '個', 'active', '{"brand":"ABC","spec":"M5x12"}'::jsonb),
-    ('SKU-0002', 'ナットM5', '金具', '個', 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
-    ('SKU-0003', 'ワッシャーM5', '金具', '個', 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
-    ('SKU-0004', 'ボルトM8', '金具', '個', 'active', '{"brand":"XYZ","spec":"M8x20"}'::jsonb),
-    ('SKU-0005', '木ネジ', '金具', '個', 'active', '{"brand":"DEF","spec":"4x30"}'::jsonb),
-    ('SKU-0006', 'L字金具', '金具', '個', 'active', '{"size":"50mm"}'::jsonb),
-    ('SKU-0007', '接着剤', '消耗品', 'ml', 'active', '{"type":"瞬間接着剤"}'::jsonb),
-    ('SKU-0008', 'サンドペーパー', '消耗品', '枚', 'active', '{"grit":"#240"}'::jsonb)
+INSERT INTO items (code, name, category, unit, quantity, status, attributes) VALUES
+    ('SKU-0001', 'ねじM5', '金具', '個', 120, 'active', '{"brand":"ABC","spec":"M5x12"}'::jsonb),
+    ('SKU-0002', 'ナットM5', '金具', '個', 240, 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
+    ('SKU-0003', 'ワッシャーM5', '金具', '個', 60, 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
+    ('SKU-0004', 'ボルトM8', '金具', '個', 85, 'active', '{"brand":"XYZ","spec":"M8x20"}'::jsonb),
+    ('SKU-0005', '木ネジ', '金具', '個', 150, 'active', '{"brand":"DEF","spec":"4x30"}'::jsonb),
+    ('SKU-0006', 'L字金具', '金具', '個', 45, 'active', '{"size":"50mm"}'::jsonb),
+    ('SKU-0007', '接着剤', '消耗品', 'ml', 500, 'active', '{"type":"瞬間接着剤"}'::jsonb),
+    ('SKU-0008', 'サンドペーパー', '消耗品', '枚', NULL, 'active', '{"grit":"#240"}'::jsonb)
 ON CONFLICT (code) DO NOTHING;

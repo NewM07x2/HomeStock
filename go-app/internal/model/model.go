@@ -7,10 +7,11 @@ type Item struct {
 	ID         string     `json:"id" db:"id"`                           // アイテムの一意識別子（UUID）
 	Code       string     `json:"code" db:"code"`                       // アイテムコード（SKU相当、一意）
 	Name       string     `json:"name" db:"name"`                       // アイテム名称
-	Category   *string    `json:"category,omitempty" db:"category"`     // カテゴリ
-	Unit       string     `json:"unit" db:"unit"`                       // 単位
+	Category   *string    `json:"category,omitempty" db:"category"`     // カテゴリ（任意）
+	Unit       string     `json:"unit" db:"unit"`                       // 単位（個、ml、枚など）
+	Quantity   *int       `json:"quantity,omitempty" db:"quantity"`     // 在庫数（任意）
 	Status     string     `json:"status" db:"status"`                   // ステータス（active: 有効、inactive: 無効）
-	Attributes string     `json:"attributes,omitempty" db:"attributes"` // 追加属性
+	Attributes string     `json:"attributes,omitempty" db:"attributes"` // 追加属性（JSONB形式の文字列）
 	CreatedBy  *string    `json:"created_by,omitempty" db:"created_by"` // 作成者のユーザーID（UUID、任意）
 	CreatedAt  time.Time  `json:"created_at" db:"created_at"`           // 作成日時
 	UpdatedAt  time.Time  `json:"updated_at" db:"updated_at"`           // 更新日時

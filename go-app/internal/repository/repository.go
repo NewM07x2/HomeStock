@@ -10,7 +10,7 @@ import (
 func FetchRecentItems(limit int) ([]model.Item, error) {
 	log.Printf("FetchRecentItems")
 	rows, err := common.DB.Query(`
-        SELECT id, code, name, category, unit, status, created_at, updated_at
+        SELECT id, code, name, category, unit, quantity, status, created_at, updated_at
         FROM items
         WHERE deleted_at IS NULL
         ORDER BY created_at DESC
@@ -31,6 +31,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 			&item.Name,
 			&item.Category,
 			&item.Unit,
+			&item.Quantity,
 			&item.Status,
 			&item.CreatedAt,
 			&item.UpdatedAt,

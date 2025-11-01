@@ -36,7 +36,7 @@ export default async function RecentItems() {
                 <th className="py-2">コード</th>
                 <th className="py-2">名称</th>
                 <th className="py-2">カテゴリ</th>
-                <th className="py-2">単位</th>
+                <th className="py-2">在庫数</th>
                 <th className="py-2">ステータス</th>
               </tr>
             </thead>
@@ -46,7 +46,11 @@ export default async function RecentItems() {
                   <td className="py-2 font-mono text-xs">{item.code}</td>
                   <td className="py-2">{item.name}</td>
                   <td className="py-2 text-gray-600">{item.category || '-'}</td>
-                  <td className="py-2">{item.unit}</td>
+                  <td className="py-2">
+                    {item.quantity !== null && item.quantity !== undefined 
+                      ? `${item.quantity} ${item.unit}` 
+                      : '-'}
+                  </td>
                   <td className="py-2">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       item.status === 'active' 
