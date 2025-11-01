@@ -16,6 +16,7 @@ services:
       - DB_NAME=hsm-db
     depends_on:
       - db
+    command: /bin/sh -c "until nc -z db 5432; do echo waiting for db; sleep 2; done; ./main"
 
   next-app:
     container_name: next-hsm-app
@@ -29,7 +30,7 @@ services:
       - /app/node_modules
       - /app/.next
     environment:
-      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+      - NEXT_PUBLIC_API_BASE_URL=http://go-app:8080
     depends_on:
       - go-app
 

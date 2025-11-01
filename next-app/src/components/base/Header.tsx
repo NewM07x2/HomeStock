@@ -11,7 +11,7 @@ export default function Header(){
       <nav className="bg-gray-800 w-screen">
         <div className="flex items-center justify-between pl-4 pr-4 h-14">
           <div className="flex items-center">
-            <Link href="/" className="text-gray-300 mr-4">Home</Link>
+            <Link href="/" className="text-gray-300 mr-2 ml-2">Home</Link>
             {/* Desktop links: show when viewport >= 1000px */}
             <div className="hidden" style={{display:'none'}} data-desktop>
               {/* placeholder for CSS media query to show */}
@@ -27,11 +27,11 @@ export default function Header(){
 
           {/* Desktop links container (will be shown by CSS when viewport >= 1000px) */}
           <div className="desktop-links hidden space-x-4">
-            <Link href="/contact-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Contact</Link>
+            {/* <Link href="/contact-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Contact</Link>
             <Link href="/modal-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Modal</Link>
             <Link href="/reducer-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Reducer</Link>
             <Link href="/redux-page" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Redux</Link>
-            <Link href="/graphql" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Graphql</Link>
+            <Link href="/graphql" className="text-gray-300 hover:bg-gray-700 px-3 py-2 rounded">Graphql</Link> */}
           </div>
         </div>
       </nav>

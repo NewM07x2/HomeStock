@@ -1,15 +1,15 @@
 // counterSlice.ts
 // reduxjs/toolkitで使用する場合の「reducer」の役割
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
-import { getJsonData } from '../../app/api/getJsonData';
+import { fetchRecentItems, type Item} from '@/lib/api';
 
 interface CounterState {
-  data: any;
+  data: Item[];
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
 }
 const initialState: CounterState = {
-  data: {},
+  data: [],
   status: 'idle',
   error: null,
 };
@@ -17,9 +17,9 @@ const initialState: CounterState = {
 export const addAsyncThunk = createAsyncThunk(
   'addAsync',
   async () => {
-    const response = await getJsonData();
-    console.log(response.data);
-    return response.data;
+    const response = await fetchRecentItems(10);
+    console.log(response);
+    return response;
 }
 );
 
@@ -28,7 +28,7 @@ export const counterAPISlice = createSlice({
   initialState,
   reducers: {
     clearApiData: (state) => {
-      state.data = {};
+      state.data = [];
       state.status = 'idle';
       state.error = null;
     }
@@ -38,7 +38,7 @@ export const counterAPISlice = createSlice({
       .addCase(addAsyncThunk.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(addAsyncThunk.fulfilled, (state, action: PayloadAction<number>) => {
+      .addCase(addAsyncThunk.fulfilled, (state, action: PayloadAction<Item[]>) => {
         state.status = 'succeeded';
         state.data = action.payload;
       })

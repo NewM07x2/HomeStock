@@ -3,10 +3,12 @@ package repository
 import (
 	"go-hsm-app/internal/common"
 	"go-hsm-app/internal/model"
+	"log"
 )
 
 // FetchRecentItems はデータベースから直近のアイテムを取得します
 func FetchRecentItems(limit int) ([]model.Item, error) {
+	log.Printf("FetchRecentItems")
 	rows, err := common.DB.Query(`
         SELECT id, code, name, category, unit, status, created_at, updated_at
         FROM items

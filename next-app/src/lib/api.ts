@@ -48,10 +48,13 @@ export const getPosts = async (): Promise<BlogPost[]> => {
  */
 export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
   try {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
-    const response = await axios.get<ItemsResponse>(`${apiBaseUrl}/api/items`, {
+    console.log('fetchRecentItems');
+    // const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
+    // console.log('apiBaseUrl', apiBaseUrl);
+    const response = await axios.get<ItemsResponse>(`http://localhost:8080/api/items`, {
       params: { limit },
     });
+    console.log('response:', response);
     
     return response.data.items || [];
   } catch (error) {
