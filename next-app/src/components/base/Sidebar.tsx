@@ -48,15 +48,15 @@ const navigation: NavItem[] = [
     // デフォルト表示（権限・プラン制限なし）
   },
   { 
-    name: 'ロケーション', 
-    href: '/locations', 
-    icon: '📍',
-    requiredPlan: 'basic', // Basicプラン以上で表示
-  },
-  { 
     name: '在庫管理', 
     href: '/stocks', 
-    icon: '📊',
+    icon: '�',
+    // デフォルト表示（権限・プラン制限なし）- フリープランでも利用可能
+  },
+  { 
+    name: 'ロケーション', 
+    href: '/locations', 
+    icon: '�',
     requiredPlan: 'basic', // Basicプラン以上で表示
   },
   { 
