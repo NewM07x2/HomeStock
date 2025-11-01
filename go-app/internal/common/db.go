@@ -9,9 +9,12 @@ import (
 	_ "github.com/lib/pq"
 )
 
+// DB はグローバルなデータベース接続プールを保持します。
 var DB *sql.DB
 
-// InitDB initializes the database connection
+// InitDB はデータベースへの接続を初期化します。
+// 環境変数から接続情報を取得し、sql.Open でコネクションプールを作成します。
+// 接続確認として Ping を実行します。
 func InitDB() error {
 	host := getEnv("DB_HOST", "localhost")
 	port := getEnv("DB_PORT", "5432")
@@ -31,21 +34,22 @@ func InitDB() error {
 	}
 
 	if err = DB.Ping(); err != nil {
-		return fmt.Errorf("failed to ping database: %w", err)
+		return fmt.Errorf("データベースへの ping に失敗しました: %w", err)
 	}
 
-	log.Println("✓ Database connection established")
+	log.Println("✓ データベース接続が確立されました")
 	return nil
 }
 
-// CloseDB closes the database connection
+// CloseDB はアプリケーション終了時にデータベース接続をクローズします。
 func CloseDB() {
 	if DB != nil {
 		DB.Close()
 	}
 }
 
-// getEnv gets an environment variable or returns a default value
+// getEnv は環境変数を取得し、存在しない場合はデフォルト値を返します。
+// 環境変数は .env や docker-compose の environment 経由で設定されます。
 func getEnv(key, defaultValue string) string {
 	value := os.Getenv(key)
 	if value == "" {

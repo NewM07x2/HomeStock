@@ -8,12 +8,14 @@ services:
       dockerfile: ../docker/Dockerfile.backend
     ports:
       - "8080:8080"
-
     environment:
-      - DB_HOST=hsm-db
+      - DB_HOST=db
+      - DB_PORT=5432
       - DB_USER=hsm
       - DB_PASSWORD=hsm
       - DB_NAME=hsm-db
+    depends_on:
+      - db
 
   next-app:
     container_name: next-hsm-app
@@ -24,8 +26,12 @@ services:
       - "3000:3000"
     volumes:
       - ./next-app:/app
+      - /app/node_modules
+      - /app/.next
     environment:
-      - NEXT_PUBLIC_API_URL=http://localhost:8080
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+    depends_on:
+      - go-app
 
   db:
     container_name: hsm-db
@@ -38,6 +44,13 @@ services:
       POSTGRES_DB: hsm-db
     volumes:
       - hsm-db_data:/var/lib/postgresql/data
+      - ./DB/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # DBサービスの説明（日本語）:
+    # - コンテナ名: hsm-db
+    # - image: Postgres 15 を利用
+    # - ホストの 5432 ポートをコンテナの 5432 にマップ
+    # - 環境変数で DB 初期ユーザー・パスワード・DB 名を指定
+    # - volumes: 永続化用ボリュームと初期化 SQL をマウント（初回起動時に実行されます）
 
   # 本番環境用のNginx設定
   # nginx:

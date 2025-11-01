@@ -1,3 +1,4 @@
 package logic
 
-// This file is intentionally left empty to allow gqlgen to generate logic
+// このファイルは gqlgen による生成処理のために空のプレースホルダとして残しています。
+// 必要に応じてビジネスロジックを実装してください。

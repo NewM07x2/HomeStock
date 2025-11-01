@@ -1,3 +1,4 @@
 package common
 
-// This file is intentionally left empty to allow gqlgen to generate common
+// このファイルは gqlgen による生成と依存関係解決のために空ファイルとして残しています。
+// 必要に応じてここに共通処理を追加してください。

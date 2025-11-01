@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"go-hsm-app/internal/common"
+	"go-hsm-app/internal/controller"
 	"go-hsm-app/internal/lib/graph/generated"
 	graph "go-hsm-app/internal/lib/graph/resolver"
 
@@ -15,21 +16,21 @@ import (
 )
 
 func main() {
-	// Initialize database
+	// データベースを初期化
 	if err := common.InitDB(); err != nil {
-		log.Fatalf("Failed to initialize database: %v", err)
+		log.Fatalf("データベースの初期化に失敗しました: %v", err)
 	}
 	defer common.CloseDB()
 
-	// Create Echo instance
+	// Echoインスタンスを作成
 	e := echo.New()
 
-	// Middleware
+	// ミドルウェア設定
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 	e.Use(middleware.CORS())
 
-	// Health check endpoint
+	// ヘルスチェック用エンドポイント
 	e.GET("/health", func(c echo.Context) error {
 		return c.JSON(http.StatusOK, map[string]string{
 			"status":  "ok",
@@ -37,23 +38,25 @@ func main() {
 		})
 	})
 
-	// GraphQL handler
+	// GraphQL ハンドラ
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{
 		Resolvers: &graph.Resolver{
 			DB: common.DB,
 		},
 	}))
 
-	// GraphQL endpoints
+	// GraphQL エンドポイント
 	e.POST("/graphql", echo.WrapHandler(srv))
 	e.GET("/graphql", echo.WrapHandler(playground.Handler("GraphQL Playground", "/graphql")))
 
-	// Start server
+	e.GET("/api/items", controller.GetRecentItems)
+
+	// サーバー起動
 	port := ":8080"
 	log.Printf("🚀 Server ready at http://localhost%s", port)
 	log.Printf("📊 GraphQL Playground at http://localhost%s/graphql", port)
 
 	if err := e.Start(port); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		log.Fatalf("サーバーの起動に失敗しました: %v", err)
 	}
 }
