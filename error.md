@@ -1,160 +1,52 @@
-'Host: localhost:8080\r\n' +
+/usr/local/bin/docker-entrypoint.sh: running /docker-entrypoint-initdb.d/init.sql
 
 
-'Connection: keep-alive\r\n' +
+CREATE EXTENSION
 
 
-'\r\n',
+CREATE EXTENSION
 
 
-_keepAliveTimeout: 0,
+2025-11-01 14:01:23.198 UTC [61] ERROR: relation "categories" does not exist
 
 
-_onPendingData: [Function: nop],
+2025-11-01 14:01:23.198 UTC [61] STATEMENT: CREATE TABLE IF NOT EXISTS items (
 
 
-agent: [Agent],
+id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
 
 
-socketPath: undefined,
+code TEXT UNIQUE NOT NULL,
 
 
-method: 'GET',
+name TEXT NOT NULL,
 
 
-maxHeaderSize: undefined,
+category_id UUID REFERENCES categories(id),
 
 
-insecureHTTPParser: undefined,
+unit_id UUID NOT NULL REFERENCES units(id),
 
 
-joinDuplicateHeaders: undefined,
+quantity INTEGER,
 
 
-path: '/api/items?limit=10',
+status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
 
 
-_ended: false,
+created_by UUID REFERENCES users(id),
 
 
-res: null,
+created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
 
-aborted: false,
+updated_at TIMESTAMPTZ NOT NULL DEFAULT now(),
 
 
-timeoutCb: [Function: emitRequestTimeout],
+deleted_at TIMESTAMPTZ
 
 
-upgradeOrConnect: false,
+);
 
 
-parser: null,
-
-
-maxHeadersCount: null,
-
-
-reusedSocket: false,
-
-
-host: 'localhost',
-
-
-protocol: 'http:',
-
-
-_redirectable: [Circular *1],
-
-
-[Symbol(shapeMode)]: false,
-
-
-[Symbol(kCapture)]: false,
-
-
-[Symbol(kBytesWritten)]: 0,
-
-
-[Symbol(kNeedDrain)]: false,
-
-
-[Symbol(corked)]: 0,
-
-
-[Symbol(kOutHeaders)]: [Object: null prototype],
-
-
-[Symbol(errored)]: null,
-
-
-[Symbol(kHighWaterMark)]: 16384,
-
-
-[Symbol(kRejectNonStandardBodyWrites)]: false,
-
-
-[Symbol(kUniqueHeaders)]: null
-
-
-},
-
-
-_currentUrl: 'http://localhost:8080/api/items?limit=10',
-
-
-[Symbol(shapeMode)]: true,
-
-
-[Symbol(kCapture)]: false
-
-
-},
-
-
-[cause]: Error: connect ECONNREFUSED 127.0.0.1:8080
-
-
-at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)
-
-
-at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
-
-
-errno: -111,
-
-
-code: 'ECONNREFUSED',
-
-
-syscall: 'connect',
-
-
-address: '127.0.0.1',
-
-
-port: 8080
-
-
-}
-
-
-}
-
-
-Failed to load items: Error: Failed to fetch items. Please try again later.
-
-
-at fetchRecentItems (webpack-internal:///(rsc)/./src/lib/api.ts:46:15)
-
-
-at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
-
-
-at async RecentItems (webpack-internal:///(rsc)/./src/components/home/RecentItems.tsx:17:17)
-
-
-GET / 200 in 126ms
-
-
-GET /.well-known/appspecific/com.chrome.devtools.json 404 in 77ms
+psql:/docker-entrypoint-initdb.d/init.sql:42: ERROR: relation "categories" does not exist
