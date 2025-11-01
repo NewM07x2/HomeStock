@@ -8,17 +8,45 @@ export interface BlogPost {
   userId: number;
 }
 
+// カテゴリマスタ型定義
+export interface Category {
+  id: string;
+  code: string;
+  name: string;
+  description?: string;
+}
+
+// 単位マスタ型定義
+export interface Unit {
+  id: string;
+  code: string;
+  name: string;
+  description?: string;
+}
+
+// 属性詳細型定義
+export interface ItemAttributeDetail {
+  code: string;
+  name: string;
+  value: string;
+  value_type: string;
+}
+
 // Item型定義
 export interface Item {
   id: string;
   code: string;
   name: string;
-  category?: string;
-  unit: string;
+  category_id?: string;
+  unit_id: string;
   quantity?: number;
   status: string;
   created_at: string;
   updated_at: string;
+  // 結合して取得するマスタ情報
+  category?: Category;
+  unit?: Unit;
+  attributes?: ItemAttributeDetail[];
 }
 
 // Items API レスポンス型

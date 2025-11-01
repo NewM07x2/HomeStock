@@ -26,6 +26,80 @@ CREATE EXTENSION IF NOT EXISTS "citext";
 -- citext:
 --   大文字小文字を区別しないテキスト型を提供します。メールアドレス等の比較に便利です。
 
+-- ======================================================
+-- マスタテーブル（カテゴリ、単位、属性）
+-- ======================================================
+
+-- categories table: カテゴリマスタ
+CREATE TABLE IF NOT EXISTS categories (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code          TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  description   TEXT,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at    TIMESTAMPTZ
+);
+
+-- categories テーブル:
+--  アイテムのカテゴリを管理するマスタテーブルです。
+--  - code: カテゴリコード（一意）
+--  - name: カテゴリ名称
+--  - description: カテゴリの説明（任意）
+
+-- units table: 単位マスタ
+CREATE TABLE IF NOT EXISTS units (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code          TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  description   TEXT,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at    TIMESTAMPTZ
+);
+
+-- units テーブル:
+--  アイテムの単位を管理するマスタテーブルです。
+--  - code: 単位コード（一意、例: pc, ml, kg）
+--  - name: 単位名称（例: 個, ミリリットル, キログラム）
+--  - description: 単位の説明（任意）
+
+-- attributes table: 属性マスタ
+CREATE TABLE IF NOT EXISTS attributes (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code          TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  value_type    TEXT NOT NULL CHECK (value_type IN ('text','number','boolean','date')),
+  description   TEXT,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at    TIMESTAMPTZ
+);
+
+-- attributes テーブル:
+--  アイテムに付与できる属性の定義を管理するマスタテーブルです。
+--  - code: 属性コード（一意、例: brand, spec, color）
+--  - name: 属性名称（例: ブランド, 仕様, 色）
+--  - value_type: 属性値の型（text, number, boolean, date）
+--  - description: 属性の説明（任意）
+
+-- item_attributes table: アイテムと属性の中間テーブル
+CREATE TABLE IF NOT EXISTS item_attributes (
+  item_id       UUID NOT NULL REFERENCES items(id) ON DELETE CASCADE,
+  attribute_id  UUID NOT NULL REFERENCES attributes(id),
+  value         TEXT NOT NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  PRIMARY KEY (item_id, attribute_id)
+);
+
+-- item_attributes テーブル:
+--  アイテムに紐づく属性値を保持する中間テーブルです。
+--  - item_id: アイテムID
+--  - attribute_id: 属性ID
+--  - value: 属性値（文字列として保存、型はattributes.value_typeで定義）
+--  複数の属性をアイテムに紐づけることができます。
+
 -- users table
 CREATE TABLE IF NOT EXISTS users (
   id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -50,11 +124,10 @@ CREATE TABLE IF NOT EXISTS items (
   id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   code          TEXT UNIQUE NOT NULL,
   name          TEXT NOT NULL,
-  category      TEXT,
-  unit          TEXT NOT NULL,
+  category_id   UUID REFERENCES categories(id),
+  unit_id       UUID NOT NULL REFERENCES units(id),
   quantity      INTEGER,
   status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
-  attributes    JSONB NOT NULL DEFAULT '{}'::jsonb,
   created_by    UUID REFERENCES users(id),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -64,8 +137,10 @@ CREATE TABLE IF NOT EXISTS items (
 -- items テーブル:
 --  管理対象のアイテム（SKU相当）を保持します。
 --  - code は業務で利用する一意キー（SKUコード）
+--  - category_id はカテゴリマスタへの外部キー（任意）
+--  - unit_id は単位マスタへの外部キー（必須）
 --  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
---  - attributes は任意属性を JSONB で保存（例: ブランド、寸法など）
+--  - 属性は item_attributes テーブルで管理（複数登録可能）
 --  - created_by は作成者ユーザーの参照
 --  - deleted_at に値が入ると論理削除扱いになります
 
@@ -153,8 +228,11 @@ CREATE TABLE IF NOT EXISTS audit_logs (
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_items_code ON items(code);
 CREATE INDEX IF NOT EXISTS idx_items_name ON items(name);
-CREATE INDEX IF NOT EXISTS idx_items_category ON items(category);
+CREATE INDEX IF NOT EXISTS idx_items_category_id ON items(category_id);
+CREATE INDEX IF NOT EXISTS idx_items_unit_id ON items(unit_id);
 CREATE INDEX IF NOT EXISTS idx_items_status ON items(status);
+CREATE INDEX IF NOT EXISTS idx_item_attributes_item ON item_attributes(item_id);
+CREATE INDEX IF NOT EXISTS idx_item_attributes_attribute ON item_attributes(attribute_id);
 CREATE INDEX IF NOT EXISTS idx_stocks_item ON stocks(item_id);
 CREATE INDEX IF NOT EXISTS idx_stocks_location ON stocks(location_id);
 CREATE INDEX IF NOT EXISTS idx_stock_movements_item ON stock_movements(item_id);
@@ -175,6 +253,32 @@ ON CONFLICT (email) DO NOTHING;
 -- サンプルデータについて:
 -- ここで挿入しているパスワードハッシュはデモ用です。実際の環境では必ず安全なハッシュを使用し、初期パスワードを変更してください。
 
+-- Sample categories
+INSERT INTO categories (code, name, description) VALUES
+    ('HARDWARE', '金具', '各種金具類'),
+    ('CONSUMABLE', '消耗品', '使い捨てまたは消耗する資材'),
+    ('MATERIAL', '材料', '加工用材料')
+ON CONFLICT (code) DO NOTHING;
+
+-- Sample units
+INSERT INTO units (code, name, description) VALUES
+    ('pc', '個', '個数単位'),
+    ('ml', 'ミリリットル', '液体容量単位'),
+    ('sheet', '枚', '薄いものの枚数単位'),
+    ('kg', 'キログラム', '重量単位'),
+    ('m', 'メートル', '長さ単位')
+ON CONFLICT (code) DO NOTHING;
+
+-- Sample attributes
+INSERT INTO attributes (code, name, value_type, description) VALUES
+    ('brand', 'ブランド', 'text', '製品のブランド名'),
+    ('spec', '仕様', 'text', '製品の仕様'),
+    ('size', 'サイズ', 'text', 'サイズ情報'),
+    ('type', 'タイプ', 'text', '製品のタイプ'),
+    ('grit', '粒度', 'text', '研磨材の粒度'),
+    ('color', '色', 'text', '製品の色')
+ON CONFLICT (code) DO NOTHING;
+
 -- Sample locations
 INSERT INTO locations (code, name) VALUES
     ('WH-001', '第一倉庫'),
@@ -184,13 +288,235 @@ INSERT INTO locations (code, name) VALUES
 ON CONFLICT (code) DO NOTHING;
 
 -- Sample items
-INSERT INTO items (code, name, category, unit, quantity, status, attributes) VALUES
-    ('SKU-0001', 'ねじM5', '金具', '個', 120, 'active', '{"brand":"ABC","spec":"M5x12"}'::jsonb),
-    ('SKU-0002', 'ナットM5', '金具', '個', 240, 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
-    ('SKU-0003', 'ワッシャーM5', '金具', '個', 60, 'active', '{"brand":"ABC","spec":"M5"}'::jsonb),
-    ('SKU-0004', 'ボルトM8', '金具', '個', 85, 'active', '{"brand":"XYZ","spec":"M8x20"}'::jsonb),
-    ('SKU-0005', '木ネジ', '金具', '個', 150, 'active', '{"brand":"DEF","spec":"4x30"}'::jsonb),
-    ('SKU-0006', 'L字金具', '金具', '個', 45, 'active', '{"size":"50mm"}'::jsonb),
-    ('SKU-0007', '接着剤', '消耗品', 'ml', 500, 'active', '{"type":"瞬間接着剤"}'::jsonb),
-    ('SKU-0008', 'サンドペーパー', '消耗品', '枚', NULL, 'active', '{"grit":"#240"}'::jsonb)
-ON CONFLICT (code) DO NOTHING;
+-- カテゴリIDと単位IDを取得して挿入
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0001',
+    'ねじM5',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    120,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0001');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0002',
+    'ナットM5',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    240,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0002');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0003',
+    'ワッシャーM5',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    60,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0003');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0004',
+    'ボルトM8',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    85,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0004');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0005',
+    '木ネジ',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    150,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0005');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0006',
+    'L字金具',
+    (SELECT id FROM categories WHERE code = 'HARDWARE'),
+    (SELECT id FROM units WHERE code = 'pc'),
+    45,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0006');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0007',
+    '接着剤',
+    (SELECT id FROM categories WHERE code = 'CONSUMABLE'),
+    (SELECT id FROM units WHERE code = 'ml'),
+    500,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0007');
+
+INSERT INTO items (code, name, category_id, unit_id, quantity, status)
+SELECT 
+    'SKU-0008',
+    'サンドペーパー',
+    (SELECT id FROM categories WHERE code = 'CONSUMABLE'),
+    (SELECT id FROM units WHERE code = 'sheet'),
+    NULL,
+    'active'
+WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0008');
+
+-- Sample item_attributes
+-- SKU-0001のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0001'),
+    (SELECT id FROM attributes WHERE code = 'brand'),
+    'ABC'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0001')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
+);
+
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0001'),
+    (SELECT id FROM attributes WHERE code = 'spec'),
+    'M5x12'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0001')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
+);
+
+-- SKU-0002のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0002'),
+    (SELECT id FROM attributes WHERE code = 'brand'),
+    'ABC'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0002')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
+);
+
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0002'),
+    (SELECT id FROM attributes WHERE code = 'spec'),
+    'M5'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0002')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
+);
+
+-- SKU-0003のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0003'),
+    (SELECT id FROM attributes WHERE code = 'brand'),
+    'ABC'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0003')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
+);
+
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0003'),
+    (SELECT id FROM attributes WHERE code = 'spec'),
+    'M5'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0003')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
+);
+
+-- SKU-0004のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0004'),
+    (SELECT id FROM attributes WHERE code = 'brand'),
+    'XYZ'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0004')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
+);
+
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0004'),
+    (SELECT id FROM attributes WHERE code = 'spec'),
+    'M8x20'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0004')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
+);
+
+-- SKU-0005のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0005'),
+    (SELECT id FROM attributes WHERE code = 'brand'),
+    'DEF'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0005')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
+);
+
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0005'),
+    (SELECT id FROM attributes WHERE code = 'spec'),
+    '4x30'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0005')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
+);
+
+-- SKU-0006のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0006'),
+    (SELECT id FROM attributes WHERE code = 'size'),
+    '50mm'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0006')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'size')
+);
+
+-- SKU-0007のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0007'),
+    (SELECT id FROM attributes WHERE code = 'type'),
+    '瞬間接着剤'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0007')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'type')
+);
+
+-- SKU-0008のための属性
+INSERT INTO item_attributes (item_id, attribute_id, value)
+SELECT 
+    (SELECT id FROM items WHERE code = 'SKU-0008'),
+    (SELECT id FROM attributes WHERE code = 'grit'),
+    '#240'
+WHERE NOT EXISTS (
+    SELECT 1 FROM item_attributes 
+    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0008')
+    AND attribute_id = (SELECT id FROM attributes WHERE code = 'grit')
+);

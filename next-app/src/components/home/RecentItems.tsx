@@ -45,10 +45,10 @@ export default async function RecentItems() {
                 <tr key={item.id} className="border-b last:border-b-0 hover:bg-gray-50">
                   <td className="py-2 font-mono text-xs">{item.code}</td>
                   <td className="py-2">{item.name}</td>
-                  <td className="py-2 text-gray-600">{item.category || '-'}</td>
+                  <td className="py-2 text-gray-600">{item.category?.name || '-'}</td>
                   <td className="py-2">
                     {item.quantity !== null && item.quantity !== undefined 
-                      ? `${item.quantity} ${item.unit}` 
+                      ? `${item.quantity} ${item.unit?.name || ''}` 
                       : '-'}
                   </td>
                   <td className="py-2">
