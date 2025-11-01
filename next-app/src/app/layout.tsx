@@ -13,6 +13,11 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  // TODO: 実際の実装では、セッションやJWTからユーザー情報を取得
+  // 現在は開発用のデフォルト値を使用
+  const userRole: 'admin' | 'operator' | 'viewer' = 'admin';
+  const userPlan: 'free' | 'basic' | 'premium' | 'enterprise' = 'enterprise';
+
   return (
     <html lang="ja" className="h-full">
       <body className="h-full overflow-hidden">
@@ -20,7 +25,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {/* 全体コンテナ */}
           <div className="h-full flex">
             {/* サイドバー */}
-            <Sidebar />
+            <Sidebar userRole={userRole} userPlan={userPlan} />
             
             {/* メインコンテンツエリア（サブヘッダー + メインページ + フッター） */}
             <div className="flex-1 flex flex-col overflow-hidden">

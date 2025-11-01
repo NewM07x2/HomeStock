@@ -7,6 +7,7 @@ import { useState } from 'react';
 interface SubMenuItem {
   name: string;
   href: string;
+  requiredRole?: 'admin' | 'operator' | 'viewer';
 }
 
 interface NavItem {
@@ -14,28 +15,79 @@ interface NavItem {
   href?: string;
   icon: string;
   subItems?: SubMenuItem[];
+  requiredRole?: 'admin' | 'operator' | 'viewer'; // 必要な権限レベル
+  requiredPlan?: 'free' | 'basic' | 'premium' | 'enterprise'; // 必要なプランレベル
 }
 
+// プランの階層レベル（数値が大きいほど上位プラン）
+const planLevels = {
+  free: 0,
+  basic: 1,
+  premium: 2,
+  enterprise: 3,
+};
+
+// ロールの階層レベル（数値が大きいほど高権限）
+const roleLevels = {
+  viewer: 0,
+  operator: 1,
+  admin: 2,
+};
+
 const navigation: NavItem[] = [
-  { name: 'ホーム', href: '/', icon: '🏠' },
-  { name: 'アイテム管理', href: '/items', icon: '📦' },
-  { name: 'ロケーション', href: '/locations', icon: '📍' },
-  { name: '在庫管理', href: '/stocks', icon: '📊' },
-  { name: 'レポート', href: '/reports', icon: '📈' },
+  { 
+    name: 'ホーム', 
+    href: '/', 
+    icon: '🏠',
+    // デフォルト表示（権限・プラン制限なし）
+  },
+  { 
+    name: 'アイテム管理', 
+    href: '/items', 
+    icon: '📦',
+    // デフォルト表示（権限・プラン制限なし）
+  },
+  { 
+    name: 'ロケーション', 
+    href: '/locations', 
+    icon: '📍',
+    requiredPlan: 'basic', // Basicプラン以上で表示
+  },
+  { 
+    name: '在庫管理', 
+    href: '/stocks', 
+    icon: '📊',
+    requiredPlan: 'basic', // Basicプラン以上で表示
+  },
+  { 
+    name: 'レポート', 
+    href: '/reports', 
+    icon: '📈',
+    requiredPlan: 'premium', // Premiumプラン以上で表示
+  },
   { 
     name: '設定', 
     icon: '⚙️',
+    requiredRole: 'admin', // 管理者のみ表示
     subItems: [
-      { name: 'ユーザー管理', href: '/settings/users' },
-      { name: 'カテゴリ設定', href: '/settings/categories' },
-      { name: '単位設定', href: '/settings/units' },
-      { name: '属性設定', href: '/settings/attributes' },
-      { name: 'システム設定', href: '/settings/system' },
+      { name: 'ユーザー管理', href: '/settings/users', requiredRole: 'admin' },
+      { name: 'カテゴリ設定', href: '/settings/categories', requiredRole: 'admin' },
+      { name: '単位設定', href: '/settings/units', requiredRole: 'admin' },
+      { name: '属性設定', href: '/settings/attributes', requiredRole: 'admin' },
+      { name: 'システム設定', href: '/settings/system', requiredRole: 'admin' },
     ]
   },
 ];
 
-export default function Sidebar() {
+interface SidebarProps {
+  userRole?: 'admin' | 'operator' | 'viewer';
+  userPlan?: 'free' | 'basic' | 'premium' | 'enterprise';
+}
+
+export default function Sidebar({ 
+  userRole = 'admin', // デフォルトは管理者（開発用）
+  userPlan = 'enterprise', // デフォルトはエンタープライズ（開発用）
+}: SidebarProps) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>(['設定']);
 
@@ -47,23 +99,80 @@ export default function Sidebar() {
     );
   };
 
+  // アイテムが表示可能かチェック
+  const canShowItem = (item: NavItem): boolean => {
+    // ロール制限のチェック
+    if (item.requiredRole) {
+      const userRoleLevel = roleLevels[userRole];
+      const requiredRoleLevel = roleLevels[item.requiredRole];
+      if (userRoleLevel < requiredRoleLevel) {
+        return false;
+      }
+    }
+
+    // プラン制限のチェック
+    if (item.requiredPlan) {
+      const userPlanLevel = planLevels[userPlan];
+      const requiredPlanLevel = planLevels[item.requiredPlan];
+      if (userPlanLevel < requiredPlanLevel) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  // サブアイテムが表示可能かチェック
+  const canShowSubItem = (subItem: SubMenuItem): boolean => {
+    // ロール制限のチェック
+    if (subItem.requiredRole) {
+      const userRoleLevel = roleLevels[userRole];
+      const requiredRoleLevel = roleLevels[subItem.requiredRole];
+      if (userRoleLevel < requiredRoleLevel) {
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  // 表示可能なナビゲーション項目をフィルタリング
+  const visibleNavigation = navigation.filter(canShowItem);
+
   return (
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
       {/* サイドバーヘッダー */}
       <div className="p-4 border-b border-gray-200">
         <h2 className="text-lg font-semibold text-gray-800">HomeStock</h2>
         <p className="text-xs text-gray-500 mt-1">在庫管理システム</p>
+        {/* プラン表示（開発用） */}
+        <div className="mt-2 flex items-center justify-between">
+          <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
+            {userPlan.toUpperCase()}
+          </span>
+          <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700">
+            {userRole}
+          </span>
+        </div>
       </div>
 
       {/* ナビゲーションメニュー */}
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
-        {navigation.map((item) => {
+        {visibleNavigation.map((item) => {
           const isExpanded = expandedItems.includes(item.name);
           const hasSubItems = item.subItems && item.subItems.length > 0;
           
           // サブメニューがある場合
           if (hasSubItems) {
-            const isAnySubActive = item.subItems!.some(sub => pathname === sub.href);
+            // 表示可能なサブアイテムをフィルタリング
+            const visibleSubItems = item.subItems!.filter(canShowSubItem);
+            
+            // 表示可能なサブアイテムがない場合は親も表示しない
+            if (visibleSubItems.length === 0) {
+              return null;
+            }
+
+            const isAnySubActive = visibleSubItems.some(sub => pathname === sub.href);
             
             return (
               <div key={item.name}>
@@ -99,7 +208,7 @@ export default function Sidebar() {
                 {/* サブメニュー */}
                 {isExpanded && (
                   <div className="ml-4 mt-1 space-y-1">
-                    {item.subItems!.map((subItem) => {
+                    {visibleSubItems.map((subItem) => {
                       const isSubActive = pathname === subItem.href;
                       
                       return (
