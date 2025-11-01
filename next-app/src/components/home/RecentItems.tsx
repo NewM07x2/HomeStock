@@ -13,8 +13,8 @@ export default async function RecentItems() {
   }
 
   return (
-    <section className="bg-white rounded-lg shadow p-4">
-      <h2 className="text-lg font-medium mb-3">最新アイテム</h2>
+    <section className="bg-white rounded-lg shadow p-6">
+      <h2 className="text-xl font-semibold mb-4 text-gray-900">最新アイテム</h2>
       
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-4">
@@ -32,26 +32,26 @@ export default async function RecentItems() {
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
-              <tr className="text-left border-b">
-                <th className="py-2">コード</th>
-                <th className="py-2">名称</th>
-                <th className="py-2">カテゴリ</th>
-                <th className="py-2">在庫数</th>
-                <th className="py-2">ステータス</th>
+              <tr className="text-left border-b border-gray-200">
+                <th className="py-3 px-2 font-medium text-gray-700">コード</th>
+                <th className="py-3 px-2 font-medium text-gray-700">名称</th>
+                <th className="py-3 px-2 font-medium text-gray-700">カテゴリ</th>
+                <th className="py-3 px-2 font-medium text-gray-700">在庫数</th>
+                <th className="py-3 px-2 font-medium text-gray-700">ステータス</th>
               </tr>
             </thead>
             <tbody>
               {items.map(item => (
-                <tr key={item.id} className="border-b last:border-b-0 hover:bg-gray-50">
-                  <td className="py-2 font-mono text-xs">{item.code}</td>
-                  <td className="py-2">{item.name}</td>
-                  <td className="py-2 text-gray-600">{item.category?.name || '-'}</td>
-                  <td className="py-2">
+                <tr key={item.id} className="border-b border-gray-100 last:border-b-0 hover:bg-gray-50 transition-colors">
+                  <td className="py-3 px-2 font-mono text-xs text-gray-900">{item.code}</td>
+                  <td className="py-3 px-2 text-gray-900">{item.name}</td>
+                  <td className="py-3 px-2 text-gray-600">{item.category?.name || '-'}</td>
+                  <td className="py-3 px-2 text-gray-900">
                     {item.quantity !== null && item.quantity !== undefined 
                       ? `${item.quantity} ${item.unit?.name || ''}` 
                       : '-'}
                   </td>
-                  <td className="py-2">
+                  <td className="py-3 px-2">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
                       item.status === 'active' 
                         ? 'bg-green-100 text-green-800' 
