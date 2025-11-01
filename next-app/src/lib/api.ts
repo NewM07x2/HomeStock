@@ -120,4 +120,21 @@ const fetchItems = async (): Promise<any> => {
   }
 };
 
+/**
+ * カテゴリマスタを取得
+ */
+export const fetchCategories = async (): Promise<string[]> => {
+  try {
+    const apiBaseUrl = typeof window === 'undefined' 
+      ? (process.env.API_BASE_URL || 'http://localhost:8080')
+      : (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080');
+    
+    const response = await axios.get<string[]>(`${apiBaseUrl}/api/categories`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch categories:', error);
+    throw new Error('Failed to fetch categories');
+  }
+};
+
 export { saveItem, fetchItems };
