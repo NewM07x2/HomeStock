@@ -30,7 +30,10 @@ services:
       - /app/node_modules
       - /app/.next
     environment:
-      - NEXT_PUBLIC_API_BASE_URL=http://go-app:8080
+      # クライアントサイド（ブラウザ）用: ブラウザから直接APIにアクセス
+      - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
+      # サーバーサイド（Server Component）用: Docker内部でのサービス間通信
+      - API_BASE_URL=http://go-app:8080
     depends_on:
       - go-app
 
