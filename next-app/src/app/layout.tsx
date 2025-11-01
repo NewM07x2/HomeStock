@@ -4,7 +4,6 @@ import "@/styles/globals.css";
 import React from 'react';
 
 import { Providers } from './providers'
-import Header from '@/components/base/Header'
 import Sidebar from '@/components/base/Sidebar'
 import Footer from '@/components/base/Footer'
 
@@ -19,25 +18,20 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="h-full overflow-hidden">
         <Providers>
           {/* 全体コンテナ */}
-          <div className="h-full flex flex-col">
-            {/* ヘッダー */}
-            <Header />
+          <div className="h-full flex">
+            {/* サイドバー */}
+            <Sidebar />
             
-            {/* メインコンテンツエリア（サイドバー + メインページ） */}
-            <div className="flex-1 flex overflow-hidden">
-              {/* サイドバー */}
-              <Sidebar />
-              
+            {/* メインコンテンツエリア（サブヘッダー + メインページ + フッター） */}
+            <div className="flex-1 flex flex-col overflow-hidden">
               {/* メインページエリア */}
               <main className="flex-1 overflow-y-auto bg-gray-50">
-                <div className="h-full">
-                  {children}
-                </div>
+                {children}
               </main>
+              
+              {/* フッター */}
+              <Footer />
             </div>
-            
-            {/* フッター */}
-            <Footer />
           </div>
         </Providers>
       </body>
