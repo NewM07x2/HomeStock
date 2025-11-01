@@ -26,6 +26,31 @@ CREATE EXTENSION IF NOT EXISTS "citext";
 -- citext:
 --   大文字小文字を区別しないテキスト型を提供します。メールアドレス等の比較に便利です。
 
+-- items table
+CREATE TABLE IF NOT EXISTS items (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code          TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  category_id   UUID REFERENCES categories(id),
+  unit_id       UUID NOT NULL REFERENCES units(id),
+  quantity      INTEGER,
+  status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
+  created_by    UUID REFERENCES users(id),
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at    TIMESTAMPTZ
+);
+
+-- items テーブル:
+--  管理対象のアイテム（SKU相当）を保持します。
+--  - code は業務で利用する一意キー（SKUコード）
+--  - category_id はカテゴリマスタへの外部キー（任意）
+--  - unit_id は単位マスタへの外部キー（必須）
+--  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
+--  - 属性は item_attributes テーブルで管理（複数登録可能）
+--  - created_by は作成者ユーザーの参照
+--  - deleted_at に値が入ると論理削除扱いになります
+
 -- ======================================================
 -- マスタテーブル（カテゴリ、単位、属性）
 -- ======================================================
@@ -118,31 +143,6 @@ CREATE TABLE IF NOT EXISTS users (
 --  - password_hash: ハッシュ化したパスワード（実運用では Argon2 など堅牢な方式を利用してください）
 --  - role: 権限（admin/operator/viewer）
 --  - deleted_at: 論理削除用
-
--- items table
-CREATE TABLE IF NOT EXISTS items (
-  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  code          TEXT UNIQUE NOT NULL,
-  name          TEXT NOT NULL,
-  category_id   UUID REFERENCES categories(id),
-  unit_id       UUID NOT NULL REFERENCES units(id),
-  quantity      INTEGER,
-  status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
-  created_by    UUID REFERENCES users(id),
-  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  deleted_at    TIMESTAMPTZ
-);
-
--- items テーブル:
---  管理対象のアイテム（SKU相当）を保持します。
---  - code は業務で利用する一意キー（SKUコード）
---  - category_id はカテゴリマスタへの外部キー（任意）
---  - unit_id は単位マスタへの外部キー（必須）
---  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
---  - 属性は item_attributes テーブルで管理（複数登録可能）
---  - created_by は作成者ユーザーの参照
---  - deleted_at に値が入ると論理削除扱いになります
 
 -- locations table
 CREATE TABLE IF NOT EXISTS locations (
