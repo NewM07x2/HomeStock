@@ -183,8 +183,8 @@ CREATE TABLE IF NOT EXISTS stocks (
 --  各アイテム×ロケーションの現在保有数量を保持します。
 --  qty は小数を許容（NUMERIC(20,4)）し、トランザクション内で更新することを想定します。
 
--- stock_movements table: 入出庫/移動/調整の履歴
-CREATE TABLE IF NOT EXISTS stock_movements (
+-- stock_history table: 入出庫/移動/調整の履歴
+CREATE TABLE IF NOT EXISTS stock_history (
   id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   item_id       UUID NOT NULL REFERENCES items(id),
   qty_delta     NUMERIC(20,4) NOT NULL,
@@ -197,7 +197,7 @@ CREATE TABLE IF NOT EXISTS stock_movements (
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
--- stock_movements テーブル:
+-- stock_history テーブル:
 --  在庫の増減イベント（入庫、出庫、調整、移動）を時系列で記録します。
 --  - qty_delta は増減量（正負で表現）
 --  - transfer の場合は location_from と location_to を両方利用します
@@ -247,8 +247,8 @@ CREATE INDEX IF NOT EXISTS idx_item_attributes_item ON item_attributes(item_id);
 CREATE INDEX IF NOT EXISTS idx_item_attributes_attribute ON item_attributes(attribute_id);
 CREATE INDEX IF NOT EXISTS idx_stocks_item ON stocks(item_id);
 CREATE INDEX IF NOT EXISTS idx_stocks_location ON stocks(location_id);
-CREATE INDEX IF NOT EXISTS idx_stock_movements_item ON stock_movements(item_id);
-CREATE INDEX IF NOT EXISTS idx_stock_movements_created ON stock_movements(created_at);
+CREATE INDEX IF NOT EXISTS idx_stock_history_item ON stock_history(item_id);
+CREATE INDEX IF NOT EXISTS idx_stock_history_created ON stock_history(created_at);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_user ON audit_logs(user_id);
 CREATE INDEX IF NOT EXISTS idx_audit_logs_created ON audit_logs(created_at);
 
