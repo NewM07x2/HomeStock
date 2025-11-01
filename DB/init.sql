@@ -26,30 +26,28 @@ CREATE EXTENSION IF NOT EXISTS "citext";
 -- citext:
 --   大文字小文字を区別しないテキスト型を提供します。メールアドレス等の比較に便利です。
 
--- items table
-CREATE TABLE IF NOT EXISTS items (
+-- ======================================================
+-- ユーザーテーブル
+-- ======================================================
+
+-- users table
+CREATE TABLE IF NOT EXISTS users (
   id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  code          TEXT UNIQUE NOT NULL,
-  name          TEXT NOT NULL,
-  category_id   UUID REFERENCES categories(id),
-  unit_id       UUID NOT NULL REFERENCES units(id),
-  quantity      INTEGER,
-  status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
-  created_by    UUID REFERENCES users(id),
+  email         CITEXT UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL,
+  role          TEXT NOT NULL CHECK (role IN ('admin','operator','viewer')),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
   deleted_at    TIMESTAMPTZ
 );
 
--- items テーブル:
---  管理対象のアイテム（SKU相当）を保持します。
---  - code は業務で利用する一意キー（SKUコード）
---  - category_id はカテゴリマスタへの外部キー（任意）
---  - unit_id は単位マスタへの外部キー（必須）
---  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
---  - 属性は item_attributes テーブルで管理（複数登録可能）
---  - created_by は作成者ユーザーの参照
---  - deleted_at に値が入ると論理削除扱いになります
+-- users テーブル:
+--  ユーザー情報を保持します。
+--  - id: UUID (主キー)
+--  - email: 大文字小文字を区別しない一意のメールアドレス
+--  - password_hash: ハッシュ化したパスワード（実運用では Argon2 など堅牢な方式を利用してください）
+--  - role: 権限（admin/operator/viewer）
+--  - deleted_at: 論理削除用
 
 -- ======================================================
 -- マスタテーブル（カテゴリ、単位、属性）
@@ -108,6 +106,35 @@ CREATE TABLE IF NOT EXISTS attributes (
 --  - value_type: 属性値の型（text, number, boolean, date）
 --  - description: 属性の説明（任意）
 
+-- ======================================================
+-- アイテムテーブル
+-- ======================================================
+
+-- items table
+CREATE TABLE IF NOT EXISTS items (
+  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  code          TEXT UNIQUE NOT NULL,
+  name          TEXT NOT NULL,
+  category_id   UUID REFERENCES categories(id),
+  unit_id       UUID NOT NULL REFERENCES units(id),
+  quantity      INTEGER,
+  status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
+  created_by    UUID REFERENCES users(id),
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
+  deleted_at    TIMESTAMPTZ
+);
+
+-- items テーブル:
+--  管理対象のアイテム（SKU相当）を保持します。
+--  - code は業務で利用する一意キー（SKUコード）
+--  - category_id はカテゴリマスタへの外部キー（任意）
+--  - unit_id は単位マスタへの外部キー（必須）
+--  - quantity は在庫数（任意、NULLの場合は在庫数未設定）
+--  - 属性は item_attributes テーブルで管理（複数登録可能）
+--  - created_by は作成者ユーザーの参照
+--  - deleted_at に値が入ると論理削除扱いになります
+
 -- item_attributes table: アイテムと属性の中間テーブル
 CREATE TABLE IF NOT EXISTS item_attributes (
   item_id       UUID NOT NULL REFERENCES items(id) ON DELETE CASCADE,
@@ -125,24 +152,9 @@ CREATE TABLE IF NOT EXISTS item_attributes (
 --  - value: 属性値（文字列として保存、型はattributes.value_typeで定義）
 --  複数の属性をアイテムに紐づけることができます。
 
--- users table
-CREATE TABLE IF NOT EXISTS users (
-  id            UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  email         CITEXT UNIQUE NOT NULL,
-  password_hash TEXT NOT NULL,
-  role          TEXT NOT NULL CHECK (role IN ('admin','operator','viewer')),
-  created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  updated_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
-  deleted_at    TIMESTAMPTZ
-);
-
--- users テーブル:
---  ユーザー情報を保持します。
---  - id: UUID (主キー)
---  - email: 大文字小文字を区別しない一意のメールアドレス
---  - password_hash: ハッシュ化したパスワード（実運用では Argon2 など堅牢な方式を利用してください）
---  - role: 権限（admin/operator/viewer）
---  - deleted_at: 論理削除用
+-- ======================================================
+-- ロケーションテーブル
+-- ======================================================
 
 -- locations table
 CREATE TABLE IF NOT EXISTS locations (
