@@ -7,8 +7,14 @@ export const metadata = {
 
 export default function ItemsPage() {
   return (
-    <div className="container mx-auto px-4 py-6">
-      <h1 className="text-2xl font-semibold mb-4">アイテム一覧</h1>
+    <div className="p-6">
+      <div className="mb-6">
+        <h1 className="text-2xl font-bold text-gray-800">アイテム管理</h1>
+        <p className="text-sm text-gray-600 mt-1">
+          アイテムの登録、編集、検索ができます
+        </p>
+      </div>
+
       <ItemsList />
     </div>
   )
