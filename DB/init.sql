@@ -291,7 +291,7 @@ ON CONFLICT (code) DO NOTHING;
 -- カテゴリIDと単位IDを取得して挿入
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0001',
+    'HSM-0001',
     'ねじM5',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -301,7 +301,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0001');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0002',
+    'HSM-0002',
     'ナットM5',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -311,7 +311,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0002');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0003',
+    'HSM-0003',
     'ワッシャーM5',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -321,7 +321,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0003');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0004',
+    'HSM-0004',
     'ボルトM8',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -331,7 +331,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0004');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0005',
+    'HSM-0005',
     '木ネジ',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -341,7 +341,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0005');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0006',
+    'HSM-0006',
     'L字金具',
     (SELECT id FROM categories WHERE code = 'HARDWARE'),
     (SELECT id FROM units WHERE code = 'pc'),
@@ -351,7 +351,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0006');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0007',
+    'HSM-0007',
     '接着剤',
     (SELECT id FROM categories WHERE code = 'CONSUMABLE'),
     (SELECT id FROM units WHERE code = 'ml'),
@@ -361,7 +361,7 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0007');
 
 INSERT INTO items (code, name, category_id, unit_id, quantity, status)
 SELECT 
-    'SKU-0008',
+    'HSM-0008',
     'サンドペーパー',
     (SELECT id FROM categories WHERE code = 'CONSUMABLE'),
     (SELECT id FROM units WHERE code = 'sheet'),
@@ -373,150 +373,150 @@ WHERE NOT EXISTS (SELECT 1 FROM items WHERE code = 'SKU-0008');
 -- SKU-0001のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0001'),
+    (SELECT id FROM items WHERE code = 'HSM-0001'),
     (SELECT id FROM attributes WHERE code = 'brand'),
     'ABC'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0001')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0001')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
 );
 
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0001'),
+    (SELECT id FROM items WHERE code = 'HSM-0001'),
     (SELECT id FROM attributes WHERE code = 'spec'),
     'M5x12'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0001')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0001')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
 );
 
 -- SKU-0002のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0002'),
+    (SELECT id FROM items WHERE code = 'HSM-0002'),
     (SELECT id FROM attributes WHERE code = 'brand'),
     'ABC'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0002')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0002')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
 );
 
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0002'),
+    (SELECT id FROM items WHERE code = 'HSM-0002'),
     (SELECT id FROM attributes WHERE code = 'spec'),
     'M5'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0002')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0002')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
 );
 
 -- SKU-0003のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0003'),
+    (SELECT id FROM items WHERE code = 'HSM-0003'),
     (SELECT id FROM attributes WHERE code = 'brand'),
     'ABC'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0003')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0003')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
 );
 
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0003'),
+    (SELECT id FROM items WHERE code = 'HSM-0003'),
     (SELECT id FROM attributes WHERE code = 'spec'),
     'M5'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0003')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0003')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
 );
 
 -- SKU-0004のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0004'),
+    (SELECT id FROM items WHERE code = 'HSM-0004'),
     (SELECT id FROM attributes WHERE code = 'brand'),
     'XYZ'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0004')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0004')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
 );
 
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0004'),
+    (SELECT id FROM items WHERE code = 'HSM-0004'),
     (SELECT id FROM attributes WHERE code = 'spec'),
     'M8x20'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0004')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0004')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
 );
 
 -- SKU-0005のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0005'),
+    (SELECT id FROM items WHERE code = 'HSM-0005'),
     (SELECT id FROM attributes WHERE code = 'brand'),
     'DEF'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0005')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0005')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'brand')
 );
 
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0005'),
+    (SELECT id FROM items WHERE code = 'HSM-0005'),
     (SELECT id FROM attributes WHERE code = 'spec'),
     '4x30'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0005')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0005')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'spec')
 );
 
 -- SKU-0006のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0006'),
+    (SELECT id FROM items WHERE code = 'HSM-0006'),
     (SELECT id FROM attributes WHERE code = 'size'),
     '50mm'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0006')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0006')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'size')
 );
 
 -- SKU-0007のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0007'),
+    (SELECT id FROM items WHERE code = 'HSM-0007'),
     (SELECT id FROM attributes WHERE code = 'type'),
     '瞬間接着剤'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0007')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0007')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'type')
 );
 
 -- SKU-0008のための属性
 INSERT INTO item_attributes (item_id, attribute_id, value)
 SELECT 
-    (SELECT id FROM items WHERE code = 'SKU-0008'),
+    (SELECT id FROM items WHERE code = 'HSM-0008'),
     (SELECT id FROM attributes WHERE code = 'grit'),
     '#240'
 WHERE NOT EXISTS (
     SELECT 1 FROM item_attributes 
-    WHERE item_id = (SELECT id FROM items WHERE code = 'SKU-0008')
+    WHERE item_id = (SELECT id FROM items WHERE code = 'HSM-0008')
     AND attribute_id = (SELECT id FROM attributes WHERE code = 'grit')
 );
