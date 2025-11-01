@@ -67,15 +67,6 @@ export default function SubHeader({
 
         {/* 右側: テーマ切り替え、通知、ユーザー */}
         <div className="flex items-center space-x-4 flex-1 justify-end">
-          {/* ライト/ダークモード切り替え */}
-          <div className="flex items-center space-x-2">
-            <span className="text-xs text-gray-500">LIGHT</span>
-            <button className="relative inline-flex h-6 w-11 items-center rounded-full bg-gray-200 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-              <span className="inline-block h-4 w-4 transform rounded-full bg-white transition-transform translate-x-1" />
-            </button>
-            <span className="text-xs text-gray-500">DARK</span>
-          </div>
-
           {/* 通知アイコン */}
           <button className="relative p-2 text-gray-500 hover:text-gray-700">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
