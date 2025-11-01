@@ -1,29 +1,160 @@
-(base) mnitta@MasatonoMacBook-Pro HomeStock % docker-compose up --build -d
-WARN[0000] /Users/mnitta/devlop/HomeStock/docker-compose.yml: the attribute `version` is obsolete, it will be ignored, please remove it to avoid potential confusion 
-[+] Running 1/1
- ✔ db Pulled                                                                                                                               6.0s 
-Compose can now delegate builds to bake for better performance.
- To do so, set COMPOSE_BAKE=true.
-[+] Building 1.6s (13/13) FINISHED                                                                                         docker:desktop-linux
- => [next-app internal] load build definition from Dockerfile.frontend                                                                     0.0s
- => => transferring dockerfile: 226B                                                                                                       0.0s
- => [go-app internal] load build definition from Dockerfile.backend                                                                        0.0s
- => => transferring dockerfile: 237B                                                                                                       0.0s
- => CANCELED [next-app internal] load metadata for docker.io/library/node:20                                                               1.6s
- => [go-app internal] load metadata for docker.io/library/golang:1.25.1                                                                    1.4s
- => [go-app internal] load .dockerignore                                                                                                   0.0s
- => => transferring context: 2B                                                                                                            0.0s
- => [go-app 1/7] FROM docker.io/library/golang:1.25.1@sha256:d7098379b7da665ab25b99795465ec320b1ca9d4addb9f77409c4827dc904211              0.0s
- => [go-app internal] load build context                                                                                                   0.0s
- => => transferring context: 3.10kB                                                                                                        0.0s
- => CACHED [go-app 2/7] WORKDIR /app                                                                                                       0.0s
- => CACHED [go-app 3/7] COPY go.mod ./                                                                                                     0.0s
- => CACHED [go-app 4/7] COPY go.sum ./                                                                                                     0.0s
- => CACHED [go-app 5/7] RUN go mod download                                                                                                0.0s
- => CACHED [go-app 6/7] COPY . .                                                                                                           0.0s
- => ERROR [go-app 7/7] RUN go build -o main .                                                                                              0.2s
-------                                                                                                                                          
- > [go-app 7/7] RUN go build -o main .:
-0.155 no Go files in /app
-------
-failed to solve: process "/bin/sh -c go build -o main ." did not complete successfully: exit code: 1
+'Host: localhost:8080\r\n' +
+
+
+'Connection: keep-alive\r\n' +
+
+
+'\r\n',
+
+
+_keepAliveTimeout: 0,
+
+
+_onPendingData: [Function: nop],
+
+
+agent: [Agent],
+
+
+socketPath: undefined,
+
+
+method: 'GET',
+
+
+maxHeaderSize: undefined,
+
+
+insecureHTTPParser: undefined,
+
+
+joinDuplicateHeaders: undefined,
+
+
+path: '/api/items?limit=10',
+
+
+_ended: false,
+
+
+res: null,
+
+
+aborted: false,
+
+
+timeoutCb: [Function: emitRequestTimeout],
+
+
+upgradeOrConnect: false,
+
+
+parser: null,
+
+
+maxHeadersCount: null,
+
+
+reusedSocket: false,
+
+
+host: 'localhost',
+
+
+protocol: 'http:',
+
+
+_redirectable: [Circular *1],
+
+
+[Symbol(shapeMode)]: false,
+
+
+[Symbol(kCapture)]: false,
+
+
+[Symbol(kBytesWritten)]: 0,
+
+
+[Symbol(kNeedDrain)]: false,
+
+
+[Symbol(corked)]: 0,
+
+
+[Symbol(kOutHeaders)]: [Object: null prototype],
+
+
+[Symbol(errored)]: null,
+
+
+[Symbol(kHighWaterMark)]: 16384,
+
+
+[Symbol(kRejectNonStandardBodyWrites)]: false,
+
+
+[Symbol(kUniqueHeaders)]: null
+
+
+},
+
+
+_currentUrl: 'http://localhost:8080/api/items?limit=10',
+
+
+[Symbol(shapeMode)]: true,
+
+
+[Symbol(kCapture)]: false
+
+
+},
+
+
+[cause]: Error: connect ECONNREFUSED 127.0.0.1:8080
+
+
+at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)
+
+
+at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
+
+
+errno: -111,
+
+
+code: 'ECONNREFUSED',
+
+
+syscall: 'connect',
+
+
+address: '127.0.0.1',
+
+
+port: 8080
+
+
+}
+
+
+}
+
+
+Failed to load items: Error: Failed to fetch items. Please try again later.
+
+
+at fetchRecentItems (webpack-internal:///(rsc)/./src/lib/api.ts:46:15)
+
+
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+
+
+at async RecentItems (webpack-internal:///(rsc)/./src/components/home/RecentItems.tsx:17:17)
+
+
+GET / 200 in 126ms
+
+
+GET /.well-known/appspecific/com.chrome.devtools.json 404 in 77ms
