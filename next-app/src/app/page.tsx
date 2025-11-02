@@ -8,8 +8,8 @@ export default function Home() {
   return (
     <>
       {/* サブヘッダー */}
-      <SubHeader 
-        title="ダッシュボード" 
+      <SubHeader
+        title="ダッシュボード"
         searchPlaceholder="アイテムを検索..."
         userName="管理者"
       />
