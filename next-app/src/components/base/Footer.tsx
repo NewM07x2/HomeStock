@@ -2,7 +2,7 @@ export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-white border-t border-gray-200 py-4 px-6">
+    <footer className="py-4 px-6 bg-gray-50">
       <div className="flex items-center justify-between">
         <div className="text-sm text-gray-600">© {currentYear} HomeStock. All rights reserved.</div>
         <div className="flex items-center space-x-4">

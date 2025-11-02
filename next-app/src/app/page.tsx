@@ -15,7 +15,7 @@ export default function Home() {
       />
 
       {/* メインコンテンツ */}
-      <div className="p-6">
+      <div className="ml-6 mr-6">
         {/* コンテンツエリア */}
         <div className="space-y-6">
           {/* ヒーローセクション */}
