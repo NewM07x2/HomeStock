@@ -19,7 +19,7 @@ export default function Home() {
         {/* コンテンツエリア */}
         <div className="space-y-6">
           {/* ヒーローセクション */}
-          <div className="bg-white rounded-lg shadow p-6">
+          <div className="bg-white rounded-lg shadow">
             <HomeHero />
           </div>
 
@@ -32,7 +32,7 @@ export default function Home() {
             
             {/* クイックリンク（1/3幅） */}
             <aside className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow p-6">
+              <div className="bg-white rounded-lg shadow">
                 <QuickLinks />
               </div>
             </aside>
