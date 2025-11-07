@@ -142,11 +142,13 @@ export default function Sidebar({
   return (
     <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
       {/* サイドバーヘッダー */}
-      <div className="p-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-800">HomeStock</h2>
-        <p className="text-xs text-gray-500 mt-1">在庫管理システム</p>
+      <div className="p-4 border-b border-gray-200 flex items-center justify-between">
+        <div className="flex flex-col items-start">
+          <h2 className="text-lg font-semibold text-gray-800">HomeStock</h2>
+          <p className="mt-1 text-xs text-gray-500">在庫管理システム</p>
+        </div>
         {/* プラン表示（開発用） */}
-        <div className="mt-2 flex items-center justify-between">
+        <div className="flex flex-col items-end justify-between mt-1 space-y-1">
           <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
             {userPlan.toUpperCase()}
           </span>
