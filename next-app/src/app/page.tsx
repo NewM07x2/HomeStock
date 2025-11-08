@@ -1,7 +1,7 @@
 import React from 'react'
 import SubHeader from '@/components/base/SubHeader'
 import HomeHero from '@/components/home/HomeHero'
-import QuickLinks from '@/components/home/QuickLinks'
+import MonthlySummary from '@/components/home/MonthlySummary'
 import RecentItems from '@/components/home/RecentItems'
 
 export default function Home() {
@@ -30,11 +30,9 @@ export default function Home() {
               <RecentItems />
             </div>
             
-            {/* クイックリンク（1/3幅） */}
+            {/* 今月の利用金額（1/3幅） */}
             <aside className="lg:col-span-1">
-              <div className="bg-white rounded-lg shadow">
-                <QuickLinks />
-              </div>
+              <MonthlySummary />
             </aside>
           </div>
         </div>
