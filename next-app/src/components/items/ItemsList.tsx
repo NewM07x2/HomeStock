@@ -3,8 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import CreateButton from './CreateButton'
 import Pagination from './Pagination'
-import { fetchItems as mockFetchItems } from '@/lib/mockApi'
-import { fetchCategories } from '@/lib/api'
+import { fetchItemsWithSearch, fetchCategories } from '@/lib/api'
 import { useRefresh } from '@/components/ui/RefreshContext'
 import { useModal } from '@/components/ui/ModalProvider'
 
@@ -109,13 +108,25 @@ export default function ItemsList() {
     if (appliedConditions.minQty) params.minQty = appliedConditions.minQty
     if (appliedConditions.maxQty) params.maxQty = appliedConditions.maxQty
 
-    mockFetchItems(params).then(res => {
+    fetchItemsWithSearch(params).then(res => {
       if (!mounted) return
-      setItems(res.items)
+      setItems(res.items.map((item: any) => ({
+        id: item.id,
+        code: item.code,
+        name: item.name,
+        category: item.category?.name,
+        qty: item.quantity || 0
+      })))
       setTotal(res.total)
+    }).catch(err => {
+      console.error('アイテムの取得に失敗しました:', err)
+      if (mounted) {
+        setItems([])
+        setTotal(0)
+      }
     })
     return () => { mounted = false }
-  }, [appliedConditions, page, refreshCount])
+  }, [appliedConditions, page, limit, refreshCount])
 
   return (
     <div className="space-y-6">

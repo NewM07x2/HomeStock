@@ -77,19 +77,29 @@ export const getPosts = async (): Promise<BlogPost[]> => {
  */
 export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
   try {
-    // サーバーサイド（Server Component）では API_BASE_URL を使用
-    // クライアントサイドでは NEXT_PUBLIC_API_BASE_URL を使用
+    // Server ComponentからはNext.js API Routeを呼び出す
     const apiBaseUrl = typeof window === 'undefined' 
-      ? (process.env.API_BASE_URL || 'http://localhost:8080')
-      : (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080');
+      ? (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000')
+      : '';
     
-    console.log('Fetching from:', apiBaseUrl);
+    const url = `${apiBaseUrl}/api/items?limit=${limit}&page=1`;
+    console.log('Fetching from:', url);
     
-    const response = await axios.get<ItemsResponse>(`${apiBaseUrl}/api/items`, {
-      params: { limit },
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // Server Componentではキャッシュを使用
+      next: { revalidate: 60 }
     });
-    
-    return response.data.items || [];
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data.items || [];
   } catch (error) {
     console.error('Failed to fetch recent items:', error);
     throw new Error('Failed to fetch items. Please try again later.');
@@ -117,6 +127,52 @@ const fetchItems = async (): Promise<any> => {
   } catch (error) {
     console.error('Failed to fetch items:', error);
     throw new Error('Failed to fetch items');
+  }
+};
+
+/**
+ * 検索条件付きでアイテムを取得
+ */
+export const fetchItemsWithSearch = async (params: {
+  page?: number;
+  limit?: number;
+  code?: string;
+  name?: string;
+  categories?: string;
+  minQty?: string;
+  maxQty?: string;
+}): Promise<{ items: Item[]; total: number }> => {
+  try {
+    const queryParams = new URLSearchParams();
+    
+    if (params.page) queryParams.append('page', String(params.page));
+    if (params.limit) queryParams.append('limit', String(params.limit));
+    if (params.code) queryParams.append('code', params.code);
+    if (params.name) queryParams.append('name', params.name);
+    if (params.categories) queryParams.append('categories', params.categories);
+    if (params.minQty) queryParams.append('minQty', params.minQty);
+    if (params.maxQty) queryParams.append('maxQty', params.maxQty);
+
+    const response = await fetch(`/api/items?${queryParams.toString()}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store' // クライアントサイドなので常に最新データを取得
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return {
+      items: data.items || [],
+      total: data.total || 0
+    };
+  } catch (error) {
+    console.error('Failed to fetch items with search:', error);
+    throw new Error('Failed to fetch items. Please try again later.');
   }
 };
 
