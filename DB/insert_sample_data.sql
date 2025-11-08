@@ -34,11 +34,11 @@ ON CONFLICT (email) DO NOTHING;
 -- カテゴリと単位のIDを取得
 DO $$
 DECLARE
-  cat_hw_id UUID;
-  cat_ec_id UUID;
-  cat_cs_id UUID;
-  unit_pc_id UUID;
-  unit_box_id UUID;
+  cat_hw_id TEXT;
+  cat_ec_id TEXT;
+  cat_cs_id TEXT;
+  unit_pc_id TEXT;
+  unit_box_id TEXT;
   i INTEGER;
 BEGIN
   -- カテゴリIDを取得
