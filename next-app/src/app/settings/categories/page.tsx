@@ -16,6 +16,7 @@ export default function CategoriesPage() {
   const [categories, setCategories] = useState<Category[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editData, setEditData] = useState<Category | undefined>(undefined)
 
   const fetchCategories = async () => {
     try {
@@ -43,6 +44,38 @@ export default function CategoriesPage() {
     fetchCategories()
   }
 
+  const handleEdit = (category: Category) => {
+    setEditData(category)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`「${name}」を削除してもよろしいですか？この操作は取り消せません。`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/categories/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || '削除に失敗しました')
+      }
+
+      alert('削除しました')
+      fetchCategories()
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '削除に失敗しました')
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditData(undefined)
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
@@ -53,7 +86,10 @@ export default function CategoriesPage() {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditData(undefined)
+            setIsModalOpen(true)
+          }}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           + 新規カテゴリ
@@ -106,10 +142,16 @@ export default function CategoriesPage() {
                     {new Date(category.created_at).toLocaleDateString('ja-JP')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-4">
+                    <button 
+                      onClick={() => handleEdit(category)}
+                      className="text-blue-600 hover:text-blue-900 mr-4"
+                    >
                       編集
                     </button>
-                    <button className="text-red-600 hover:text-red-900">
+                    <button 
+                      onClick={() => handleDelete(category.id, category.name)}
+                      className="text-red-600 hover:text-red-900"
+                    >
                       削除
                     </button>
                   </td>
@@ -122,8 +164,9 @@ export default function CategoriesPage() {
 
       <CreateCategoryModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         onSuccess={handleSuccess}
+        editData={editData}
       />
     </div>
   )

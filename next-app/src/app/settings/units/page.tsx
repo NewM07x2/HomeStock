@@ -16,6 +16,7 @@ export default function UnitsPage() {
   const [units, setUnits] = useState<Unit[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editData, setEditData] = useState<Unit | undefined>(undefined)
 
   const fetchUnits = async () => {
     try {
@@ -43,6 +44,38 @@ export default function UnitsPage() {
     fetchUnits()
   }
 
+  const handleEdit = (unit: Unit) => {
+    setEditData(unit)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id: string, name: string) => {
+    if (!confirm(`「${name}」を削除してもよろしいですか？この操作は取り消せません。`)) {
+      return
+    }
+
+    try {
+      const response = await fetch(`/api/units/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error(errorData.error || '削除に失敗しました')
+      }
+
+      alert('削除しました')
+      fetchUnits()
+    } catch (error) {
+      alert(error instanceof Error ? error.message : '削除に失敗しました')
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditData(undefined)
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
@@ -53,7 +86,10 @@ export default function UnitsPage() {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditData(undefined)
+            setIsModalOpen(true)
+          }}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           + 新規単位
@@ -106,10 +142,16 @@ export default function UnitsPage() {
                     {new Date(unit.created_at).toLocaleDateString('ja-JP')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-4">
+                    <button 
+                      onClick={() => handleEdit(unit)}
+                      className="text-blue-600 hover:text-blue-900 mr-4"
+                    >
                       編集
                     </button>
-                    <button className="text-red-600 hover:text-red-900">
+                    <button 
+                      onClick={() => handleDelete(unit.id, unit.name)}
+                      className="text-red-600 hover:text-red-900"
+                    >
                       削除
                     </button>
                   </td>
@@ -122,8 +164,9 @@ export default function UnitsPage() {
 
       <CreateUnitModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         onSuccess={handleSuccess}
+        editData={editData}
       />
     </div>
   )
