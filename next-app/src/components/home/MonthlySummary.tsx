@@ -1,5 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
+import { fetchMonthlySummary } from '@/lib/api'
 
 interface DailyAmount {
   date: number
@@ -17,37 +18,55 @@ export default function MonthlySummary() {
     dailyAmounts: []
   })
   const [currentDate, setCurrentDate] = useState(new Date())
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // 選択された月のデータを取得（モックデータ）
-    const fetchMonthlyData = async () => {
-      // TODO: 実際のAPIから取得する
-      // const response = await fetch(`/api/monthly-summary?year=${year}&month=${month}`)
-      // const data = await response.json()
+    // 選択された月のデータを取得
+    const fetchData = async () => {
+      setLoading(true)
+      setError(null)
       
-      // モックデータ生成
-      const year = currentDate.getFullYear()
-      const month = currentDate.getMonth()
-      const daysInMonth = new Date(year, month + 1, 0).getDate()
-      
-      const dailyAmounts: DailyAmount[] = []
-      let total = 0
-      
-      // 月ごとに異なるシード値を使って再現性のあるランダムデータを生成
-      const seed = year * 12 + month
-      for (let i = 1; i <= daysInMonth; i++) {
-        const amount = Math.floor((Math.sin(seed * 100 + i) * 10000 + 10000) / 4)
-        dailyAmounts.push({ date: i, amount })
-        total += amount
+      try {
+        const year = currentDate.getFullYear()
+        const month = currentDate.getMonth()
+        
+        // APIからデータを取得
+        const data = await fetchMonthlySummary(year, month)
+        
+        setMonthlyData({
+          totalAmount: data.totalAmount,
+          dailyAmounts: data.dailyAmounts
+        })
+      } catch (err) {
+        console.error('Failed to fetch monthly summary:', err)
+        setError('データの取得に失敗しました')
+        
+        // エラー時はモックデータを表示
+        const year = currentDate.getFullYear()
+        const month = currentDate.getMonth()
+        const daysInMonth = new Date(year, month + 1, 0).getDate()
+        
+        const dailyAmounts: DailyAmount[] = []
+        let total = 0
+        
+        const seed = year * 12 + month
+        for (let i = 1; i <= daysInMonth; i++) {
+          const amount = Math.floor((Math.sin(seed * 100 + i) * 10000 + 10000) / 4)
+          dailyAmounts.push({ date: i, amount })
+          total += amount
+        }
+        
+        setMonthlyData({
+          totalAmount: total,
+          dailyAmounts
+        })
+      } finally {
+        setLoading(false)
       }
-      
-      setMonthlyData({
-        totalAmount: total,
-        dailyAmounts
-      })
     }
     
-    fetchMonthlyData()
+    fetchData()
   }, [currentDate])
 
   const year = currentDate.getFullYear()
@@ -120,21 +139,31 @@ export default function MonthlySummary() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-800">利用金額</h2>
-          {!isCurrentMonth() && (
-            <button
-              onClick={goToCurrentMonth}
-              className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
-            >
-              今月に戻る
-            </button>
-          )}
+          <div className="text-right">
+            <div className="text-3xl font-bold text-blue-600">
+              {loading ? (
+                <span className="text-gray-400">読込中...</span>
+              ) : (
+                formatCurrency(monthlyData.totalAmount)
+              )}
+            </div>
+          </div>
         </div>
+        
+        {/* エラー表示 */}
+        {error && (
+          <div className="mb-3 text-xs text-red-600 bg-red-50 p-2 rounded">
+            {error}
+          </div>
+        )}
+        
         <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center justify-between">
             <button
               onClick={goToPreviousMonth}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="前月"
+              disabled={loading}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+              aria-label="prev"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -145,29 +174,31 @@ export default function MonthlySummary() {
             </span>
             <button
               onClick={goToNextMonth}
-              disabled={isNextMonthDisabled()}
+              disabled={isNextMonthDisabled() || loading}
               className={`p-2 rounded-full transition-colors ${
-                isNextMonthDisabled()
+                isNextMonthDisabled() || loading
                   ? 'cursor-not-allowed opacity-40'
                   : 'hover:bg-gray-100'
               }`}
-              aria-label="次月"
+              aria-label="next"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>
-          <div className="text-right">
-            <div className="text-3xl font-bold text-blue-600">
-              {formatCurrency(monthlyData.totalAmount)}
-            </div>
-          </div>
         </div>
       </div>
 
-      {/* カレンダー */}
-      <div>
+      {/* ローディング表示 */}
+      {loading ? (
+        <div className="flex items-center justify-center py-20">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      ) : (
+        <>
+          {/* カレンダー */}
+          <div>
         <div className="grid grid-cols-7 gap-1 mb-2">
           {dayNames.map((day, index) => (
             <div
@@ -239,7 +270,9 @@ export default function MonthlySummary() {
             </div>
           </div>
         </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   )
 }

@@ -120,6 +120,38 @@ const fetchItems = async (): Promise<any> => {
   }
 };
 
+// 月別集計用の型定義
+export interface DailyAmount {
+  date: number;
+  amount: number;
+}
+
+export interface MonthlySummaryData {
+  year: number;
+  month: number;
+  totalAmount: number;
+  dailyAmounts: DailyAmount[];
+}
+
+/**
+ * 月別利用金額を取得
+ */
+export const fetchMonthlySummary = async (year: number, month: number): Promise<MonthlySummaryData> => {
+  try {
+    const apiBaseUrl = typeof window === 'undefined' 
+      ? (process.env.API_BASE_URL || 'http://localhost:3000')
+      : (process.env.NEXT_PUBLIC_API_BASE_URL || '');
+    
+    const response = await axios.get<MonthlySummaryData>(
+      `${apiBaseUrl}/api/monthly-summary?year=${year}&month=${month + 1}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch monthly summary:', error);
+    throw new Error('Failed to fetch monthly summary');
+  }
+};
+
 /**
  * カテゴリマスタを取得
  */
