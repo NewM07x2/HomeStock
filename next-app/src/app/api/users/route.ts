@@ -46,3 +46,26 @@ export async function GET(request: NextRequest) {
     )
   }
 }
+
+export async function POST(request: NextRequest) {
+  try {
+    const body = await request.json()
+    const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
+    const backendUrl = `${apiBaseUrl}/api/users`
+    
+    const response = await axios.post(backendUrl, body, {
+      headers: { 'Content-Type': 'application/json' },
+      timeout: 10000,
+    })
+
+    return NextResponse.json(response.data, { status: 201 })
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return NextResponse.json(
+        { error: error.response?.data?.error || 'Failed to create user' },
+        { status: error.response?.status || 500 }
+      )
+    }
+    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
+  }
+}
