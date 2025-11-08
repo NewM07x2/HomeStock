@@ -10,7 +10,8 @@ import (
 // FetchRecentItems はデータベースから直近のアイテムを取得します
 // カテゴリと単位はマスタテーブルから結合して取得し、属性は別途取得します
 func FetchRecentItems(limit int) ([]model.Item, error) {
-	log.Printf("FetchRecentItems")
+	log.Printf("[Repository] FetchRecentItems - limit: %d", limit)
+
 	rows, err := common.DB.Query(`
         SELECT 
 					i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.status, 
@@ -25,6 +26,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
         LIMIT $1
     `, limit)
 	if err != nil {
+		log.Printf("[Repository] DB クエリエラー: %v", err)
 		return nil, err
 	}
 	defer rows.Close()
@@ -53,6 +55,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 			&unitCode,
 			&unitName,
 		); err != nil {
+			log.Printf("[Repository] スキャンエラー: %v", err)
 			return nil, err
 		}
 
@@ -75,7 +78,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 		// 属性情報を取得
 		attributes, err := fetchItemAttributes(item.ID)
 		if err != nil {
-			log.Printf("属性取得エラー (item_id: %s): %v", item.ID, err)
+			log.Printf("[Repository] 属性取得エラー (item_id: %s): %v", item.ID, err)
 			// エラーがあっても続行（属性は空配列）
 		} else {
 			item.Attributes = attributes
@@ -86,9 +89,11 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 
 	// rows の反復中にエラーがないか確認
 	if err = rows.Err(); err != nil {
+		log.Printf("[Repository] rows.Err(): %v", err)
 		return nil, err
 	}
 
+	log.Printf("[Repository] 取得成功: %d件のアイテム", len(items))
 	return items, nil
 }
 
