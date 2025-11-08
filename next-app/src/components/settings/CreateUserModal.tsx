@@ -1,17 +1,26 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+interface UserData {
+  id?: string
+  email: string
+  role: 'admin' | 'operator' | 'viewer'
+}
 
 interface CreateUserModalProps {
   isOpen: boolean
   onClose: () => void
   onSuccess: () => void
+  editData?: UserData
 }
 
 export default function CreateUserModal({
   isOpen,
   onClose,
-  onSuccess
+  onSuccess,
+  editData
 }: CreateUserModalProps) {
   const [formData, setFormData] = useState({
     email: '',
@@ -21,6 +30,19 @@ export default function CreateUserModal({
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (editData) {
+      setFormData({
+        email: editData.email,
+        password: '',
+        confirmPassword: '',
+        role: editData.role
+      })
+    } else {
+      setFormData({ email: '', password: '', confirmPassword: '', role: 'operator' })
+    }
+  }, [editData, isOpen])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -46,16 +68,29 @@ export default function CreateUserModal({
       newErrors.email = '有効なメールアドレスを入力してください'
     }
 
-    if (!formData.password) {
-      newErrors.password = 'パスワードは必須です'
-    } else if (formData.password.length < 8) {
-      newErrors.password = 'パスワードは8文字以上である必要があります'
-    }
+    // 編集時はパスワード変更が任意
+    if (!editData) {
+      if (!formData.password) {
+        newErrors.password = 'パスワードは必須です'
+      } else if (formData.password.length < 8) {
+        newErrors.password = 'パスワードは8文字以上である必要があります'
+      }
 
-    if (!formData.confirmPassword) {
-      newErrors.confirmPassword = 'パスワード（確認）は必須です'
-    } else if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'パスワードが一致しません'
+      if (!formData.confirmPassword) {
+        newErrors.confirmPassword = 'パスワード（確認）は必須です'
+      } else if (formData.password !== formData.confirmPassword) {
+        newErrors.confirmPassword = 'パスワードが一致しません'
+      }
+    } else {
+      // 編集時、パスワードが入力された場合のみバリデーション
+      if (formData.password || formData.confirmPassword) {
+        if (formData.password.length < 8) {
+          newErrors.password = 'パスワードは8文字以上である必要があります'
+        }
+        if (formData.password !== formData.confirmPassword) {
+          newErrors.confirmPassword = 'パスワードが一致しません'
+        }
+      }
     }
 
     if (!formData.role) {
@@ -74,21 +109,19 @@ export default function CreateUserModal({
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('/api/users', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password,
-          role: formData.role
-        })
-      })
+      // リクエストボディ作成（編集時はパスワード空なら除外）
+      const body: any = {
+        email: formData.email,
+        role: formData.role
+      }
+      if (!editData || formData.password) {
+        body.password = formData.password
+      }
 
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || '登録に失敗しました')
+      if (editData) {
+        await axios.put(`/api/users/${editData.id}`, body)
+      } else {
+        await axios.post('/api/users', body)
       }
 
       // 成功時
@@ -97,9 +130,15 @@ export default function CreateUserModal({
       onSuccess()
       onClose()
     } catch (error) {
-      setErrors({
-        submit: error instanceof Error ? error.message : '登録に失敗しました'
-      })
+      if (axios.isAxiosError(error)) {
+        setErrors({
+          submit: error.response?.data?.error || `${editData ? '更新' : '登録'}に失敗しました`
+        })
+      } else {
+        setErrors({
+          submit: `${editData ? '更新' : '登録'}に失敗しました`
+        })
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -117,7 +156,9 @@ export default function CreateUserModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
         <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">新規ユーザー登録</h2>
+          <h2 className="text-xl font-semibold text-gray-900">
+            {editData ? 'ユーザー編集' : '新規ユーザー登録'}
+          </h2>
           <button
             onClick={handleClose}
             className="text-gray-400 hover:text-gray-600"
@@ -155,7 +196,7 @@ export default function CreateUserModal({
           {/* パスワード */}
           <div>
             <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-              パスワード <span className="text-red-500">*</span>
+              パスワード {editData ? '（変更する場合のみ入力）' : <span className="text-red-500">*</span>}
             </label>
             <input
               type="password"
@@ -166,7 +207,7 @@ export default function CreateUserModal({
               className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.password ? 'border-red-500' : 'border-gray-300'
               }`}
-              placeholder="8文字以上"
+              placeholder={editData ? '変更しない場合は空欄' : '8文字以上'}
               disabled={isSubmitting}
             />
             {errors.password && (
@@ -177,7 +218,7 @@ export default function CreateUserModal({
           {/* パスワード（確認） */}
           <div>
             <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-              パスワード（確認） <span className="text-red-500">*</span>
+              パスワード（確認） {editData ? '' : <span className="text-red-500">*</span>}
             </label>
             <input
               type="password"
@@ -188,7 +229,7 @@ export default function CreateUserModal({
               className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
                 errors.confirmPassword ? 'border-red-500' : 'border-gray-300'
               }`}
-              placeholder="パスワードを再入力"
+              placeholder={editData ? '変更する場合は再入力' : 'パスワードを再入力'}
               disabled={isSubmitting}
             />
             {errors.confirmPassword && (
@@ -243,7 +284,7 @@ export default function CreateUserModal({
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            {isSubmitting ? '登録中...' : '登録'}
+            {isSubmitting ? `${editData ? '更新中...' : '登録中...'}` : `${editData ? '更新' : '登録'}`}
           </button>
         </div>
       </div>

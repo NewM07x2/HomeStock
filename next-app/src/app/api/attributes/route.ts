@@ -61,11 +61,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response.data, { status: 201 })
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data?.error 
+        || error.response?.data?.message 
+        || '属性の登録に失敗しました'
+      
       return NextResponse.json(
-        { error: error.response?.data?.error || 'Failed to create attribute' },
+        { error: errorMessage },
         { status: error.response?.status || 500 }
       )
     }
-    return NextResponse.json({ error: 'Failed to create attribute' }, { status: 500 })
+    return NextResponse.json({ error: '属性の登録に失敗しました' }, { status: 500 })
   }
 }

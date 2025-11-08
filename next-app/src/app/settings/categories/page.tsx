@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import CreateCategoryModal from '@/components/settings/CreateCategoryModal'
 
 interface Category {
@@ -21,14 +22,8 @@ export default function CategoriesPage() {
   const fetchCategories = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/categories')
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      setCategories(data)
+      const response = await axios.get('/api/categories')
+      setCategories(response.data)
     } catch (error) {
       console.error('Failed to fetch categories:', error)
     } finally {
@@ -55,19 +50,15 @@ export default function CategoriesPage() {
     }
 
     try {
-      const response = await fetch(`/api/categories/${id}`, {
-        method: 'DELETE'
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || '削除に失敗しました')
-      }
-
+      await axios.delete(`/api/categories/${id}`)
       alert('削除しました')
       fetchCategories()
     } catch (error) {
-      alert(error instanceof Error ? error.message : '削除に失敗しました')
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data?.error || '削除に失敗しました')
+      } else {
+        alert('削除に失敗しました')
+      }
     }
   }
 

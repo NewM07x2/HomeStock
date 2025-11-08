@@ -61,11 +61,15 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(response.data, { status: 201 })
   } catch (error) {
     if (axios.isAxiosError(error)) {
+      const errorMessage = error.response?.data?.error 
+        || error.response?.data?.message 
+        || 'ユーザーの登録に失敗しました'
+      
       return NextResponse.json(
-        { error: error.response?.data?.error || 'Failed to create user' },
+        { error: errorMessage },
         { status: error.response?.status || 500 }
       )
     }
-    return NextResponse.json({ error: 'Failed to create user' }, { status: 500 })
+    return NextResponse.json({ error: 'ユーザーの登録に失敗しました' }, { status: 500 })
   }
 }

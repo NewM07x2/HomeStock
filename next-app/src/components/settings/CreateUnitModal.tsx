@@ -1,17 +1,27 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+
+interface UnitData {
+  id?: string
+  code: string
+  name: string
+  description?: string
+}
 
 interface CreateUnitModalProps {
   isOpen: boolean
   onClose: () => void
   onSuccess: () => void
+  editData?: UnitData
 }
 
 export default function CreateUnitModal({
   isOpen,
   onClose,
-  onSuccess
+  onSuccess,
+  editData
 }: CreateUnitModalProps) {
   const [formData, setFormData] = useState({
     code: '',
@@ -20,6 +30,18 @@ export default function CreateUnitModal({
   })
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
+
+  useEffect(() => {
+    if (editData) {
+      setFormData({
+        code: editData.code,
+        name: editData.name,
+        description: editData.description || ''
+      })
+    } else {
+      setFormData({ code: '', name: '', description: '' })
+    }
+  }, [editData, isOpen])
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -58,17 +80,10 @@ export default function CreateUnitModal({
     setIsSubmitting(true)
 
     try {
-      const response = await fetch('/api/units', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(formData)
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || '登録に失敗しました')
+      if (editData) {
+        await axios.put(`/api/units/${editData.id}`, formData)
+      } else {
+        await axios.post('/api/units', formData)
       }
 
       // 成功時
@@ -77,9 +92,15 @@ export default function CreateUnitModal({
       onSuccess()
       onClose()
     } catch (error) {
-      setErrors({
-        submit: error instanceof Error ? error.message : '登録に失敗しました'
-      })
+      if (axios.isAxiosError(error)) {
+        setErrors({
+          submit: error.response?.data?.error || `${editData ? '更新' : '登録'}に失敗しました`
+        })
+      } else {
+        setErrors({
+          submit: `${editData ? '更新' : '登録'}に失敗しました`
+        })
+      }
     } finally {
       setIsSubmitting(false)
     }
@@ -97,7 +118,9 @@ export default function CreateUnitModal({
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
       <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4">
         <div className="flex items-center justify-between px-6 py-4 border-b">
-          <h2 className="text-xl font-semibold text-gray-900">新規単位登録</h2>
+          <h2 className="text-xl font-semibold text-gray-900">
+            {editData ? '単位編集' : '新規単位登録'}
+          </h2>
           <button
             onClick={handleClose}
             className="text-gray-400 hover:text-gray-600"
@@ -194,7 +217,7 @@ export default function CreateUnitModal({
             className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
             disabled={isSubmitting}
           >
-            {isSubmitting ? '登録中...' : '登録'}
+            {isSubmitting ? `${editData ? '更新中...' : '登録中...'}` : `${editData ? '更新' : '登録'}`}
           </button>
         </div>
       </div>

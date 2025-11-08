@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import CreateUserModal from '@/components/settings/CreateUserModal'
 
 interface User {
@@ -27,18 +28,13 @@ export default function UsersPage() {
   const [users, setUsers] = useState<User[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [editData, setEditData] = useState<User | undefined>(undefined)
 
   const fetchUsers = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/users')
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      setUsers(data)
+      const response = await axios.get('/api/users')
+      setUsers(response.data)
     } catch (error) {
       console.error('Failed to fetch users:', error)
     } finally {
@@ -54,6 +50,34 @@ export default function UsersPage() {
     fetchUsers()
   }
 
+  const handleEdit = (user: User) => {
+    setEditData(user)
+    setIsModalOpen(true)
+  }
+
+  const handleDelete = async (id: string, email: string) => {
+    if (!confirm(`「${email}」を削除してもよろしいですか？この操作は取り消せません。`)) {
+      return
+    }
+
+    try {
+      await axios.delete(`/api/users/${id}`)
+      alert('削除しました')
+      fetchUsers()
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data?.error || '削除に失敗しました')
+      } else {
+        alert('削除に失敗しました')
+      }
+    }
+  }
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false)
+    setEditData(undefined)
+  }
+
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
@@ -64,7 +88,10 @@ export default function UsersPage() {
           </p>
         </div>
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => {
+            setEditData(undefined)
+            setIsModalOpen(true)
+          }}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
         >
           + 新規ユーザー
@@ -119,10 +146,16 @@ export default function UsersPage() {
                     {new Date(user.updated_at).toLocaleDateString('ja-JP')}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button className="text-blue-600 hover:text-blue-900 mr-4">
+                    <button 
+                      onClick={() => handleEdit(user)}
+                      className="text-blue-600 hover:text-blue-900 mr-4"
+                    >
                       編集
                     </button>
-                    <button className="text-red-600 hover:text-red-900">
+                    <button 
+                      onClick={() => handleDelete(user.id, user.email)}
+                      className="text-red-600 hover:text-red-900"
+                    >
                       削除
                     </button>
                   </td>
@@ -135,8 +168,9 @@ export default function UsersPage() {
 
       <CreateUserModal
         isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
+        onClose={handleCloseModal}
         onSuccess={handleSuccess}
+        editData={editData}
       />
     </div>
   )

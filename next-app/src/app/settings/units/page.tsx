@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
+import axios from 'axios'
 import CreateUnitModal from '@/components/settings/CreateUnitModal'
 
 interface Unit {
@@ -21,14 +22,8 @@ export default function UnitsPage() {
   const fetchUnits = async () => {
     try {
       setIsLoading(true)
-      const response = await fetch('/api/units')
-      
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`)
-      }
-      
-      const data = await response.json()
-      setUnits(data)
+      const response = await axios.get('/api/units')
+      setUnits(response.data)
     } catch (error) {
       console.error('Failed to fetch units:', error)
     } finally {
@@ -55,19 +50,15 @@ export default function UnitsPage() {
     }
 
     try {
-      const response = await fetch(`/api/units/${id}`, {
-        method: 'DELETE'
-      })
-
-      if (!response.ok) {
-        const errorData = await response.json()
-        throw new Error(errorData.error || '削除に失敗しました')
-      }
-
+      await axios.delete(`/api/units/${id}`)
       alert('削除しました')
       fetchUnits()
     } catch (error) {
-      alert(error instanceof Error ? error.message : '削除に失敗しました')
+      if (axios.isAxiosError(error)) {
+        alert(error.response?.data?.error || '削除に失敗しました')
+      } else {
+        alert('削除に失敗しました')
+      }
     }
   }
 

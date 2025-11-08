@@ -6,55 +6,28 @@ export async function PUT(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = params.id
-    console.log('[API /api/categories/:id] PUT request received for id:', id);
-
     const body = await request.json()
-    console.log('[API /api/categories/:id] Request body:', body);
-
-    // GoバックエンドAPIにデータを送信
     const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
-    const backendUrl = `${apiBaseUrl}/api/categories/${id}`
-    
-    console.log('[API /api/categories/:id] Putting to backend:', backendUrl);
+    const backendUrl = `${apiBaseUrl}/api/categories/${params.id}`
     
     const response = await axios.put(backendUrl, body, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: { 'Content-Type': 'application/json' },
       timeout: 10000,
     })
 
-    console.log('[API /api/categories/:id] Backend response:', response.data);
-
     return NextResponse.json(response.data)
   } catch (error) {
-    console.error('[API /api/categories/:id] Error updating category:', error)
-    
     if (axios.isAxiosError(error)) {
-      console.error('[API /api/categories/:id] Axios error details:', {
-        message: error.message,
-        code: error.code,
-        status: error.response?.status,
-        data: error.response?.data
-      });
+      const errorMessage = error.response?.data?.error 
+        || error.response?.data?.message 
+        || 'カテゴリの更新に失敗しました'
       
       return NextResponse.json(
-        { 
-          error: error.response?.data?.error || 'Failed to update category',
-          details: error.response?.data?.details || error.message
-        },
+        { error: errorMessage },
         { status: error.response?.status || 500 }
       )
     }
-    
-    return NextResponse.json(
-      { 
-        error: 'Failed to update category', 
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'カテゴリの更新に失敗しました' }, { status: 500 })
   }
 }
 
@@ -63,51 +36,25 @@ export async function DELETE(
   { params }: { params: { id: string } }
 ) {
   try {
-    const id = params.id
-    console.log('[API /api/categories/:id] DELETE request received for id:', id);
-
-    // GoバックエンドAPIにデータを送信
     const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
-    const backendUrl = `${apiBaseUrl}/api/categories/${id}`
-    
-    console.log('[API /api/categories/:id] Deleting from backend:', backendUrl);
+    const backendUrl = `${apiBaseUrl}/api/categories/${params.id}`
     
     await axios.delete(backendUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
       timeout: 10000,
     })
 
-    console.log('[API /api/categories/:id] Category deleted successfully');
-
-    return NextResponse.json({ message: 'Category deleted successfully' })
+    return NextResponse.json({ message: 'カテゴリを削除しました' })
   } catch (error) {
-    console.error('[API /api/categories/:id] Error deleting category:', error)
-    
     if (axios.isAxiosError(error)) {
-      console.error('[API /api/categories/:id] Axios error details:', {
-        message: error.message,
-        code: error.code,
-        status: error.response?.status,
-        data: error.response?.data
-      });
+      const errorMessage = error.response?.data?.error 
+        || error.response?.data?.message 
+        || 'カテゴリの削除に失敗しました'
       
       return NextResponse.json(
-        { 
-          error: error.response?.data?.error || 'Failed to delete category',
-          details: error.response?.data?.details || error.message
-        },
+        { error: errorMessage },
         { status: error.response?.status || 500 }
       )
     }
-    
-    return NextResponse.json(
-      { 
-        error: 'Failed to delete category', 
-        details: error instanceof Error ? error.message : 'Unknown error'
-      },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'カテゴリの削除に失敗しました' }, { status: 500 })
   }
 }
