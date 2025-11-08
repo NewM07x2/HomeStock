@@ -157,7 +157,7 @@ export default function MonthlySummary() {
           </div>
         )}
         
-        <div className="flex items-center justify-between">
+        <div className="">
           <div className="flex items-center justify-between">
             <button
               onClick={goToPreviousMonth}
