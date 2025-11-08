@@ -100,9 +100,6 @@ export default function MonthlySummary() {
     setCurrentDate(new Date(year, month + 1, 1))
   }
 
-  const goToCurrentMonth = () => {
-    setCurrentDate(new Date())
-  }
 
   // 今月かどうかをチェック
   const isCurrentMonth = () => {
@@ -115,21 +112,18 @@ export default function MonthlySummary() {
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-xl font-bold text-gray-800">利用金額</h2>
-          {!isCurrentMonth() && (
-            <button
-              onClick={goToCurrentMonth}
-              className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
-            >
-              今月に戻る
-            </button>
-          )}
+          <div className="text-right">
+            <div className="text-3xl font-bold text-blue-600">
+              {formatCurrency(monthlyData.totalAmount)}
+            </div>
+          </div>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
+        <div className="flex items-center">
+          <div className="flex items-center justify-between w-full">
             <button
               onClick={goToPreviousMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="前月"
+              aria-label="prev"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -141,17 +135,12 @@ export default function MonthlySummary() {
             <button
               onClick={goToNextMonth}
               className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-              aria-label="次月"
+              aria-label="next"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>
-          </div>
-          <div className="text-right">
-            <div className="text-3xl font-bold text-blue-600">
-              {formatCurrency(monthlyData.totalAmount)}
-            </div>
           </div>
         </div>
       </div>
