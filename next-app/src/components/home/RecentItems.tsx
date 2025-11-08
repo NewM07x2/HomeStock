@@ -7,6 +7,7 @@ export default async function RecentItems() {
 
   try {
     items = await fetchRecentItems(10)
+    console.log('Fetched recent items:', items)
   } catch (e) {
     error = e instanceof Error ? e.message : '不明なエラーが発生しました'
     console.error('Failed to load items:', e)
