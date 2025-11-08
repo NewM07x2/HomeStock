@@ -110,6 +110,11 @@ export default function MonthlySummary() {
     return year === now.getFullYear() && month === now.getMonth()
   }
 
+  // 次月ボタンを無効にするかどうか（現在月以降は無効）
+  const isNextMonthDisabled = () => {
+    return isCurrentMonth()
+  }
+
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="mb-6">
@@ -140,7 +145,12 @@ export default function MonthlySummary() {
             </span>
             <button
               onClick={goToNextMonth}
-              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              disabled={isNextMonthDisabled()}
+              className={`p-2 rounded-full transition-colors ${
+                isNextMonthDisabled()
+                  ? 'cursor-not-allowed opacity-40'
+                  : 'hover:bg-gray-100'
+              }`}
               aria-label="次月"
             >
               <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
