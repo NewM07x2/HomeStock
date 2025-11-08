@@ -1,6 +1,6 @@
 "use client"
 import React, { useEffect, useState } from 'react'
-import { fetchItemById, updateItem } from '@/lib/mockApi'
+import { fetchItemById, updateItem } from '@/lib/api'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
 export default function ItemDetail({ id, item: initialItem, editable = false }: { id?: string, item?: any, editable?: boolean }) {

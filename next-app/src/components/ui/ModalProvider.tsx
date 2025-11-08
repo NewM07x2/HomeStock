@@ -1,8 +1,8 @@
 "use client"
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 import CreateItemModal from '@/components/items/CreateItemModal'
 import ItemDetailModal from '@/components/items/ItemDetailModal'
-import { fetchItemById } from '@/lib/mockApi'
+import { fetchItemById } from '@/lib/api'
 
 type ModalContextType = {
   openCreateItem: () => void

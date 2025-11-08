@@ -1,8 +1,7 @@
 "use client"
 import React, { useState, useEffect } from 'react'
 import { createPortal } from 'react-dom'
-import { createItem, updateItem } from '@/lib/mockApi'
-import { saveItem } from '@/lib/api';
+import { createItem, updateItem } from '@/lib/api'
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
@@ -46,7 +45,11 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     if (!validateForm()) return;
     setLoading(true);
     try {
-      await saveItem(form);
+      if (isEdit && item) {
+        await updateItem(item.id, form);
+      } else {
+        await createItem(form);
+      }
       bump();
       handleCloseClick();
     } catch (e) {
