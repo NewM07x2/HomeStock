@@ -13,10 +13,10 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 	log.Printf("FetchRecentItems")
 	rows, err := common.DB.Query(`
         SELECT 
-            i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.status, 
-            i.created_at, i.updated_at,
-            c.id, c.code, c.name,
-            u.id, u.code, u.name
+					i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.status, 
+					i.created_at, i.updated_at,
+					c.id, c.code, c.name,
+					u.id, u.code, u.name
         FROM items i
         LEFT JOIN categories c ON i.category_id = c.id AND c.deleted_at IS NULL
         INNER JOIN units u ON i.unit_id = u.id AND u.deleted_at IS NULL

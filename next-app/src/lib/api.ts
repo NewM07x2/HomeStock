@@ -77,13 +77,23 @@ export const getPosts = async (): Promise<BlogPost[]> => {
  */
 export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
   try {
-    // Server ComponentからはNext.js API Routeを呼び出す
-    const apiBaseUrl = typeof window === 'undefined' 
-      ? (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000')
+    // Server Component（サーバーサイド）の場合は、内部的に相対パスで呼び出す
+    // クライアントサイドの場合は、相対パスで呼び出す
+    const isServer = typeof window === 'undefined';
+    
+    // サーバーサイドでは絶対URLが必要な場合があるため、ベースURLを設定
+    const baseUrl = isServer 
+      ? (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000')
       : '';
     
-    const url = `${apiBaseUrl}/api/items?limit=${limit}&page=1`;
-    console.log('Fetching from:', url);
+    const url = `${baseUrl}/api/items?limit=${limit}&page=1`;
+    
+    console.log('[fetchRecentItems] Fetching from:', url);
+    console.log('[fetchRecentItems] Environment:', {
+      isServer,
+      NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
+      nodeEnv: process.env.NODE_ENV
+    });
     
     const response = await fetch(url, {
       method: 'GET',
@@ -94,14 +104,22 @@ export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
       next: { revalidate: 60 }
     });
 
+    console.log('[fetchRecentItems] Response status:', response.status);
+
     if (!response.ok) {
+      const errorText = await response.text();
+      console.error('[fetchRecentItems] Response error:', errorText);
       throw new Error(`HTTP error! status: ${response.status}`);
     }
 
     const data = await response.json();
+    console.log('[fetchRecentItems] Success, items count:', data.items?.length || 0);
     return data.items || [];
   } catch (error) {
-    console.error('Failed to fetch recent items:', error);
+    console.error('[fetchRecentItems] Failed to fetch recent items:', error);
+    if (error instanceof Error) {
+      throw error;
+    }
     throw new Error('Failed to fetch items. Please try again later.');
   }
 };

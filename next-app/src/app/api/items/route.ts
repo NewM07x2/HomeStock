@@ -27,6 +27,8 @@ interface Item {
 
 export async function GET(request: NextRequest) {
   try {
+    console.log('[API /api/items] GET request received');
+    
     const searchParams = request.nextUrl.searchParams
     const limit = parseInt(searchParams.get('limit') || '10')
     const page = parseInt(searchParams.get('page') || '1')
@@ -36,6 +38,10 @@ export async function GET(request: NextRequest) {
     const categories = searchParams.get('categories') || ''
     const minQty = searchParams.get('minQty') || ''
     const maxQty = searchParams.get('maxQty') || ''
+
+    console.log('[API /api/items] Query params:', {
+      limit, page, q, code, name, categories, minQty, maxQty
+    });
 
     // TODO: 実際のバックエンドAPIまたはデータベースから取得
     // const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
@@ -124,6 +130,13 @@ export async function GET(request: NextRequest) {
     const start = (page - 1) * limit
     const paginatedItems = filteredItems.slice(start, start + limit)
 
+    console.log('[API /api/items] Returning:', {
+      itemsCount: paginatedItems.length,
+      total: totalFiltered,
+      page,
+      limit
+    });
+
     const response = {
       items: paginatedItems,
       total: totalFiltered,
@@ -133,7 +146,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response)
   } catch (error) {
-    console.error('Error fetching items:', error)
+    console.error('[API /api/items] Error fetching items:', error)
     return NextResponse.json(
       { error: 'Failed to fetch items' },
       { status: 500 }
