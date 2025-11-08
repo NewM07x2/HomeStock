@@ -225,4 +225,76 @@ export const fetchCategories = async (): Promise<string[]> => {
   }
 };
 
+/**
+ * IDでアイテムを取得
+ */
+export const fetchItemById = async (id: string): Promise<any> => {
+  try {
+    const response = await fetch(`/api/items/${id}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      cache: 'no-store'
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch item by id:', error);
+    throw new Error('Failed to fetch item');
+  }
+};
+
+/**
+ * アイテムを作成
+ */
+export const createItem = async (payload: any): Promise<any> => {
+  try {
+    const response = await fetch('/api/items', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to create item:', error);
+    throw new Error('Failed to create item');
+  }
+};
+
+/**
+ * アイテムを更新
+ */
+export const updateItem = async (id: string, payload: any): Promise<any> => {
+  try {
+    const response = await fetch(`/api/items/${id}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to update item:', error);
+    throw new Error('Failed to update item');
+  }
+};
+
 export { saveItem, fetchItems };
