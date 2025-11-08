@@ -1,4 +1,7 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import CreateUserModal from '@/components/settings/CreateUserModal'
 
 interface User {
   id: string
@@ -6,24 +9,6 @@ interface User {
   role: 'admin' | 'operator' | 'viewer'
   created_at: string
   updated_at: string
-}
-
-async function fetchUsers(): Promise<User[]> {
-  try {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${apiBaseUrl}/api/users`, {
-      next: { revalidate: 60 }
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to fetch users:', error)
-    return []
-  }
 }
 
 const roleLabels: Record<string, string> = {
@@ -38,8 +23,36 @@ const roleColors: Record<string, string> = {
   viewer: 'bg-gray-100 text-gray-800'
 }
 
-export default async function UsersPage() {
-  const users = await fetchUsers()
+export default function UsersPage() {
+  const [users, setUsers] = useState<User[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const fetchUsers = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/users')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setUsers(data)
+    } catch (error) {
+      console.error('Failed to fetch users:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchUsers()
+  }, [])
+
+  const handleSuccess = () => {
+    fetchUsers()
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -50,12 +63,19 @@ export default async function UsersPage() {
             システムを利用するユーザーを管理します
           </p>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           + 新規ユーザー
         </button>
       </div>
 
-      {users.length === 0 ? (
+      {isLoading ? (
+        <div className="bg-white rounded-lg shadow p-8 text-center">
+          <p className="text-gray-500">読み込み中...</p>
+        </div>
+      ) : users.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-8 text-center">
           <p className="text-gray-500">ユーザーが登録されていません</p>
         </div>
@@ -112,6 +132,12 @@ export default async function UsersPage() {
           </table>
         </div>
       )}
+
+      <CreateUserModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleSuccess}
+      />
     </div>
   )
 }

@@ -1,4 +1,7 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import CreateUnitModal from '@/components/settings/CreateUnitModal'
 
 interface Unit {
   id: string
@@ -9,26 +12,36 @@ interface Unit {
   updated_at: string
 }
 
-async function fetchUnits(): Promise<Unit[]> {
-  try {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${apiBaseUrl}/api/units`, {
-      next: { revalidate: 60 }
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to fetch units:', error)
-    return []
-  }
-}
+export default function UnitsPage() {
+  const [units, setUnits] = useState<Unit[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
-export default async function UnitsPage() {
-  const units = await fetchUnits()
+  const fetchUnits = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/units')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setUnits(data)
+    } catch (error) {
+      console.error('Failed to fetch units:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchUnits()
+  }, [])
+
+  const handleSuccess = () => {
+    fetchUnits()
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -39,12 +52,19 @@ export default async function UnitsPage() {
             在庫数量の単位マスタを管理します
           </p>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           + 新規単位
         </button>
       </div>
 
-      {units.length === 0 ? (
+      {isLoading ? (
+        <div className="bg-white rounded-lg shadow p-8 text-center">
+          <p className="text-gray-500">読み込み中...</p>
+        </div>
+      ) : units.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-8 text-center">
           <p className="text-gray-500">単位が登録されていません</p>
         </div>
@@ -99,6 +119,12 @@ export default async function UnitsPage() {
           </table>
         </div>
       )}
+
+      <CreateUnitModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleSuccess}
+      />
     </div>
   )
 }

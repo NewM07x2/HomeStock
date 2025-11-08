@@ -1,4 +1,7 @@
-import React from 'react'
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import CreateAttributeModal from '@/components/settings/CreateAttributeModal'
 
 interface Attribute {
   id: string
@@ -10,24 +13,6 @@ interface Attribute {
   updated_at: string
 }
 
-async function fetchAttributes(): Promise<Attribute[]> {
-  try {
-    const apiBaseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
-    const response = await fetch(`${apiBaseUrl}/api/attributes`, {
-      next: { revalidate: 60 }
-    })
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
-    
-    return await response.json()
-  } catch (error) {
-    console.error('Failed to fetch attributes:', error)
-    return []
-  }
-}
-
 const valueTypeLabels: Record<string, string> = {
   text: 'テキスト',
   number: '数値',
@@ -35,8 +20,36 @@ const valueTypeLabels: Record<string, string> = {
   date: '日付'
 }
 
-export default async function AttributesPage() {
-  const attributes = await fetchAttributes()
+export default function AttributesPage() {
+  const [attributes, setAttributes] = useState<Attribute[]>([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
+  const fetchAttributes = async () => {
+    try {
+      setIsLoading(true)
+      const response = await fetch('/api/attributes')
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`)
+      }
+      
+      const data = await response.json()
+      setAttributes(data)
+    } catch (error) {
+      console.error('Failed to fetch attributes:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchAttributes()
+  }, [])
+
+  const handleSuccess = () => {
+    fetchAttributes()
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -47,12 +60,19 @@ export default async function AttributesPage() {
             アイテムに付与できる属性マスタを管理します
           </p>
         </div>
-        <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
           + 新規属性
         </button>
       </div>
 
-      {attributes.length === 0 ? (
+      {isLoading ? (
+        <div className="bg-white rounded-lg shadow p-8 text-center">
+          <p className="text-gray-500">読み込み中...</p>
+        </div>
+      ) : attributes.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-8 text-center">
           <p className="text-gray-500">属性が登録されていません</p>
         </div>
@@ -115,6 +135,12 @@ export default async function AttributesPage() {
           </table>
         </div>
       )}
+
+      <CreateAttributeModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onSuccess={handleSuccess}
+      />
     </div>
   )
 }
