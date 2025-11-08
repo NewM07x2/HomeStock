@@ -49,7 +49,12 @@ func main() {
 	e.POST("/graphql", echo.WrapHandler(srv))
 	e.GET("/graphql", echo.WrapHandler(playground.Handler("GraphQL Playground", "/graphql")))
 
+	// REST API エンドポイント
 	e.GET("/api/items", controller.GetRecentItems)
+	e.GET("/api/categories", controller.GetCategories)
+	e.GET("/api/units", controller.GetUnits)
+	e.GET("/api/attributes", controller.GetAttributes)
+	e.GET("/api/users", controller.GetUsers)
 
 	// サーバー起動
 	port := ":8080"

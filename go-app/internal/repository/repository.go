@@ -122,3 +122,151 @@ func fetchItemAttributes(itemID string) ([]model.ItemAttributeDetail, error) {
 
 	return attributes, rows.Err()
 }
+
+// FetchCategories はデータベースから全カテゴリを取得します
+func FetchCategories() ([]model.Category, error) {
+	log.Printf("[Repository] FetchCategories")
+
+	rows, err := common.DB.Query(`
+        SELECT id, code, name, description, created_at, updated_at
+        FROM categories
+        WHERE deleted_at IS NULL
+        ORDER BY code
+    `)
+	if err != nil {
+		log.Printf("[Repository] DB クエリエラー: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var categories []model.Category
+	for rows.Next() {
+		var category model.Category
+		if err := rows.Scan(
+			&category.ID,
+			&category.Code,
+			&category.Name,
+			&category.Description,
+			&category.CreatedAt,
+			&category.UpdatedAt,
+		); err != nil {
+			log.Printf("[Repository] スキャンエラー: %v", err)
+			return nil, err
+		}
+		categories = append(categories, category)
+	}
+
+	log.Printf("[Repository] 取得成功: %d件のカテゴリ", len(categories))
+	return categories, rows.Err()
+}
+
+// FetchUnits はデータベースから全単位を取得します
+func FetchUnits() ([]model.Unit, error) {
+	log.Printf("[Repository] FetchUnits")
+
+	rows, err := common.DB.Query(`
+        SELECT id, code, name, description, created_at, updated_at
+        FROM units
+        WHERE deleted_at IS NULL
+        ORDER BY code
+    `)
+	if err != nil {
+		log.Printf("[Repository] DB クエリエラー: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var units []model.Unit
+	for rows.Next() {
+		var unit model.Unit
+		if err := rows.Scan(
+			&unit.ID,
+			&unit.Code,
+			&unit.Name,
+			&unit.Description,
+			&unit.CreatedAt,
+			&unit.UpdatedAt,
+		); err != nil {
+			log.Printf("[Repository] スキャンエラー: %v", err)
+			return nil, err
+		}
+		units = append(units, unit)
+	}
+
+	log.Printf("[Repository] 取得成功: %d件の単位", len(units))
+	return units, rows.Err()
+}
+
+// FetchAttributes はデータベースから全属性を取得します
+func FetchAttributes() ([]model.Attribute, error) {
+	log.Printf("[Repository] FetchAttributes")
+
+	rows, err := common.DB.Query(`
+        SELECT id, code, name, value_type, description, created_at, updated_at
+        FROM attributes
+        WHERE deleted_at IS NULL
+        ORDER BY code
+    `)
+	if err != nil {
+		log.Printf("[Repository] DB クエリエラー: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var attributes []model.Attribute
+	for rows.Next() {
+		var attribute model.Attribute
+		if err := rows.Scan(
+			&attribute.ID,
+			&attribute.Code,
+			&attribute.Name,
+			&attribute.ValueType,
+			&attribute.Description,
+			&attribute.CreatedAt,
+			&attribute.UpdatedAt,
+		); err != nil {
+			log.Printf("[Repository] スキャンエラー: %v", err)
+			return nil, err
+		}
+		attributes = append(attributes, attribute)
+	}
+
+	log.Printf("[Repository] 取得成功: %d件の属性", len(attributes))
+	return attributes, rows.Err()
+}
+
+// FetchUsers はデータベースから全ユーザーを取得します
+func FetchUsers() ([]model.User, error) {
+	log.Printf("[Repository] FetchUsers")
+
+	rows, err := common.DB.Query(`
+        SELECT id, email, role, created_at, updated_at
+        FROM users
+        WHERE deleted_at IS NULL
+        ORDER BY created_at DESC
+    `)
+	if err != nil {
+		log.Printf("[Repository] DB クエリエラー: %v", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []model.User
+	for rows.Next() {
+		var user model.User
+		if err := rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.Role,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+		); err != nil {
+			log.Printf("[Repository] スキャンエラー: %v", err)
+			return nil, err
+		}
+		users = append(users, user)
+	}
+
+	log.Printf("[Repository] 取得成功: %d件のユーザー", len(users))
+	return users, rows.Err()
+}

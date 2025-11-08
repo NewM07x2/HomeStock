@@ -43,3 +43,71 @@ func GetRecentItems(c echo.Context) error {
 		"total": len(items),
 	})
 }
+
+// GetCategories は GET /api/categories リクエストを処理します
+func GetCategories(c echo.Context) error {
+	log.Printf("[Controller] GET /api/categories - リクエスト受信")
+
+	categories, err := service.GetCategories()
+	if err != nil {
+		log.Printf("[Controller] エラー: カテゴリ取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch categories",
+		})
+	}
+
+	log.Printf("[Controller] 成功: %d件のカテゴリを取得しました", len(categories))
+	return c.JSON(http.StatusOK, categories)
+}
+
+// GetUnits は GET /api/units リクエストを処理します
+func GetUnits(c echo.Context) error {
+	log.Printf("[Controller] GET /api/units - リクエスト受信")
+
+	units, err := service.GetUnits()
+	if err != nil {
+		log.Printf("[Controller] エラー: 単位取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch units",
+		})
+	}
+
+	log.Printf("[Controller] 成功: %d件の単位を取得しました", len(units))
+	return c.JSON(http.StatusOK, units)
+}
+
+// GetAttributes は GET /api/attributes リクエストを処理します
+func GetAttributes(c echo.Context) error {
+	log.Printf("[Controller] GET /api/attributes - リクエスト受信")
+
+	attributes, err := service.GetAttributes()
+	if err != nil {
+		log.Printf("[Controller] エラー: 属性取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch attributes",
+		})
+	}
+
+	log.Printf("[Controller] 成功: %d件の属性を取得しました", len(attributes))
+	return c.JSON(http.StatusOK, attributes)
+}
+
+// GetUsers は GET /api/users リクエストを処理します
+func GetUsers(c echo.Context) error {
+	log.Printf("[Controller] GET /api/users - リクエスト受信")
+
+	users, err := service.GetUsers()
+	if err != nil {
+		log.Printf("[Controller] エラー: ユーザー取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch users",
+		})
+	}
+
+	log.Printf("[Controller] 成功: %d件のユーザーを取得しました", len(users))
+	return c.JSON(http.StatusOK, users)
+}

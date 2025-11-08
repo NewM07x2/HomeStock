@@ -53,6 +53,16 @@ type ItemAttributeDetail struct {
 	ValueType string `json:"value_type"` // 属性値の型
 }
 
+// User はシステムを利用するユーザーを表すモデル
+type User struct {
+	ID        string     `json:"id" db:"id"`                           // ユーザーID（UUID）
+	Email     string     `json:"email" db:"email"`                     // メールアドレス（一意）
+	Role      string     `json:"role" db:"role"`                       // 権限（admin: 管理者、operator: 担当者、viewer: 閲覧者）
+	CreatedAt time.Time  `json:"created_at" db:"created_at"`           // 作成日時
+	UpdatedAt time.Time  `json:"updated_at" db:"updated_at"`           // 更新日時
+	DeletedAt *time.Time `json:"deleted_at,omitempty" db:"deleted_at"` // 削除日時（論理削除、任意）
+}
+
 // Item は在庫管理のアイテム（製品/部材）を表すモデル
 type Item struct {
 	ID         string     `json:"id" db:"id"`                             // アイテムの一意識別子（UUID）
