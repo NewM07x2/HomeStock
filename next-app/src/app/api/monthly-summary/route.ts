@@ -6,11 +6,19 @@ export async function GET(request: NextRequest) {
     const year = parseInt(searchParams.get('year') || String(new Date().getFullYear()))
     const month = parseInt(searchParams.get('month') || String(new Date().getMonth() + 1))
 
-    // TODO: 実際のデータベースからデータを取得
-    // 現在は、stock_history テーブルの meta フィールドに price 情報があると仮定するか、
-    // 別途価格テーブルを作成する必要があります
+    console.log('[API /api/monthly-summary] GET request received:', { year, month });
+
+    // TODO: Goバックエンドに月次サマリーAPIを実装後、以下のように変更してください
+    // const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
+    // const backendUrl = `${apiBaseUrl}/api/monthly-summary?year=${year}&month=${month}`
+    // const response = await axios.get(backendUrl, { timeout: 10000 })
+    // return NextResponse.json(response.data)
     
-    // モックデータを生成（実際のDB実装まで）
+    // 現在は一時的なモックデータを返却
+    // 実装時には stock_history テーブルの meta フィールドに price 情報を追加するか、
+    // 別途価格テーブルを作成する必要があります
+    console.log('[API /api/monthly-summary] WARNING: Using mock data - backend API not yet implemented');
+    
     const daysInMonth = new Date(year, month, 0).getDate()
     const dailyAmounts: { date: number; amount: number }[] = []
     let totalAmount = 0
@@ -32,7 +40,7 @@ export async function GET(request: NextRequest) {
 
     return NextResponse.json(response)
   } catch (error) {
-    console.error('Error fetching monthly summary:', error)
+    console.error('[API /api/monthly-summary] Error fetching monthly summary:', error)
     return NextResponse.json(
       { error: 'Failed to fetch monthly summary' },
       { status: 500 }
