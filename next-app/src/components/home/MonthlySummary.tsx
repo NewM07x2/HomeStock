@@ -19,23 +19,24 @@ export default function MonthlySummary() {
   const [currentDate, setCurrentDate] = useState(new Date())
 
   useEffect(() => {
-    // 今月のデータを取得（モックデータ）
+    // 選択された月のデータを取得（モックデータ）
     const fetchMonthlyData = async () => {
       // TODO: 実際のAPIから取得する
-      // const response = await fetch('/api/monthly-summary')
+      // const response = await fetch(`/api/monthly-summary?year=${year}&month=${month}`)
       // const data = await response.json()
       
       // モックデータ生成
-      const now = new Date()
-      const year = now.getFullYear()
-      const month = now.getMonth()
+      const year = currentDate.getFullYear()
+      const month = currentDate.getMonth()
       const daysInMonth = new Date(year, month + 1, 0).getDate()
       
       const dailyAmounts: DailyAmount[] = []
       let total = 0
       
+      // 月ごとに異なるシード値を使って再現性のあるランダムデータを生成
+      const seed = year * 12 + month
       for (let i = 1; i <= daysInMonth; i++) {
-        const amount = Math.floor(Math.random() * 5000)
+        const amount = Math.floor((Math.sin(seed * 100 + i) * 10000 + 10000) / 4)
         dailyAmounts.push({ date: i, amount })
         total += amount
       }
@@ -90,21 +91,67 @@ export default function MonthlySummary() {
   const monthNames = ['1月', '2月', '3月', '4月', '5月', '6月', '7月', '8月', '9月', '10月', '11月', '12月']
   const dayNames = ['日', '月', '火', '水', '木', '金', '土']
 
+  // 前月・次月への移動
+  const goToPreviousMonth = () => {
+    setCurrentDate(new Date(year, month - 1, 1))
+  }
+
+  const goToNextMonth = () => {
+    setCurrentDate(new Date(year, month + 1, 1))
+  }
+
+  const goToCurrentMonth = () => {
+    setCurrentDate(new Date())
+  }
+
+  // 今月かどうかをチェック
+  const isCurrentMonth = () => {
+    const now = new Date()
+    return year === now.getFullYear() && month === now.getMonth()
+  }
+
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="mb-6">
-        <h2 className="text-xl font-bold text-gray-800 mb-2">今月の利用金額</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold text-gray-800">利用金額</h2>
+          {!isCurrentMonth() && (
+            <button
+              onClick={goToCurrentMonth}
+              className="text-xs px-3 py-1 bg-blue-100 text-blue-700 rounded-full hover:bg-blue-200 transition-colors"
+            >
+              今月に戻る
+            </button>
+          )}
+        </div>
         <div className="flex items-center justify-between">
-          <div>
-            <span className="text-sm text-gray-500">
+          <div className="flex items-center gap-3">
+            <button
+              onClick={goToPreviousMonth}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="前月"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <span className="text-sm font-semibold text-gray-700 min-w-[120px] text-center">
               {year}年 {monthNames[month]}
             </span>
+            <button
+              onClick={goToNextMonth}
+              className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              aria-label="次月"
+            >
+              <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
           </div>
           <div className="text-right">
             <div className="text-3xl font-bold text-blue-600">
               {formatCurrency(monthlyData.totalAmount)}
             </div>
-            <div className="text-xs text-gray-500">合計</div>
           </div>
         </div>
       </div>
