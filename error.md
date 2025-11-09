@@ -1,156 +1,108 @@
-CreateCategoryModal.tsx:87 
- POST http://localhost:3000/api/categories 500 (Internal Server Error)
-handleSubmit	@	CreateCategoryModal.tsx:87
+{"time":"2025-11-09T14:18:49.954135385Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/categories","user_agent":"axios/1.12.2","status":200,"error":"","latency":413833,"latency_human":"413.833µs","bytes_in":0,"bytes_out":700}
 
-カテゴリの作成に失敗しました
 
+2025/11/09 14:18:49 [Repository] 取得成功: 4件のカテゴリ
 
 
-○ Compiling /settings/categories ...
+2025/11/09 14:18:49 [Controller] 成功: 4件のカテゴリを取得しました
 
 
-✓ Compiled /settings/categories in 1802ms (710 modules)
+2025/11/09 14:19:00 [Controller] DELETE /api/categories/C00000007 - リクエスト受信
 
 
-GET /settings/categories 200 in 2202ms
+2025/11/09 14:19:00 [Repository] DeleteCategory - id: C00000007
 
 
-○ Compiling /not-found ...
+{"time":"2025-11-09T14:19:00.961631167Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"DELETE","uri":"/api/categories/C00000007","user_agent":"axios/1.12.2","status":200,"error":"","latency":5734083,"latency_human":"5.734083ms","bytes_in":0,"bytes_out":48}
 
 
-✓ Compiled /api/categories in 1196ms (713 modules)
+2025/11/09 14:19:00 [Repository] カテゴリ削除成功: C00000007
 
 
-✓ Compiled in 1ms (532 modules)
+2025/11/09 14:19:00 [Controller] 成功: カテゴリを削除しました (ID: C00000007)
 
 
-✓ Compiled in 1ms (532 modules)
+2025/11/09 14:19:02 [Controller] GET /api/categories - リクエスト受信
 
 
-✓ Compiled in 0ms (532 modules)
+2025/11/09 14:19:02 [Repository] FetchCategories
 
 
-GET /.well-known/appspecific/com.chrome.devtools.json 404 in 1852ms
+{"time":"2025-11-09T14:19:02.312548668Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/categories","user_agent":"axios/1.12.2","status":200,"error":"","latency":845209,"latency_human":"845.209µs","bytes_in":0,"bytes_out":545}
 
 
-GET /settings/categories?_rsc=4aw54 200 in 1152ms
+2025/11/09 14:19:02 [Repository] 取得成功: 3件のカテゴリ
 
 
-GET /api/categories 200 in 1489ms
+2025/11/09 14:19:02 [Controller] 成功: 3件のカテゴリを取得しました
 
 
-GET /api/categories 200 in 39ms
+2025/11/09 14:19:09 [Controller] GET /api/units - リクエスト受信
 
 
-POST /api/categories 500 in 82ms
+2025/11/09 14:19:09 [Repository] FetchUnits
 
 
-POST /api/categories 500 in 45ms
+2025/11/09 14:19:09 [Repository] 取得成功: 5件の単位
 
 
-✓ Compiled /api/categories/[id] in 183ms (534 modules)
+2025/11/09 14:19:09 [Controller] 成功: 5件の単位を取得しました
 
 
-PUT /api/categories/C00000002 200 in 575ms
+{"time":"2025-11-09T14:19:09.094034588Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/units","user_agent":"axios/1.12.2","status":200,"error":"","latency":8503167,"latency_human":"8.503167ms","bytes_in":0,"bytes_out":861}
 
 
-GET /api/categories 200 in 25ms
+{"time":"2025-11-09T14:19:09.131563505Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/units","user_agent":"axios/1.12.2","status":200,"error":"","latency":521417,"latency_human":"521.417µs","bytes_in":0,"bytes_out":861}
 
 
-PUT /api/categories/C00000002 200 in 67ms
+2025/11/09 14:19:09 [Controller] GET /api/units - リクエスト受信
 
 
-GET /api/categories 200 in 15ms
+2025/11/09 14:19:09 [Repository] FetchUnits
 
 
-PUT /api/categories/C00000002 200 in 39ms
+2025/11/09 14:19:09 [Repository] 取得成功: 5件の単位
 
 
-GET /api/categories 200 in 15ms
+2025/11/09 14:19:09 [Controller] 成功: 5件の単位を取得しました
 
 
-PUT /api/categories/C00000002 200 in 49ms
+2025/11/09 14:19:13 [Controller] POST /api/units - リクエスト受信
 
 
-GET /api/categories 200 in 16ms
+2025/11/09 14:19:13 [Repository] CreateUnit - name: test
 
 
-POST /api/categories 500 in 50ms
+2025/11/09 14:19:13 [Repository] 単位作成成功: UN00000006
 
 
-{"time":"2025-11-09T14:05:13.866167299Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/categories","user_agent":"axios/1.12.2","status":200,"error":"","latency":338583,"latency_human":"338.583µs","bytes_in":0,"bytes_out":544}
+2025/11/09 14:19:13 [Controller] 成功: 単位を作成しました (ID: UN00000006)
 
 
-2025/11/09 14:05:16 [Controller] PUT /api/categories/C00000002 - リクエスト受信
+{"time":"2025-11-09T14:19:13.517762423Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"POST","uri":"/api/units","user_agent":"axios/1.12.2","status":201,"error":"","latency":7615541,"latency_human":"7.615541ms","bytes_in":46,"bytes_out":157}
 
 
-2025/11/09 14:05:16 [Repository] UpdateCategory - id: C00000002, name: 消耗品
+2025/11/09 14:19:13 [Controller] GET /api/units - リクエスト受信
 
 
-2025/11/09 14:05:16 [Repository] カテゴリ更新成功: C00000002
+2025/11/09 14:19:13 [Repository] FetchUnits
 
 
-2025/11/09 14:05:16 [Controller] 成功: カテゴリを更新しました (ID: C00000002)
+2025/11/09 14:19:13 [Repository] 取得成功: 6件の単位
 
 
-{"time":"2025-11-09T14:05:16.857291883Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"PUT","uri":"/api/categories/C00000002","user_agent":"axios/1.12.2","status":200,"error":"","latency":1372709,"latency_human":"1.372709ms","bytes_in":96,"bytes_out":200}
+2025/11/09 14:19:13 [Controller] 成功: 6件の単位を取得しました
 
 
-{"time":"2025-11-09T14:05:16.883558508Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/categories","user_agent":"axios/1.12.2","status":200,"error":"","latency":324458,"latency_human":"324.458µs","bytes_in":0,"bytes_out":544}
+{"time":"2025-11-09T14:19:13.54711059Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/units","user_agent":"axios/1.12.2","status":200,"error":"","latency":562000,"latency_human":"562µs","bytes_in":0,"bytes_out":1018}
 
 
-2025/11/09 14:05:16 [Controller] GET /api/categories - リクエスト受信
+2025/11/09 14:19:26 [Controller] PUT /api/units/UN00000006 - リクエスト受信
 
 
-2025/11/09 14:05:16 [Repository] FetchCategories
+2025/11/09 14:19:26 [Repository] UpdateUnit - id: UN00000006, name: test
 
 
-2025/11/09 14:05:16 [Repository] 取得成功: 3件のカテゴリ
+2025/11/09 14:19:26 [Repository] 単位更新成功: UN00000006
 
 
-2025/11/09 14:05:16 [Controller] 成功: 3件のカテゴリを取得しました
-
-
-2025/11/09 14:05:22 [Controller] PUT /api/categories/C00000002 - リクエスト受信
-
-
-2025/11/09 14:05:22 [Repository] UpdateCategory - id: C00000002, name: 消耗品
-
-
-2025/11/09 14:05:22 [Repository] カテゴリ更新成功: C00000002
-
-
-2025/11/09 14:05:22 [Controller] 成功: カテゴリを更新しました (ID: C00000002)
-
-
-{"time":"2025-11-09T14:05:22.347152761Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"PUT","uri":"/api/categories/C00000002","user_agent":"axios/1.12.2","status":200,"error":"","latency":7944041,"latency_human":"7.944041ms","bytes_in":97,"bytes_out":201}
-
-
-2025/11/09 14:05:22 [Controller] GET /api/categories - リクエスト受信
-
-
-2025/11/09 14:05:22 [Repository] FetchCategories
-
-
-{"time":"2025-11-09T14:05:22.369194844Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"GET","uri":"/api/categories","user_agent":"axios/1.12.2","status":200,"error":"","latency":626625,"latency_human":"626.625µs","bytes_in":0,"bytes_out":545}
-
-
-2025/11/09 14:05:22 [Repository] 取得成功: 3件のカテゴリ
-
-
-2025/11/09 14:05:22 [Controller] 成功: 3件のカテゴリを取得しました
-
-
-2025/11/09 14:05:30 [Controller] POST /api/categories - リクエスト受信
-
-
-2025/11/09 14:05:30 [Repository] CreateCategory - name: test
-
-
-{"time":"2025-11-09T14:05:30.047814334Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"POST","uri":"/api/categories","user_agent":"axios/1.12.2","status":500,"error":"","latency":1833959,"latency_human":"1.833959ms","bytes_in":46,"bytes_out":55}
-
-
-2025/11/09 14:05:30 [Repository] カテゴリ作成エラー: pq: null value in column "code" of relation "categories" violates not-null constraint
-
-
-2025/11/09 14:05:30 [Controller] エラー: カテゴリ作成に失敗しました: pq: null value in column "code" of relation "categories" violates not-null constraint
