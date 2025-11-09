@@ -3,12 +3,13 @@ import axios from 'axios'
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const body = await request.json()
     const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
-    const backendUrl = `${apiBaseUrl}/api/categories/${params.id}`
+    const backendUrl = `${apiBaseUrl}/api/categories/${id}`
     
     const response = await axios.put(backendUrl, body, {
       headers: { 'Content-Type': 'application/json' },
@@ -33,11 +34,12 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params
     const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
-    const backendUrl = `${apiBaseUrl}/api/categories/${params.id}`
+    const backendUrl = `${apiBaseUrl}/api/categories/${id}`
     
     await axios.delete(backendUrl, {
       timeout: 10000,
