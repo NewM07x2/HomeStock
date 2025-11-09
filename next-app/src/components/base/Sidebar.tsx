@@ -71,10 +71,10 @@ const navigation: NavItem[] = [
     requiredRole: 'admin', // 管理者のみ表示
     subItems: [
       { name: 'システム設定', href: '/settings/system', requiredRole: 'admin' },
+      { name: 'ユーザー管理', href: '/settings/users', requiredRole: 'admin' },
       { name: 'カテゴリ設定', href: '/settings/categories', requiredRole: 'admin' },
       { name: '単位設定', href: '/settings/units', requiredRole: 'admin' },
       { name: '属性設定', href: '/settings/attributes', requiredRole: 'admin' },
-      { name: 'ユーザー管理', href: '/settings/users', requiredRole: 'admin' },
     ]
   },
 ];
