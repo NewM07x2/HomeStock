@@ -28,7 +28,6 @@ services:
     volumes:
       - ./next-app:/app
       - /app/node_modules
-      - /app/.next
     environment:
       # クライアントサイド（ブラウザ）用: ブラウザから直接APIにアクセス
       - NEXT_PUBLIC_API_BASE_URL=http://localhost:8080
