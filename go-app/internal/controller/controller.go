@@ -117,6 +117,7 @@ func CreateCategory(c echo.Context) error {
 	log.Printf("[Controller] POST /api/categories - リクエスト受信")
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -128,7 +129,7 @@ func CreateCategory(c echo.Context) error {
 		})
 	}
 
-	category, err := service.CreateCategory(req.Name, req.Description)
+	category, err := service.CreateCategory(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: カテゴリ作成に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -146,6 +147,7 @@ func UpdateCategory(c echo.Context) error {
 	log.Printf("[Controller] PUT /api/categories/%s - リクエスト受信", id)
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -157,7 +159,7 @@ func UpdateCategory(c echo.Context) error {
 		})
 	}
 
-	category, err := service.UpdateCategory(id, req.Name, req.Description)
+	category, err := service.UpdateCategory(id, req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: カテゴリ更新に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -192,6 +194,7 @@ func CreateUnit(c echo.Context) error {
 	log.Printf("[Controller] POST /api/units - リクエスト受信")
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -203,7 +206,7 @@ func CreateUnit(c echo.Context) error {
 		})
 	}
 
-	unit, err := service.CreateUnit(req.Name, req.Description)
+	unit, err := service.CreateUnit(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 単位作成に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -221,6 +224,7 @@ func UpdateUnit(c echo.Context) error {
 	log.Printf("[Controller] PUT /api/units/%s - リクエスト受信", id)
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -232,7 +236,7 @@ func UpdateUnit(c echo.Context) error {
 		})
 	}
 
-	unit, err := service.UpdateUnit(id, req.Name, req.Description)
+	unit, err := service.UpdateUnit(id, req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 単位更新に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -267,6 +271,7 @@ func CreateAttribute(c echo.Context) error {
 	log.Printf("[Controller] POST /api/attributes - リクエスト受信")
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -278,7 +283,7 @@ func CreateAttribute(c echo.Context) error {
 		})
 	}
 
-	attribute, err := service.CreateAttribute(req.Name, req.Description)
+	attribute, err := service.CreateAttribute(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性作成に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -296,6 +301,7 @@ func UpdateAttribute(c echo.Context) error {
 	log.Printf("[Controller] PUT /api/attributes/%s - リクエスト受信", id)
 
 	var req struct {
+		Code        string `json:"code"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 	}
@@ -307,7 +313,7 @@ func UpdateAttribute(c echo.Context) error {
 		})
 	}
 
-	attribute, err := service.UpdateAttribute(id, req.Name, req.Description)
+	attribute, err := service.UpdateAttribute(id, req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性更新に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{

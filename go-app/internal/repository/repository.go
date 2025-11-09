@@ -272,8 +272,8 @@ func FetchUsers() ([]model.User, error) {
 }
 
 // CreateCategory はカテゴリを作成します
-func CreateCategory(name, description string) (*model.Category, error) {
-	log.Printf("[Repository] CreateCategory - name: %s", name)
+func CreateCategory(code, name, description string) (*model.Category, error) {
+	log.Printf("[Repository] CreateCategory - code: %s, name: %s", code, name)
 
 	var category model.Category
 	err := common.DB.QueryRow(`
@@ -281,9 +281,9 @@ func CreateCategory(name, description string) (*model.Category, error) {
 			SELECT 'C' || LPAD(nextval('categories_id_seq')::TEXT, 8, '0') as id
 		)
 		INSERT INTO categories (id, code, name, description)
-		SELECT id, id, $1, $2 FROM new_id
+		SELECT id, $1, $2, $3 FROM new_id
 		RETURNING id, code, name, description, created_at, updated_at
-	`, name, description).Scan(
+	`, code, name, description).Scan(
 		&category.ID,
 		&category.Code,
 		&category.Name,
@@ -297,21 +297,21 @@ func CreateCategory(name, description string) (*model.Category, error) {
 		return nil, err
 	}
 
-	log.Printf("[Repository] カテゴリ作成成功: %s", category.ID)
+	log.Printf("[Repository] カテゴリ作成成功: %s (code: %s)", category.ID, category.Code)
 	return &category, nil
 }
 
 // UpdateCategory はカテゴリを更新します
-func UpdateCategory(id, name, description string) (*model.Category, error) {
-	log.Printf("[Repository] UpdateCategory - id: %s, name: %s", id, name)
+func UpdateCategory(id, code, name, description string) (*model.Category, error) {
+	log.Printf("[Repository] UpdateCategory - id: %s, code: %s, name: %s", id, code, name)
 
 	var category model.Category
 	err := common.DB.QueryRow(`
 		UPDATE categories
-		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		SET code = $2, name = $3, description = $4, updated_at = CURRENT_TIMESTAMP
 		WHERE id = $1 AND deleted_at IS NULL
 		RETURNING id, code, name, description, created_at, updated_at
-	`, id, name, description).Scan(
+	`, id, code, name, description).Scan(
 		&category.ID,
 		&category.Code,
 		&category.Name,
@@ -360,8 +360,8 @@ func DeleteCategory(id string) error {
 }
 
 // CreateUnit は単位を作成します
-func CreateUnit(name, description string) (*model.Unit, error) {
-	log.Printf("[Repository] CreateUnit - name: %s", name)
+func CreateUnit(code, name, description string) (*model.Unit, error) {
+	log.Printf("[Repository] CreateUnit - code: %s, name: %s", code, name)
 
 	var unit model.Unit
 	err := common.DB.QueryRow(`
@@ -369,9 +369,9 @@ func CreateUnit(name, description string) (*model.Unit, error) {
 			SELECT 'UN' || LPAD(nextval('units_id_seq')::TEXT, 8, '0') as id
 		)
 		INSERT INTO units (id, code, name, description)
-		SELECT id, id, $1, $2 FROM new_id
+		SELECT id, $1, $2, $3 FROM new_id
 		RETURNING id, code, name, description, created_at, updated_at
-	`, name, description).Scan(
+	`, code, name, description).Scan(
 		&unit.ID,
 		&unit.Code,
 		&unit.Name,
@@ -385,21 +385,21 @@ func CreateUnit(name, description string) (*model.Unit, error) {
 		return nil, err
 	}
 
-	log.Printf("[Repository] 単位作成成功: %s", unit.ID)
+	log.Printf("[Repository] 単位作成成功: %s (code: %s)", unit.ID, unit.Code)
 	return &unit, nil
 }
 
 // UpdateUnit は単位を更新します
-func UpdateUnit(id, name, description string) (*model.Unit, error) {
-	log.Printf("[Repository] UpdateUnit - id: %s, name: %s", id, name)
+func UpdateUnit(id, code, name, description string) (*model.Unit, error) {
+	log.Printf("[Repository] UpdateUnit - id: %s, code: %s, name: %s", id, code, name)
 
 	var unit model.Unit
 	err := common.DB.QueryRow(`
 		UPDATE units
-		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		SET code = $2, name = $3, description = $4, updated_at = CURRENT_TIMESTAMP
 		WHERE id = $1 AND deleted_at IS NULL
 		RETURNING id, code, name, description, created_at, updated_at
-	`, id, name, description).Scan(
+	`, id, code, name, description).Scan(
 		&unit.ID,
 		&unit.Code,
 		&unit.Name,
@@ -448,8 +448,8 @@ func DeleteUnit(id string) error {
 }
 
 // CreateAttribute は属性を作成します
-func CreateAttribute(name, description string) (*model.Attribute, error) {
-	log.Printf("[Repository] CreateAttribute - name: %s", name)
+func CreateAttribute(code, name, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] CreateAttribute - code: %s, name: %s", code, name)
 
 	var attribute model.Attribute
 	err := common.DB.QueryRow(`
@@ -457,9 +457,9 @@ func CreateAttribute(name, description string) (*model.Attribute, error) {
 			SELECT 'A' || LPAD(nextval('attributes_id_seq')::TEXT, 8, '0') as id
 		)
 		INSERT INTO attributes (id, code, name, value_type, description)
-		SELECT id, id, $1, 'string', $2 FROM new_id
+		SELECT id, $1, $2, 'string', $3 FROM new_id
 		RETURNING id, code, name, value_type, description, created_at, updated_at
-	`, name, description).Scan(
+	`, code, name, description).Scan(
 		&attribute.ID,
 		&attribute.Code,
 		&attribute.Name,
@@ -474,21 +474,21 @@ func CreateAttribute(name, description string) (*model.Attribute, error) {
 		return nil, err
 	}
 
-	log.Printf("[Repository] 属性作成成功: %s", attribute.ID)
+	log.Printf("[Repository] 属性作成成功: %s (code: %s)", attribute.ID, attribute.Code)
 	return &attribute, nil
 }
 
 // UpdateAttribute は属性を更新します
-func UpdateAttribute(id, name, description string) (*model.Attribute, error) {
-	log.Printf("[Repository] UpdateAttribute - id: %s, name: %s", id, name)
+func UpdateAttribute(id, code, name, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] UpdateAttribute - id: %s, code: %s, name: %s", id, code, name)
 
 	var attribute model.Attribute
 	err := common.DB.QueryRow(`
 		UPDATE attributes
-		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		SET code = $2, name = $3, description = $4, updated_at = CURRENT_TIMESTAMP
 		WHERE id = $1 AND deleted_at IS NULL
 		RETURNING id, code, name, value_type, description, created_at, updated_at
-	`, id, name, description).Scan(
+	`, id, code, name, description).Scan(
 		&attribute.ID,
 		&attribute.Code,
 		&attribute.Name,

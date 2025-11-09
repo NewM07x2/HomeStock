@@ -31,13 +31,13 @@ func GetUsers() ([]model.User, error) {
 }
 
 // CreateCategory はカテゴリを作成します
-func CreateCategory(name, description string) (*model.Category, error) {
-	return repository.CreateCategory(name, description)
+func CreateCategory(code, name, description string) (*model.Category, error) {
+	return repository.CreateCategory(code, name, description)
 }
 
 // UpdateCategory はカテゴリを更新します
-func UpdateCategory(id, name, description string) (*model.Category, error) {
-	return repository.UpdateCategory(id, name, description)
+func UpdateCategory(id, code, name, description string) (*model.Category, error) {
+	return repository.UpdateCategory(id, code, name, description)
 }
 
 // DeleteCategory はカテゴリを削除します
@@ -46,13 +46,13 @@ func DeleteCategory(id string) error {
 }
 
 // CreateUnit は単位を作成します
-func CreateUnit(name, description string) (*model.Unit, error) {
-	return repository.CreateUnit(name, description)
+func CreateUnit(code, name, description string) (*model.Unit, error) {
+	return repository.CreateUnit(code, name, description)
 }
 
 // UpdateUnit は単位を更新します
-func UpdateUnit(id, name, description string) (*model.Unit, error) {
-	return repository.UpdateUnit(id, name, description)
+func UpdateUnit(id, code, name, description string) (*model.Unit, error) {
+	return repository.UpdateUnit(id, code, name, description)
 }
 
 // DeleteUnit は単位を削除します
@@ -61,13 +61,13 @@ func DeleteUnit(id string) error {
 }
 
 // CreateAttribute は属性を作成します
-func CreateAttribute(name, description string) (*model.Attribute, error) {
-	return repository.CreateAttribute(name, description)
+func CreateAttribute(code, name, description string) (*model.Attribute, error) {
+	return repository.CreateAttribute(code, name, description)
 }
 
 // UpdateAttribute は属性を更新します
-func UpdateAttribute(id, name, description string) (*model.Attribute, error) {
-	return repository.UpdateAttribute(id, name, description)
+func UpdateAttribute(id, code, name, description string) (*model.Attribute, error) {
+	return repository.UpdateAttribute(id, code, name, description)
 }
 
 // DeleteAttribute は属性を削除します
