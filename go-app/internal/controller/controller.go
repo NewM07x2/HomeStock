@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"go-hsm-app/internal/service"
 
@@ -132,8 +133,12 @@ func CreateCategory(c echo.Context) error {
 	category, err := service.CreateCategory(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: カテゴリ作成に失敗しました: %v", err)
+		errorMsg := "カテゴリの作成に失敗しました"
+		if strings.Contains(err.Error(), "duplicate key") {
+			errorMsg = "このカテゴリコードは既に使用されています"
+		}
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "カテゴリの作成に失敗しました",
+			"error": errorMsg,
 		})
 	}
 
@@ -209,8 +214,12 @@ func CreateUnit(c echo.Context) error {
 	unit, err := service.CreateUnit(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 単位作成に失敗しました: %v", err)
+		errorMsg := "単位の作成に失敗しました"
+		if strings.Contains(err.Error(), "duplicate key") {
+			errorMsg = "この単位コードは既に使用されています"
+		}
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "単位の作成に失敗しました",
+			"error": errorMsg,
 		})
 	}
 
@@ -286,8 +295,12 @@ func CreateAttribute(c echo.Context) error {
 	attribute, err := service.CreateAttribute(req.Code, req.Name, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性作成に失敗しました: %v", err)
+		errorMsg := "属性の作成に失敗しました"
+		if strings.Contains(err.Error(), "duplicate key") {
+			errorMsg = "この属性コードは既に使用されています"
+		}
 		return c.JSON(http.StatusInternalServerError, map[string]string{
-			"error": "属性の作成に失敗しました",
+			"error": errorMsg,
 		})
 	}
 

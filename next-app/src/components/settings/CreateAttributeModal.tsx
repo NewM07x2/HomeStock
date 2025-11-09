@@ -99,8 +99,9 @@ export default function CreateAttributeModal({
       onClose()
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        const errorMessage = error.response?.data?.error || `${editData ? '更新' : '登録'}に失敗しました`
         setErrors({
-          submit: error.response?.data?.error || `${editData ? '更新' : '登録'}に失敗しました`
+          submit: errorMessage
         })
       } else {
         setErrors({
