@@ -84,7 +84,7 @@ interface SidebarProps {
   userPlan?: 'free' | 'basic' | 'premium' | 'enterprise';
 }
 
-export default function Sidebar({ 
+export default function Sidebar({
   userRole = 'admin', // デフォルトは管理者（開発用）
   userPlan = 'enterprise', // デフォルトはエンタープライズ（開発用）
 }: SidebarProps) {
@@ -184,8 +184,8 @@ export default function Sidebar({
                   className={`
                     w-full flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg
                     transition-colors duration-150 ease-in-out
-                    ${isAnySubActive 
-                      ? 'bg-blue-50 text-blue-700' 
+                    ${isAnySubActive
+                      ? 'bg-blue-50 text-blue-700'
                       : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                     }
                   `}
@@ -199,8 +199,8 @@ export default function Sidebar({
                   {/* 矢印アイコン */}
                   <svg 
                     className={`w-4 h-4 transition-transform duration-200 ${isExpanded ? 'transform rotate-180' : ''}`}
-                    fill="none" 
-                    stroke="currentColor" 
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -220,8 +220,8 @@ export default function Sidebar({
                           className={`
                             flex items-center px-4 py-2 text-sm rounded-lg
                             transition-colors duration-150 ease-in-out
-                            ${isSubActive 
-                              ? 'bg-blue-100 text-blue-700 font-medium' 
+                            ${isSubActive
+                              ? 'bg-blue-100 text-blue-700 font-medium'
                               : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
                             }
                           `}
@@ -247,8 +247,8 @@ export default function Sidebar({
               className={`
                 flex items-center px-4 py-3 text-sm font-medium rounded-lg
                 transition-colors duration-150 ease-in-out
-                ${isActive 
-                  ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700' 
+                ${isActive
+                  ? 'bg-blue-50 text-blue-700 border-l-4 border-blue-700'
                   : 'text-gray-700 hover:bg-gray-50 hover:text-gray-900'
                 }
               `}
