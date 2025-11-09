@@ -277,8 +277,11 @@ func CreateCategory(name, description string) (*model.Category, error) {
 
 	var category model.Category
 	err := common.DB.QueryRow(`
-		INSERT INTO categories (name, description)
-		VALUES ($1, $2)
+		WITH new_id AS (
+			SELECT 'C' || LPAD(nextval('categories_id_seq')::TEXT, 8, '0') as id
+		)
+		INSERT INTO categories (id, code, name, description)
+		SELECT id, id, $1, $2 FROM new_id
 		RETURNING id, code, name, description, created_at, updated_at
 	`, name, description).Scan(
 		&category.ID,
@@ -362,8 +365,11 @@ func CreateUnit(name, description string) (*model.Unit, error) {
 
 	var unit model.Unit
 	err := common.DB.QueryRow(`
-		INSERT INTO units (name, description)
-		VALUES ($1, $2)
+		WITH new_id AS (
+			SELECT 'UN' || LPAD(nextval('units_id_seq')::TEXT, 8, '0') as id
+		)
+		INSERT INTO units (id, code, name, description)
+		SELECT id, id, $1, $2 FROM new_id
 		RETURNING id, code, name, description, created_at, updated_at
 	`, name, description).Scan(
 		&unit.ID,
@@ -447,8 +453,11 @@ func CreateAttribute(name, description string) (*model.Attribute, error) {
 
 	var attribute model.Attribute
 	err := common.DB.QueryRow(`
-		INSERT INTO attributes (name, value_type, description)
-		VALUES ($1, 'string', $2)
+		WITH new_id AS (
+			SELECT 'A' || LPAD(nextval('attributes_id_seq')::TEXT, 8, '0') as id
+		)
+		INSERT INTO attributes (id, code, name, value_type, description)
+		SELECT id, id, $1, 'string', $2 FROM new_id
 		RETURNING id, code, name, value_type, description, created_at, updated_at
 	`, name, description).Scan(
 		&attribute.ID,
