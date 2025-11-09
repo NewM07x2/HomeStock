@@ -49,12 +49,33 @@ func main() {
 	e.POST("/graphql", echo.WrapHandler(srv))
 	e.GET("/graphql", echo.WrapHandler(playground.Handler("GraphQL Playground", "/graphql")))
 
-	// REST API エンドポイント
+	// REST API エンドポイント - READ
 	e.GET("/api/items", controller.GetRecentItems)
 	e.GET("/api/categories", controller.GetCategories)
 	e.GET("/api/units", controller.GetUnits)
 	e.GET("/api/attributes", controller.GetAttributes)
 	e.GET("/api/users", controller.GetUsers)
+
+	// REST API エンドポイント - CREATE/UPDATE/DELETE
+	// Categories
+	e.POST("/api/categories", controller.CreateCategory)
+	e.PUT("/api/categories/:id", controller.UpdateCategory)
+	e.DELETE("/api/categories/:id", controller.DeleteCategory)
+
+	// Units
+	e.POST("/api/units", controller.CreateUnit)
+	e.PUT("/api/units/:id", controller.UpdateUnit)
+	e.DELETE("/api/units/:id", controller.DeleteUnit)
+
+	// Attributes
+	e.POST("/api/attributes", controller.CreateAttribute)
+	e.PUT("/api/attributes/:id", controller.UpdateAttribute)
+	e.DELETE("/api/attributes/:id", controller.DeleteAttribute)
+
+	// Users
+	e.POST("/api/users", controller.CreateUser)
+	e.PUT("/api/users/:id", controller.UpdateUser)
+	e.DELETE("/api/users/:id", controller.DeleteUser)
 
 	// サーバー起動
 	port := ":8080"

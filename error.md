@@ -116,3 +116,13 @@ DELETE /api/categories/C00000002 404 in 50ms
 
 {"time":"2025-11-09T13:57:31.857214418Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"DELETE","uri":"/api/categories/C00000002","user_agent":"axios/1.12.2","status":404,"error":"code=404, message=Not Found","latency":239584,"latency_human":"239.584µs","bytes_in":0,"bytes_out":24}
 
+
+# すべてのコンテナを停止
+docker-compose down
+
+# 再ビルドして起動
+docker-compose up -d --build
+
+# コンテナ内の.nextフォルダを削除してから再起動
+docker-compose exec next-app rm -rf .next
+docker-compose restart next-app

@@ -270,3 +270,343 @@ func FetchUsers() ([]model.User, error) {
 	log.Printf("[Repository] 取得成功: %d件のユーザー", len(users))
 	return users, rows.Err()
 }
+
+// CreateCategory はカテゴリを作成します
+func CreateCategory(name, description string) (*model.Category, error) {
+	log.Printf("[Repository] CreateCategory - name: %s", name)
+
+	var category model.Category
+	err := common.DB.QueryRow(`
+		INSERT INTO categories (name, description)
+		VALUES ($1, $2)
+		RETURNING id, code, name, description, created_at, updated_at
+	`, name, description).Scan(
+		&category.ID,
+		&category.Code,
+		&category.Name,
+		&category.Description,
+		&category.CreatedAt,
+		&category.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] カテゴリ作成エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] カテゴリ作成成功: %s", category.ID)
+	return &category, nil
+}
+
+// UpdateCategory はカテゴリを更新します
+func UpdateCategory(id, name, description string) (*model.Category, error) {
+	log.Printf("[Repository] UpdateCategory - id: %s, name: %s", id, name)
+
+	var category model.Category
+	err := common.DB.QueryRow(`
+		UPDATE categories
+		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+		RETURNING id, code, name, description, created_at, updated_at
+	`, id, name, description).Scan(
+		&category.ID,
+		&category.Code,
+		&category.Name,
+		&category.Description,
+		&category.CreatedAt,
+		&category.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] カテゴリ更新エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] カテゴリ更新成功: %s", category.ID)
+	return &category, nil
+}
+
+// DeleteCategory はカテゴリを削除します（論理削除）
+func DeleteCategory(id string) error {
+	log.Printf("[Repository] DeleteCategory - id: %s", id)
+
+	result, err := common.DB.Exec(`
+		UPDATE categories
+		SET deleted_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+	`, id)
+
+	if err != nil {
+		log.Printf("[Repository] カテゴリ削除エラー: %v", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Repository] RowsAffected取得エラー: %v", err)
+		return err
+	}
+
+	if rowsAffected == 0 {
+		log.Printf("[Repository] カテゴリが見つかりません: %s", id)
+		return sql.ErrNoRows
+	}
+
+	log.Printf("[Repository] カテゴリ削除成功: %s", id)
+	return nil
+}
+
+// CreateUnit は単位を作成します
+func CreateUnit(name, description string) (*model.Unit, error) {
+	log.Printf("[Repository] CreateUnit - name: %s", name)
+
+	var unit model.Unit
+	err := common.DB.QueryRow(`
+		INSERT INTO units (name, description)
+		VALUES ($1, $2)
+		RETURNING id, code, name, description, created_at, updated_at
+	`, name, description).Scan(
+		&unit.ID,
+		&unit.Code,
+		&unit.Name,
+		&unit.Description,
+		&unit.CreatedAt,
+		&unit.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] 単位作成エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] 単位作成成功: %s", unit.ID)
+	return &unit, nil
+}
+
+// UpdateUnit は単位を更新します
+func UpdateUnit(id, name, description string) (*model.Unit, error) {
+	log.Printf("[Repository] UpdateUnit - id: %s, name: %s", id, name)
+
+	var unit model.Unit
+	err := common.DB.QueryRow(`
+		UPDATE units
+		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+		RETURNING id, code, name, description, created_at, updated_at
+	`, id, name, description).Scan(
+		&unit.ID,
+		&unit.Code,
+		&unit.Name,
+		&unit.Description,
+		&unit.CreatedAt,
+		&unit.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] 単位更新エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] 単位更新成功: %s", unit.ID)
+	return &unit, nil
+}
+
+// DeleteUnit は単位を削除します（論理削除）
+func DeleteUnit(id string) error {
+	log.Printf("[Repository] DeleteUnit - id: %s", id)
+
+	result, err := common.DB.Exec(`
+		UPDATE units
+		SET deleted_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+	`, id)
+
+	if err != nil {
+		log.Printf("[Repository] 単位削除エラー: %v", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Repository] RowsAffected取得エラー: %v", err)
+		return err
+	}
+
+	if rowsAffected == 0 {
+		log.Printf("[Repository] 単位が見つかりません: %s", id)
+		return sql.ErrNoRows
+	}
+
+	log.Printf("[Repository] 単位削除成功: %s", id)
+	return nil
+}
+
+// CreateAttribute は属性を作成します
+func CreateAttribute(name, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] CreateAttribute - name: %s", name)
+
+	var attribute model.Attribute
+	err := common.DB.QueryRow(`
+		INSERT INTO attributes (name, value_type, description)
+		VALUES ($1, 'string', $2)
+		RETURNING id, code, name, value_type, description, created_at, updated_at
+	`, name, description).Scan(
+		&attribute.ID,
+		&attribute.Code,
+		&attribute.Name,
+		&attribute.ValueType,
+		&attribute.Description,
+		&attribute.CreatedAt,
+		&attribute.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] 属性作成エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] 属性作成成功: %s", attribute.ID)
+	return &attribute, nil
+}
+
+// UpdateAttribute は属性を更新します
+func UpdateAttribute(id, name, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] UpdateAttribute - id: %s, name: %s", id, name)
+
+	var attribute model.Attribute
+	err := common.DB.QueryRow(`
+		UPDATE attributes
+		SET name = $2, description = $3, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+		RETURNING id, code, name, value_type, description, created_at, updated_at
+	`, id, name, description).Scan(
+		&attribute.ID,
+		&attribute.Code,
+		&attribute.Name,
+		&attribute.ValueType,
+		&attribute.Description,
+		&attribute.CreatedAt,
+		&attribute.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] 属性更新エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] 属性更新成功: %s", attribute.ID)
+	return &attribute, nil
+}
+
+// DeleteAttribute は属性を削除します（論理削除）
+func DeleteAttribute(id string) error {
+	log.Printf("[Repository] DeleteAttribute - id: %s", id)
+
+	result, err := common.DB.Exec(`
+		UPDATE attributes
+		SET deleted_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+	`, id)
+
+	if err != nil {
+		log.Printf("[Repository] 属性削除エラー: %v", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Repository] RowsAffected取得エラー: %v", err)
+		return err
+	}
+
+	if rowsAffected == 0 {
+		log.Printf("[Repository] 属性が見つかりません: %s", id)
+		return sql.ErrNoRows
+	}
+
+	log.Printf("[Repository] 属性削除成功: %s", id)
+	return nil
+}
+
+// CreateUser はユーザーを作成します
+func CreateUser(name, email string) (*model.User, error) {
+	log.Printf("[Repository] CreateUser - email: %s", email)
+
+	var user model.User
+	err := common.DB.QueryRow(`
+		INSERT INTO users (email, password_hash, role)
+		VALUES ($1, 'temp_hash', 'user')
+		RETURNING id, email, role, created_at, updated_at
+	`, email).Scan(
+		&user.ID,
+		&user.Email,
+		&user.Role,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] ユーザー作成エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] ユーザー作成成功: %s", user.ID)
+	return &user, nil
+}
+
+// UpdateUser はユーザーを更新します
+func UpdateUser(id, name, email string) (*model.User, error) {
+	log.Printf("[Repository] UpdateUser - id: %s, email: %s", id, email)
+
+	var user model.User
+	err := common.DB.QueryRow(`
+		UPDATE users
+		SET email = $2, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+		RETURNING id, email, role, created_at, updated_at
+	`, id, email).Scan(
+		&user.ID,
+		&user.Email,
+		&user.Role,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] ユーザー更新エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] ユーザー更新成功: %s", user.ID)
+	return &user, nil
+}
+
+// DeleteUser はユーザーを削除します（論理削除）
+func DeleteUser(id string) error {
+	log.Printf("[Repository] DeleteUser - id: %s", id)
+
+	result, err := common.DB.Exec(`
+		UPDATE users
+		SET deleted_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+	`, id)
+
+	if err != nil {
+		log.Printf("[Repository] ユーザー削除エラー: %v", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Repository] RowsAffected取得エラー: %v", err)
+		return err
+	}
+
+	if rowsAffected == 0 {
+		log.Printf("[Repository] ユーザーが見つかりません: %s", id)
+		return sql.ErrNoRows
+	}
+
+	log.Printf("[Repository] ユーザー削除成功: %s", id)
+	return nil
+}
