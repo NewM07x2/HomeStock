@@ -177,6 +177,75 @@ export default function ItemsList() {
               />
             </div>
 
+            {/* カテゴリ選択 */}
+            <div className="md:col-span-2">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                カテゴリ（複数選択可）
+              </label>
+              <Select<CategoryOption, true>
+                instanceId="category-select"
+                isMulti
+                options={categoryOptions}
+                value={categoryOptions.filter(option => 
+                  searchConditions.categories.includes(option.value)
+                )}
+                onChange={(selectedOptions: MultiValue<CategoryOption>) => {
+                  const codes = selectedOptions ? selectedOptions.map((option: CategoryOption) => option.value) : []
+                  setSearchConditions(prev => ({ ...prev, categories: codes }))
+                }}
+                placeholder="カテゴリを選択してください"
+                className="react-select-container"
+                classNamePrefix="react-select"
+                noOptionsMessage={() => 'カテゴリがありません'}
+                isClearable
+                styles={{
+                  control: (base: any, state: any) => ({
+                    ...base,
+                    minHeight: '42px',
+                    borderColor: state.isFocused ? '#3b82f6' : '#d1d5db',
+                    boxShadow: state.isFocused ? '0 0 0 2px rgba(59, 130, 246, 0.5)' : 'none',
+                    '&:hover': {
+                      borderColor: state.isFocused ? '#3b82f6' : '#d1d5db'
+                    },
+                    borderRadius: '0.5rem',
+                    paddingLeft: '0.5rem',
+                    paddingRight: '0.5rem'
+                  }),
+                  menu: (base: any) => ({
+                    ...base,
+                    backgroundColor: '#eff6ff'
+                  }),
+                  option: (base: any, state: any) => ({
+                    ...base,
+                    backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#bfdbfe' : '#eff6ff',
+                    color: state.isSelected ? '#ffffff' : '#1e40af',
+                    ':active': {
+                      backgroundColor: '#93c5fd'
+                    }
+                  }),
+                  multiValue: (base: any) => ({
+                    ...base,
+                    backgroundColor: '#dbeafe',
+                    borderRadius: '0.375rem'
+                  }),
+                  multiValueLabel: (base: any) => ({
+                    ...base,
+                    color: '#1e40af',
+                    paddingLeft: '0.5rem',
+                    paddingRight: '0.5rem'
+                  }),
+                  multiValueRemove: (base: any) => ({
+                    ...base,
+                    color: '#1e40af',
+                    ':hover': {
+                      backgroundColor: '#93c5fd',
+                      color: '#1e3a8a'
+                    }
+                  })
+                }}
+              />
+            </div>
+
             {/* 在庫数（最小） */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -204,63 +273,6 @@ export default function ItemsList() {
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-          </div>
-
-          {/* カテゴリ選択 */}
-          <div className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              カテゴリ（複数選択可）
-            </label>
-            <Select<CategoryOption, true>
-              instanceId="category-select"
-              isMulti
-              options={categoryOptions}
-              value={categoryOptions.filter(option => 
-                searchConditions.categories.includes(option.value)
-              )}
-              onChange={(selectedOptions: MultiValue<CategoryOption>) => {
-                const codes = selectedOptions ? selectedOptions.map((option: CategoryOption) => option.value) : []
-                setSearchConditions(prev => ({ ...prev, categories: codes }))
-              }}
-              placeholder="カテゴリを選択してください"
-              className="react-select-container"
-              classNamePrefix="react-select"
-              noOptionsMessage={() => 'カテゴリがありません'}
-              isClearable
-              styles={{
-                control: (base: any, state: any) => ({
-                  ...base,
-                  minHeight: '42px',
-                  borderColor: state.isFocused ? '#3b82f6' : '#d1d5db',
-                  boxShadow: state.isFocused ? '0 0 0 2px rgba(59, 130, 246, 0.5)' : 'none',
-                  '&:hover': {
-                    borderColor: state.isFocused ? '#3b82f6' : '#d1d5db'
-                  },
-                  borderRadius: '0.5rem',
-                  paddingLeft: '0.5rem',
-                  paddingRight: '0.5rem'
-                }),
-                multiValue: (base: any) => ({
-                  ...base,
-                  backgroundColor: '#dbeafe',
-                  borderRadius: '0.375rem'
-                }),
-                multiValueLabel: (base: any) => ({
-                  ...base,
-                  color: '#1e40af',
-                  paddingLeft: '0.5rem',
-                  paddingRight: '0.5rem'
-                }),
-                multiValueRemove: (base: any) => ({
-                  ...base,
-                  color: '#1e40af',
-                  ':hover': {
-                    backgroundColor: '#93c5fd',
-                    color: '#1e3a8a'
-                  }
-                })
-              }}
-            />
           </div>
 
           {/* 検索ボタン */}
