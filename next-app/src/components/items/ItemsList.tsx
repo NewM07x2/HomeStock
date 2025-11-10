@@ -6,6 +6,7 @@ import Pagination from './Pagination'
 import { fetchItemsWithSearch, fetchCategories, type Category } from '@/lib/api'
 import { useRefresh } from '@/components/ui/RefreshContext'
 import { useModal } from '@/components/ui/ModalProvider'
+import Select, { MultiValue } from 'react-select'
 
 type Item = {
   id: string
@@ -23,9 +24,15 @@ type SearchConditions = {
   maxQty: string
 }
 
+type CategoryOption = {
+  value: string
+  label: string
+}
+
 export default function ItemsList() {
   const [items, setItems] = useState<Item[]>([])
   const [categories, setCategories] = useState<Category[]>([])
+  const [categoryOptions, setCategoryOptions] = useState<CategoryOption[]>([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const limit = 10
@@ -59,6 +66,12 @@ export default function ItemsList() {
         const data = await fetchCategories()
         if (!mounted) return
         setCategories(data)
+        // react-select用のオプションを作成
+        const options = data.map(cat => ({
+          value: cat.code,
+          label: cat.name
+        }))
+        setCategoryOptions(options)
       } catch (err) {
         console.error('カテゴリの取得に失敗しました:', err)
       }
@@ -198,44 +211,22 @@ export default function ItemsList() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               カテゴリ（複数選択可）
             </label>
-            <div className="flex flex-wrap gap-2 mb-2">
-              {searchConditions.categories.map((categoryCode) => {
-                const category = categories.find((c) => c.code === categoryCode);
-                return (
-                  <div
-                    key={categoryCode}
-                    className="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
-                  >
-                    <span className="mr-2">{category?.name || categoryCode}</span>
-                    <button
-                      onClick={() => toggleCategory(categoryCode)}
-                      className="text-blue-500 hover:text-blue-700"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-            <select
-              onChange={(e) => {
-                const selectedCode = e.target.value;
-                if (selectedCode) {
-                  toggleCategory(selectedCode);
-                  e.target.value = ""; // Reset the dropdown
-                }
+            <Select<CategoryOption, true>
+              isMulti
+              options={categoryOptions}
+              value={categoryOptions.filter(option => 
+                searchConditions.categories.includes(option.value)
+              )}
+              onChange={(selectedOptions: MultiValue<CategoryOption>) => {
+                const codes = selectedOptions ? selectedOptions.map((option: CategoryOption) => option.value) : []
+                setSearchConditions(prev => ({ ...prev, categories: codes }))
               }}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              <option value="">カテゴリを選択...</option>
-              {categories
-                .filter((c) => !searchConditions.categories.includes(c.code))
-                .map((category) => (
-                  <option key={category.code} value={category.code}>
-                    {category.name}
-                  </option>
-                ))}
-            </select>
+              placeholder="カテゴリを選択してください"
+              className="basic-multi-select"
+              classNamePrefix="select"
+              noOptionsMessage={() => 'カテゴリがありません'}
+              isClearable
+            />
           </div>
 
           {/* 検索ボタン */}
