@@ -1,56 +1,56 @@
 app-index.js:35 Warning: Encountered two children with the same key, `[object Object]`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
-    at div
-    at div
-    at div
-    at div
-    at div
-    at ItemsList (webpack-internal:///(app-pages-browser)/./src/components/items/ItemsList.tsx:21:78)
-    at div
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
-    at main
-    at div
-    at div
-    at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
-    at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
-    at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
-    at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
-    at body
-    at html
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
-    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
-    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
-    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
-    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
-    at RSCComponent
-    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
+at div
+at div
+at div
+at div
+at div
+at ItemsList (webpack-internal:///(app-pages-browser)/./src/components/items/ItemsList.tsx:21:78)
+at div
+at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
+at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
+at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
+at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
+at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
+at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
+at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
+at main
+at div
+at div
+at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
+at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
+at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
+at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
+at body
+at html
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
+at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
+at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
+at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
+at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
+at RSCComponent
+at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
 window.console.error @ app-index.js:35
 console.error @ hydration-error-info.js:41
 printWarning @ react-dom.development.js:75
@@ -71,23 +71,23 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 react-dom.development.js:7984 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at HTMLUnknownElement.callCallback (react-dom.development.js:17629:30)
-    at Object.invokeGuardedCallbackImpl (react-dom.development.js:17667:30)
-    at invokeGuardedCallback (react-dom.development.js:17729:39)
-    at beginWork (react-dom.development.js:22805:21)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at HTMLUnknownElement.callCallback (react-dom.development.js:17629:30)
+at Object.invokeGuardedCallbackImpl (react-dom.development.js:17667:30)
+at invokeGuardedCallback (react-dom.development.js:17729:39)
+at beginWork (react-dom.development.js:22805:21)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -106,20 +106,20 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 2redirect-boundary.js:57 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -135,20 +135,20 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 not-found-boundary.js:37 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at performConcurrentWorkOnRoot (react-dom.development.js:20841:84)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -164,58 +164,58 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 2app-index.js:35 Warning: Encountered two children with the same key, `[object Object]`. Keys should be unique so that components maintain their identity across updates. Non-unique keys may cause children to be duplicated and/or omitted — the behavior is unsupported and could change in a future version.
-    at div
-    at div
-    at div
-    at div
-    at div
-    at ItemsList (webpack-internal:///(app-pages-browser)/./src/components/items/ItemsList.tsx:21:78)
-    at div
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
-    at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
-    at main
-    at div
-    at div
-    at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
-    at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
-    at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
-    at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
-    at body
-    at html
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
-    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
-    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
-    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
-    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
-    at RSCComponent
-    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
+at div
+at div
+at div
+at div
+at div
+at ItemsList (webpack-internal:///(app-pages-browser)/./src/components/items/ItemsList.tsx:21:78)
+at div
+at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
+at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
+at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
+at InnerLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:242:11)
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
+at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
+at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
+at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
+at main
+at div
+at div
+at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
+at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
+at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
+at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
+at body
+at html
+at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
+at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
+at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
+at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
+at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
+at RSCComponent
+at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
 window.console.error @ app-index.js:35
 console.error @ hydration-error-info.js:41
 printWarning @ react-dom.development.js:75
@@ -237,24 +237,24 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 react-dom.development.js:7984 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at HTMLUnknownElement.callCallback (react-dom.development.js:17629:30)
-    at Object.invokeGuardedCallbackImpl (react-dom.development.js:17667:30)
-    at invokeGuardedCallback (react-dom.development.js:17729:39)
-    at beginWork (react-dom.development.js:22805:21)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at recoverFromConcurrentError (react-dom.development.js:20917:30)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at HTMLUnknownElement.callCallback (react-dom.development.js:17629:30)
+at Object.invokeGuardedCallbackImpl (react-dom.development.js:17667:30)
+at invokeGuardedCallback (react-dom.development.js:17729:39)
+at beginWork (react-dom.development.js:22805:21)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at recoverFromConcurrentError (react-dom.development.js:20917:30)
+at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -274,21 +274,21 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 2redirect-boundary.js:57 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at recoverFromConcurrentError (react-dom.development.js:20917:30)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at recoverFromConcurrentError (react-dom.development.js:20917:30)
+at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -305,21 +305,21 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 not-found-boundary.js:37 Uncaught Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at recoverFromConcurrentError (react-dom.development.js:20917:30)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at recoverFromConcurrentError (react-dom.development.js:20917:30)
+at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 throwOnInvalidObjectType @ react-dom.development.js:7984
 reconcileChildFibersImpl @ react-dom.development.js:8793
 reconcileChildFibers @ react-dom.development.js:8809
@@ -477,21 +477,21 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 error.tsx:13 Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at recoverFromConcurrentError (react-dom.development.js:20917:30)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at recoverFromConcurrentError (react-dom.development.js:20917:30)
+at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
 window.console.error @ app-index.js:35
 console.error @ hydration-error-info.js:41
 eval @ error.tsx:13
@@ -603,18 +603,18 @@ workLoop @ scheduler.development.js:200
 flushWork @ scheduler.development.js:178
 performWorkUntilDeadline @ scheduler.development.js:416Understand this error
 error.tsx:13 Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
-    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
-    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
-    at reconcileChildFibers (react-dom.development.js:8809:39)
-    at reconcileChildren (react-dom.development.js:13708:40)
-    at updateHostComponent$1 (react-dom.development.js:14482:13)
-    at beginWork$1 (react-dom.development.js:15970:28)
-    at beginWork (react-dom.development.js:22789:28)
-    at performUnitOfWork (react-dom.development.js:21852:24)
-    at workLoopSync (react-dom.development.js:21617:17)
-    at renderRootSync (react-dom.development.js:21584:21)
-    at recoverFromConcurrentError (react-dom.development.js:20917:30)
-    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
-    at workLoop (scheduler.development.js:200:48)
-    at flushWork (scheduler.development.js:178:28)
-    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
+at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+at reconcileChildFibers (react-dom.development.js:8809:39)
+at reconcileChildren (react-dom.development.js:13708:40)
+at updateHostComponent$1 (react-dom.development.js:14482:13)
+at beginWork$1 (react-dom.development.js:15970:28)
+at beginWork (react-dom.development.js:22789:28)
+at performUnitOfWork (react-dom.development.js:21852:24)
+at workLoopSync (react-dom.development.js:21617:17)
+at renderRootSync (react-dom.development.js:21584:21)
+at recoverFromConcurrentError (react-dom.development.js:20917:30)
+at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+at workLoop (scheduler.development.js:200:48)
+at flushWork (scheduler.development.js:178:28)
+at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)

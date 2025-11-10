@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import CreateButton from './CreateButton'
 import Pagination from './Pagination'
-import { fetchItemsWithSearch, fetchCategories } from '@/lib/api'
+import { fetchItemsWithSearch, fetchCategories, type Category } from '@/lib/api'
 import { useRefresh } from '@/components/ui/RefreshContext'
 import { useModal } from '@/components/ui/ModalProvider'
 
@@ -25,7 +25,7 @@ type SearchConditions = {
 
 export default function ItemsList() {
   const [items, setItems] = useState<Item[]>([])
-  const [categories, setCategories] = useState<string[]>([])
+  const [categories, setCategories] = useState<Category[]>([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const limit = 10
@@ -89,12 +89,12 @@ export default function ItemsList() {
   }
 
   // カテゴリ選択のトグル
-  const toggleCategory = (category: string) => {
+  const toggleCategory = (categoryCode: string) => {
     setSearchConditions(prev => ({
       ...prev,
-      categories: prev.categories.includes(category)
-        ? prev.categories.filter(c => c !== category)
-        : [...prev.categories, category]
+      categories: prev.categories.includes(categoryCode)
+        ? prev.categories.filter(c => c !== categoryCode)
+        : [...prev.categories, categoryCode]
     }))
   }
 
@@ -201,15 +201,15 @@ export default function ItemsList() {
             <div className="flex flex-wrap gap-2">
               {categories.map(category => (
                 <button
-                  key={category}
-                  onClick={() => toggleCategory(category)}
+                  key={category.code}
+                  onClick={() => toggleCategory(category.code)}
                   className={`px-4 py-2 rounded-lg border transition-colors ${
-                    searchConditions.categories.includes(category)
+                    searchConditions.categories.includes(category.code)
                       ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
                   }`}
                 >
-                  {category}
+                  {category.name}
                 </button>
               ))}
             </div>
