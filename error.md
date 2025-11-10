@@ -1,13 +1,17 @@
-2025/11/10 05:32:08 [Controller] POST /api/users - リクエスト受信
-
-
-2025/11/10 05:32:08 [Repository] CreateUser - email: test@gmail.com
-
-
-2025/11/10 05:32:08 [Repository] ユーザー作成エラー: pq: new row for relation "users" violates check constraint "users_role_check"
-
-
-2025/11/10 05:32:08 [Controller] エラー: ユーザー作成に失敗しました: pq: new row for relation "users" violates check constraint "users_role_check"
-
-
-{"time":"2025-11-10T05:32:08.57508784Z","id":"","remote_ip":"172.18.0.4","host":"go-app:8080","method":"POST","uri":"/api/users","user_agent":"axios/1.12.2","status":500,"error":"","latency":5363041,"latency_human":"5.363041ms","bytes_in":66,"bytes_out":55}
+アイテム管理において以下のエラーが発生中。
+error.tsx:13 Error: Objects are not valid as a React child (found: object with keys {id, code, name, description, created_at, updated_at}). If you meant to render a collection of children, use an array instead.
+    at throwOnInvalidObjectType (react-dom.development.js:7984:19)
+    at reconcileChildFibersImpl (react-dom.development.js:8793:21)
+    at reconcileChildFibers (react-dom.development.js:8809:39)
+    at reconcileChildren (react-dom.development.js:13708:40)
+    at updateHostComponent$1 (react-dom.development.js:14482:13)
+    at beginWork$1 (react-dom.development.js:15970:28)
+    at beginWork (react-dom.development.js:22789:28)
+    at performUnitOfWork (react-dom.development.js:21852:24)
+    at workLoopSync (react-dom.development.js:21617:17)
+    at renderRootSync (react-dom.development.js:21584:21)
+    at recoverFromConcurrentError (react-dom.development.js:20917:30)
+    at performConcurrentWorkOnRoot (react-dom.development.js:20871:46)
+    at workLoop (scheduler.development.js:200:48)
+    at flushWork (scheduler.development.js:178:28)
+    at MessagePort.performWorkUntilDeadline (scheduler.development.js:416:35)
