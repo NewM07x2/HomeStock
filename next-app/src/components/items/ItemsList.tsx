@@ -212,6 +212,7 @@ export default function ItemsList() {
               カテゴリ（複数選択可）
             </label>
             <Select<CategoryOption, true>
+              instanceId="category-select"
               isMulti
               options={categoryOptions}
               value={categoryOptions.filter(option => 
@@ -222,10 +223,43 @@ export default function ItemsList() {
                 setSearchConditions(prev => ({ ...prev, categories: codes }))
               }}
               placeholder="カテゴリを選択してください"
-              className="basic-multi-select"
-              classNamePrefix="select"
+              className="react-select-container"
+              classNamePrefix="react-select"
               noOptionsMessage={() => 'カテゴリがありません'}
               isClearable
+              styles={{
+                control: (base: any, state: any) => ({
+                  ...base,
+                  minHeight: '42px',
+                  borderColor: state.isFocused ? '#3b82f6' : '#d1d5db',
+                  boxShadow: state.isFocused ? '0 0 0 2px rgba(59, 130, 246, 0.5)' : 'none',
+                  '&:hover': {
+                    borderColor: state.isFocused ? '#3b82f6' : '#d1d5db'
+                  },
+                  borderRadius: '0.5rem',
+                  paddingLeft: '0.5rem',
+                  paddingRight: '0.5rem'
+                }),
+                multiValue: (base: any) => ({
+                  ...base,
+                  backgroundColor: '#dbeafe',
+                  borderRadius: '0.375rem'
+                }),
+                multiValueLabel: (base: any) => ({
+                  ...base,
+                  color: '#1e40af',
+                  paddingLeft: '0.5rem',
+                  paddingRight: '0.5rem'
+                }),
+                multiValueRemove: (base: any) => ({
+                  ...base,
+                  color: '#1e40af',
+                  ':hover': {
+                    backgroundColor: '#93c5fd',
+                    color: '#1e3a8a'
+                  }
+                })
+              }}
             />
           </div>
 
