@@ -448,8 +448,8 @@ func DeleteUnit(id string) error {
 }
 
 // CreateAttribute は属性を作成します
-func CreateAttribute(code, name, description string) (*model.Attribute, error) {
-	log.Printf("[Repository] CreateAttribute - code: %s, name: %s", code, name)
+func CreateAttribute(code, name, valueType, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] CreateAttribute - code: %s, name: %s, valueType: %s", code, name, valueType)
 
 	var attribute model.Attribute
 	err := common.DB.QueryRow(`
@@ -457,9 +457,9 @@ func CreateAttribute(code, name, description string) (*model.Attribute, error) {
 			SELECT 'A' || LPAD(nextval('attributes_id_seq')::TEXT, 8, '0') as id
 		)
 		INSERT INTO attributes (id, code, name, value_type, description)
-		SELECT id, $1, $2, 'string', $3 FROM new_id
+		SELECT id, $1, $2, $3, $4 FROM new_id
 		RETURNING id, code, name, value_type, description, created_at, updated_at
-	`, code, name, description).Scan(
+	`, code, name, valueType, description).Scan(
 		&attribute.ID,
 		&attribute.Code,
 		&attribute.Name,
@@ -479,16 +479,16 @@ func CreateAttribute(code, name, description string) (*model.Attribute, error) {
 }
 
 // UpdateAttribute は属性を更新します
-func UpdateAttribute(id, code, name, description string) (*model.Attribute, error) {
-	log.Printf("[Repository] UpdateAttribute - id: %s, code: %s, name: %s", id, code, name)
+func UpdateAttribute(id, code, name, valueType, description string) (*model.Attribute, error) {
+	log.Printf("[Repository] UpdateAttribute - id: %s, code: %s, name: %s, valueType: %s", id, code, name, valueType)
 
 	var attribute model.Attribute
 	err := common.DB.QueryRow(`
 		UPDATE attributes
-		SET code = $2, name = $3, description = $4, updated_at = CURRENT_TIMESTAMP
+		SET code = $2, name = $3, value_type = $4, description = $5, updated_at = CURRENT_TIMESTAMP
 		WHERE id = $1 AND deleted_at IS NULL
 		RETURNING id, code, name, value_type, description, created_at, updated_at
-	`, id, code, name, description).Scan(
+	`, id, code, name, valueType, description).Scan(
 		&attribute.ID,
 		&attribute.Code,
 		&attribute.Name,

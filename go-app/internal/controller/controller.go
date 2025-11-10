@@ -282,6 +282,7 @@ func CreateAttribute(c echo.Context) error {
 	var req struct {
 		Code        string `json:"code"`
 		Name        string `json:"name"`
+		ValueType   string `json:"value_type"`
 		Description string `json:"description"`
 	}
 
@@ -292,7 +293,7 @@ func CreateAttribute(c echo.Context) error {
 		})
 	}
 
-	attribute, err := service.CreateAttribute(req.Code, req.Name, req.Description)
+	attribute, err := service.CreateAttribute(req.Code, req.Name, req.ValueType, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性作成に失敗しました: %v", err)
 		errorMsg := "属性の作成に失敗しました"
@@ -316,6 +317,7 @@ func UpdateAttribute(c echo.Context) error {
 	var req struct {
 		Code        string `json:"code"`
 		Name        string `json:"name"`
+		ValueType   string `json:"value_type"`
 		Description string `json:"description"`
 	}
 
@@ -326,7 +328,7 @@ func UpdateAttribute(c echo.Context) error {
 		})
 	}
 
-	attribute, err := service.UpdateAttribute(id, req.Code, req.Name, req.Description)
+	attribute, err := service.UpdateAttribute(id, req.Code, req.Name, req.ValueType, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性更新に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{

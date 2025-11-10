@@ -61,13 +61,13 @@ func DeleteUnit(id string) error {
 }
 
 // CreateAttribute は属性を作成します
-func CreateAttribute(code, name, description string) (*model.Attribute, error) {
-	return repository.CreateAttribute(code, name, description)
+func CreateAttribute(code, name, valueType, description string) (*model.Attribute, error) {
+	return repository.CreateAttribute(code, name, valueType, description)
 }
 
 // UpdateAttribute は属性を更新します
-func UpdateAttribute(id, code, name, description string) (*model.Attribute, error) {
-	return repository.UpdateAttribute(id, code, name, description)
+func UpdateAttribute(id, code, name, valueType, description string) (*model.Attribute, error) {
+	return repository.UpdateAttribute(id, code, name, valueType, description)
 }
 
 // DeleteAttribute は属性を削除します
