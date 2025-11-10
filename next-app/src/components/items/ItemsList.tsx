@@ -178,7 +178,7 @@ export default function ItemsList() {
             </div>
 
             {/* カテゴリ選択 */}
-            <div className="md:col-span-2">
+            <div className="">
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 カテゴリ（複数選択可）
               </label>
