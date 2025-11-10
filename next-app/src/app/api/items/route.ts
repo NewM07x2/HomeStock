@@ -84,7 +84,7 @@ export async function GET(request: NextRequest) {
     if (categories) {
       const categoryList = categories.split(',').map(c => c.trim())
       filteredItems = filteredItems.filter((item: Item) => 
-        item.category && categoryList.includes(item.category.name)
+        item.category && categoryList.includes(item.category.code)
       )
     }
 

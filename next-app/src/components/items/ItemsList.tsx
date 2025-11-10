@@ -213,11 +213,11 @@ export default function ItemsList() {
                   }),
                   menu: (base: any) => ({
                     ...base,
-                    backgroundColor: '#eff6ff'
+                    backgroundColor: '#ffffff'
                   }),
                   option: (base: any, state: any) => ({
                     ...base,
-                    backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#bfdbfe' : '#eff6ff',
+                    backgroundColor: state.isSelected ? '#3b82f6' : state.isFocused ? '#dbeafe' : '#ffffff',
                     color: state.isSelected ? '#ffffff' : '#1e40af',
                     ':active': {
                       backgroundColor: '#93c5fd'
