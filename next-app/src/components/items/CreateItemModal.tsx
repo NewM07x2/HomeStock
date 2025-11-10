@@ -6,11 +6,18 @@ import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
 export default function CreateItemModal({ handleCloseClick, item, isEdit }: handleCloseClickModel & { item?: any; isEdit?: boolean }) {
-  const [form, setForm] = useState<any>({ name: '', category: '', price: '100', qty: '1', purchase_store: '', purchase_date: new Date().toISOString().split('T')[0], notes: '' })
+  const [form, setForm] = useState<any>({ 
+    code: '',
+    name: '', 
+    category: '', 
+    unit: '',
+    quantity: '',
+    status: 'active'
+  })
   const [loading, setLoading] = useState(false)
   const { bump } = useRefresh()
   const [mounted, setMounted] = useState(false)
-  const [errors, setErrors] = useState<any>({})
+  const [errors, setErrors] = useState<Record<string, string>>({})
 
   useEffect(() => {
     setMounted(true)
@@ -19,112 +26,280 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
 
   useEffect(() => {
     if (item) {
-      // initialize form with existing item when editing
-      setForm({ ...item })
+      setForm({
+        code: item.code || '',
+        name: item.name || '',
+        category: item.category || '',
+        unit: item.unit || '',
+        quantity: item.quantity !== undefined ? String(item.quantity) : '',
+        status: item.status || 'active'
+      })
+    } else {
+      setForm({ 
+        code: '',
+        name: '', 
+        category: '', 
+        unit: '',
+        quantity: '',
+        status: 'active'
+      })
     }
-  }, [item])
+  }, [item, isEdit])
 
-  const validateForm = () => {
-    const newErrors: any = {}
-    if (!form.name) newErrors.name = '名称は必須です'
-    if (!form.category) newErrors.category = 'カテゴリは必須です'
-    if (form.price && isNaN(Number(form.price))) newErrors.price = '価格は数字で入力してください'
-    if (form.qty && isNaN(Number(form.qty))) newErrors.qty = '在庫は数字で入力してください'
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    setForm((prev: any) => ({ ...prev, [name]: value }))
+    // エラーをクリア
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev }
+        delete newErrors[name]
+        return newErrors
+      })
+    }
+  }
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {}
+    
+    if (!form.code.trim()) {
+      newErrors.code = 'アイテムコードは必須です'
+    }
+    if (!form.name.trim()) {
+      newErrors.name = 'アイテム名称は必須です'
+    }
+    if (!form.unit.trim()) {
+      newErrors.unit = '単位は必須です'
+    }
+    if (form.quantity && isNaN(Number(form.quantity))) {
+      newErrors.quantity = '在庫数は数値で入力してください'
+    }
+
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
   }
 
-  const handleInputChange = (field: string, value: string) => {
-    if ((field === 'price' || field === 'qty') && !/^[0-9]*$/.test(value)) {
-      return; // Prevent non-numeric input for price and qty
+  const handleSubmit = async () => {
+    if (!validate()) {
+      return
     }
-    setForm({ ...form, [field]: value });
-  };
 
-  const submit = async () => {
-    if (!validateForm()) return;
-    setLoading(true);
+    setLoading(true)
+
     try {
-      if (isEdit && item) {
-        await updateItem(item.id, form);
-      } else {
-        await createItem(form);
+      const submitData = {
+        ...form,
+        quantity: form.quantity ? Number(form.quantity) : undefined
       }
-      bump();
-      handleCloseClick();
-    } catch (e) {
-      console.error(e);
-      alert('登録に失敗しました');
+
+      if (isEdit && item) {
+        await updateItem(item.id, submitData)
+      } else {
+        await createItem(submitData)
+      }
+
+      // 成功時
+      setForm({ 
+        code: '',
+        name: '', 
+        category: '', 
+        unit: '',
+        quantity: '',
+        status: 'active'
+      })
+      setErrors({})
+      bump()
+      handleCloseClick()
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || `${isEdit ? '更新' : '登録'}に失敗しました`
+      setErrors({
+        submit: errorMessage
+      })
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  const handleClose = () => {
+    setForm({ 
+      code: '',
+      name: '', 
+      category: '', 
+      unit: '',
+      quantity: '',
+      status: 'active'
+    })
+    setErrors({})
+    handleCloseClick()
+  }
 
   const modal = (
-    <div className="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center px-2">
-      <div className="bg-white rounded shadow p-4 sm:p-6 w-full max-w-xl mx-auto max-h-[90vh] overflow-y-auto">
-        <h3 className="text-lg font-medium mb-3">{isEdit ? 'アイテム編集' : 'アイテム作成'}</h3>
-        <div className="flex flex-col gap-3 text-sm">
-          <div className="flex flex-row gap-2">
-            <div className="flex flex-row gap-2 w-24">
-              <label className="flex items-center">名称<span className="text-red-500 text-xxs">※</span></label>
-            </div>
-            <div className='w-full flex flex-col'>
-              <input
-                className={`border rounded w-full px-2 py-1 ${errors.name ? 'border-red-500' : ''}`}
-                value={form.name}
-                onChange={e => setForm({ ...form, name: e.target.value })}
-                placeholder={errors.name || '名称を入力してください'}
-              />
-            </div>
-          </div>
-          <div className="flex flex-row gap-2">
-            <div className="flex flex-row gap-2 w-24">
-              <label className="flex items-center">カテゴリ<span className="text-red-500 text-xxs">※</span></label>
-            </div>
-            <div className='w-full flex flex-col'>
-              <input
-                className={`border rounded w-full px-2 py-1 ${errors.category ? 'border-red-500' : ''}`}
-                value={form.category}
-                onChange={e => setForm({ ...form, category: e.target.value })}
-                placeholder={errors.category || 'カテゴリを入力してください'}
-              />
-            </div>
-          </div>
-          <div className="flex flex-row gap-2">
-            <label className="flex items-center w-24">価格</label>
-            <input
-              className={`border rounded w-full px-2 py-1 ${errors.price ? 'border-red-500' : ''}`}
-              value={form.price}
-              onChange={e => handleInputChange('price', e.target.value)}
-              placeholder={errors.price || '価格を入力してください'}
-            />
-          </div>
-          <div className="flex flex-row gap-2">
-            <label className="flex items-center w-24">在庫</label>
-            <input
-              className={`border rounded w-full px-2 py-1 ${errors.qty ? 'border-red-500' : ''}`}
-              value={form.qty}
-              onChange={e => handleInputChange('qty', e.target.value)}
-              placeholder={errors.qty || '在庫を入力してください'}
-            />
-          </div>
-          <div className="flex flex-row gap-2">
-            <label className="flex items-center w-24">購入店舗</label>
-            <input className="border rounded w-full px-2 py-1" value={form.purchase_store} onChange={e => setForm({ ...form, purchase_store: e.target.value })} />
-          </div>
-          <div className="flex flex-row gap-2">
-            <label className="flex items-center w-24">購入日</label>
-            <input type="date" className="border rounded w-full px-2 py-1" value={form.purchase_date} onChange={e => setForm({ ...form, purchase_date: e.target.value })} />
-          </div>
-          <div className="sm:col-span-2 flex flex-row gap-2">
-            <label className="flex items-center w-24">備考</label>
-            <textarea className="border rounded w-full px-2 py-1" value={form.notes} onChange={e => setForm({ ...form, notes: e.target.value })} />
-          </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between px-6 py-4 border-b">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {isEdit ? 'アイテム編集' : '新規アイテム登録'}
+          </h2>
+          <button
+            onClick={handleClose}
+            className="text-gray-400 hover:text-gray-600"
+            disabled={loading}
+          >
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
         </div>
-        <div className="mt-4 flex justify-end gap-2">
-          <button className="px-3 py-1 border rounded" onClick={() => handleCloseClick()} disabled={loading}>キャンセル</button>
-          <button className="px-3 py-1 bg-blue-600 text-white rounded" onClick={submit} disabled={loading}>{loading ? (isEdit ? '更新中...' : '登録中...') : (isEdit ? '更新' : '登録')}</button>
+
+        <div className="px-6 py-4 space-y-4">
+          {/* アイテムコード */}
+          <div>
+            <label htmlFor="code" className="block text-sm font-medium text-gray-700 mb-1">
+              アイテムコード <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="code"
+              name="code"
+              value={form.code}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.code ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="例: ITEM001"
+              disabled={loading}
+            />
+            {errors.code && (
+              <p className="mt-1 text-sm text-red-500">{errors.code}</p>
+            )}
+          </div>
+
+          {/* アイテム名称 */}
+          <div>
+            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+              アイテム名称 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.name ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="例: ネジセット"
+              disabled={loading}
+            />
+            {errors.name && (
+              <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+            )}
+          </div>
+
+          {/* カテゴリ */}
+          <div>
+            <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-1">
+              カテゴリ
+            </label>
+            <input
+              type="text"
+              id="category"
+              name="category"
+              value={form.category}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              placeholder="例: 金具"
+              disabled={loading}
+            />
+          </div>
+
+          {/* 単位 */}
+          <div>
+            <label htmlFor="unit" className="block text-sm font-medium text-gray-700 mb-1">
+              単位 <span className="text-red-500">*</span>
+            </label>
+            <input
+              type="text"
+              id="unit"
+              name="unit"
+              value={form.unit}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.unit ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="例: 個、箱、kg"
+              disabled={loading}
+            />
+            {errors.unit && (
+              <p className="mt-1 text-sm text-red-500">{errors.unit}</p>
+            )}
+          </div>
+
+          {/* 在庫数 */}
+          <div>
+            <label htmlFor="quantity" className="block text-sm font-medium text-gray-700 mb-1">
+              在庫数
+            </label>
+            <input
+              type="number"
+              id="quantity"
+              name="quantity"
+              value={form.quantity}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.quantity ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="例: 100"
+              disabled={loading}
+            />
+            {errors.quantity && (
+              <p className="mt-1 text-sm text-red-500">{errors.quantity}</p>
+            )}
+          </div>
+
+          {/* ステータス */}
+          <div>
+            <label htmlFor="status" className="block text-sm font-medium text-gray-700 mb-1">
+              ステータス
+            </label>
+            <select
+              id="status"
+              name="status"
+              value={form.status}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              disabled={loading}
+            >
+              <option value="active">有効</option>
+              <option value="inactive">無効</option>
+            </select>
+          </div>
+
+          {/* 送信エラー */}
+          {errors.submit && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <p className="text-sm text-red-600">{errors.submit}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t bg-gray-50">
+          <button
+            type="button"
+            onClick={handleClose}
+            className="px-4 py-2 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors"
+            disabled={loading}
+          >
+            キャンセル
+          </button>
+          <button
+            type="button"
+            onClick={handleSubmit}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
+            disabled={loading}
+          >
+            {loading ? `${isEdit ? '更新中...' : '登録中...'}` : `${isEdit ? '更新' : '登録'}`}
+          </button>
         </div>
       </div>
     </div>
