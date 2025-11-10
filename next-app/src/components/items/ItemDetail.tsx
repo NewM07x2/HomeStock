@@ -47,11 +47,19 @@ export default function ItemDetail({ id, item: initialItem, editable = false }: 
           <div className="grid grid-cols-2 gap-2 text-sm">
             <div>
               <label className="block">カテゴリ</label>
-              <input className="border rounded w-full px-2 py-1" value={form?.category ?? ''} onChange={e => setForm({ ...form, category: e.target.value })} />
+              <input 
+                className="border rounded w-full px-2 py-1" 
+                value={form?.category?.name ?? form?.category ?? ''} 
+                onChange={e => setForm({ ...form, category: e.target.value })} 
+              />
             </div>
             <div>
               <label className="block">在庫</label>
-              <input className="border rounded w-full px-2 py-1" value={form?.qty ?? ''} onChange={e => setForm({ ...form, qty: Number(e.target.value) })} />
+              <input 
+                className="border rounded w-full px-2 py-1" 
+                value={form?.quantity ?? form?.qty ?? ''} 
+                onChange={e => setForm({ ...form, quantity: Number(e.target.value) })} 
+              />
             </div>
             <div>
               <label className="block">価格</label>
@@ -78,12 +86,24 @@ export default function ItemDetail({ id, item: initialItem, editable = false }: 
         <>
           <h2 className="text-xl font-semibold mb-2">{item.name} ({item.code})</h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-sm">
-            <div><strong>カテゴリ</strong><div>{item.category}</div></div>
-            <div><strong>在庫</strong><div>{item.qty}</div></div>
-            <div><strong>価格</strong><div>{item.price}</div></div>
-            <div><strong>購入店</strong><div>{item.purchase_store}</div></div>
-            <div><strong>購入日</strong><div>{item.purchase_date}</div></div>
-            <div className="sm:col-span-2"><strong>備考</strong><div>{item.notes}</div></div>
+            <div><strong>カテゴリ</strong><div>{item.category?.name || '-'}</div></div>
+            <div><strong>単位</strong><div>{item.unit?.name || '-'}</div></div>
+            <div><strong>在庫</strong><div>{item.quantity ?? item.qty ?? 0}</div></div>
+            <div><strong>ステータス</strong><div>{item.status === 'active' ? '有効' : '無効'}</div></div>
+            {item.attributes && item.attributes.length > 0 && (
+              <div className="sm:col-span-2">
+                <strong>属性</strong>
+                <div className="grid grid-cols-2 gap-2 mt-1">
+                  {item.attributes.map((attr: any, idx: number) => (
+                    <div key={idx} className="text-xs">
+                      <span className="text-gray-600">{attr.name}:</span> {attr.value}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            <div className="sm:col-span-2"><strong>作成日時</strong><div>{new Date(item.created_at).toLocaleString('ja-JP')}</div></div>
+            <div className="sm:col-span-2"><strong>更新日時</strong><div>{new Date(item.updated_at).toLocaleString('ja-JP')}</div></div>
           </div>
         </>
       )}
