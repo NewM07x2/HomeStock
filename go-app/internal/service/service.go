@@ -76,13 +76,13 @@ func DeleteAttribute(id string) error {
 }
 
 // CreateUser はユーザーを作成します
-func CreateUser(name, email string) (*model.User, error) {
-	return repository.CreateUser(name, email)
+func CreateUser(email, role string) (*model.User, error) {
+	return repository.CreateUser(email, role)
 }
 
 // UpdateUser はユーザーを更新します
-func UpdateUser(id, name, email string) (*model.User, error) {
-	return repository.UpdateUser(id, name, email)
+func UpdateUser(id, email, role string) (*model.User, error) {
+	return repository.UpdateUser(id, email, role)
 }
 
 // DeleteUser はユーザーを削除します

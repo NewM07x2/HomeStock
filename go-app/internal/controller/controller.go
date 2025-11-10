@@ -397,8 +397,8 @@ func CreateUser(c echo.Context) error {
 	log.Printf("[Controller] POST /api/users - リクエスト受信")
 
 	var req struct {
-		Name  string `json:"name"`
 		Email string `json:"email"`
+		Role  string `json:"role"`
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -408,7 +408,23 @@ func CreateUser(c echo.Context) error {
 		})
 	}
 
-	user, err := service.CreateUser(req.Name, req.Email)
+	// リクエストの内容をログ出力
+	log.Printf("[Controller] リクエスト内容 - email: %s, role: %s", req.Email, req.Role)
+
+	// roleのバリデーション
+	if req.Role == "" {
+		req.Role = "viewer" // デフォルト値
+		log.Printf("[Controller] roleが空のため、デフォルト値'viewer'を設定")
+	}
+	validRoles := map[string]bool{"admin": true, "operator": true, "viewer": true}
+	if !validRoles[req.Role] {
+		log.Printf("[Controller] エラー: 無効なrole: %s", req.Role)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "roleは admin, operator, viewer のいずれかである必要があります",
+		})
+	}
+
+	user, err := service.CreateUser(req.Email, req.Role)
 	if err != nil {
 		log.Printf("[Controller] エラー: ユーザー作成に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{
@@ -426,8 +442,8 @@ func UpdateUser(c echo.Context) error {
 	log.Printf("[Controller] PUT /api/users/%s - リクエスト受信", id)
 
 	var req struct {
-		Name  string `json:"name"`
 		Email string `json:"email"`
+		Role  string `json:"role"`
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -437,7 +453,23 @@ func UpdateUser(c echo.Context) error {
 		})
 	}
 
-	user, err := service.UpdateUser(id, req.Name, req.Email)
+	// リクエストの内容をログ出力
+	log.Printf("[Controller] リクエスト内容 - email: %s, role: %s", req.Email, req.Role)
+
+	// roleのバリデーション
+	if req.Role == "" {
+		req.Role = "viewer" // デフォルト値
+		log.Printf("[Controller] roleが空のため、デフォルト値'viewer'を設定")
+	}
+	validRoles := map[string]bool{"admin": true, "operator": true, "viewer": true}
+	if !validRoles[req.Role] {
+		log.Printf("[Controller] エラー: 無効なrole: %s", req.Role)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "roleは admin, operator, viewer のいずれかである必要があります",
+		})
+	}
+
+	user, err := service.UpdateUser(id, req.Email, req.Role)
 	if err != nil {
 		log.Printf("[Controller] エラー: ユーザー更新に失敗しました: %v", err)
 		return c.JSON(http.StatusInternalServerError, map[string]string{

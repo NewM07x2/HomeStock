@@ -538,15 +538,18 @@ func DeleteAttribute(id string) error {
 }
 
 // CreateUser はユーザーを作成します
-func CreateUser(name, email string) (*model.User, error) {
-	log.Printf("[Repository] CreateUser - email: %s", email)
+func CreateUser(email, role string) (*model.User, error) {
+	log.Printf("[Repository] CreateUser - email: %s, role: %s", email, role)
 
 	var user model.User
 	err := common.DB.QueryRow(`
-		INSERT INTO users (email, password_hash, role)
-		VALUES ($1, 'temp_hash', 'user')
+		WITH new_id AS (
+			SELECT 'U' || LPAD(nextval('users_id_seq')::TEXT, 8, '0') as id
+		)
+		INSERT INTO users (id, email, password_hash, role)
+		SELECT id, $1, 'temp_hash', $2 FROM new_id
 		RETURNING id, email, role, created_at, updated_at
-	`, email).Scan(
+	`, email, role).Scan(
 		&user.ID,
 		&user.Email,
 		&user.Role,
@@ -564,16 +567,16 @@ func CreateUser(name, email string) (*model.User, error) {
 }
 
 // UpdateUser はユーザーを更新します
-func UpdateUser(id, name, email string) (*model.User, error) {
-	log.Printf("[Repository] UpdateUser - id: %s, email: %s", id, email)
+func UpdateUser(id, email, role string) (*model.User, error) {
+	log.Printf("[Repository] UpdateUser - id: %s, email: %s, role: %s", id, email, role)
 
 	var user model.User
 	err := common.DB.QueryRow(`
 		UPDATE users
-		SET email = $2, updated_at = CURRENT_TIMESTAMP
+		SET email = $2, role = $3, updated_at = CURRENT_TIMESTAMP
 		WHERE id = $1 AND deleted_at IS NULL
 		RETURNING id, email, role, created_at, updated_at
-	`, id, email).Scan(
+	`, id, email, role).Scan(
 		&user.ID,
 		&user.Email,
 		&user.Role,
