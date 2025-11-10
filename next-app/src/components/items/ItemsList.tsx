@@ -198,21 +198,44 @@ export default function ItemsList() {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               カテゴリ（複数選択可）
             </label>
-            <div className="flex flex-wrap gap-2">
-              {categories.map(category => (
-                <button
-                  key={category.code}
-                  onClick={() => toggleCategory(category.code)}
-                  className={`px-4 py-2 rounded-lg border transition-colors ${
-                    searchConditions.categories.includes(category.code)
-                      ? 'bg-blue-600 text-white border-blue-600'
-                      : 'bg-white text-gray-700 border-gray-300 hover:border-blue-400'
-                  }`}
-                >
-                  {category.name}
-                </button>
-              ))}
+            <div className="flex flex-wrap gap-2 mb-2">
+              {searchConditions.categories.map((categoryCode) => {
+                const category = categories.find((c) => c.code === categoryCode);
+                return (
+                  <div
+                    key={categoryCode}
+                    className="flex items-center bg-blue-100 text-blue-700 px-3 py-1 rounded-full"
+                  >
+                    <span className="mr-2">{category?.name || categoryCode}</span>
+                    <button
+                      onClick={() => toggleCategory(categoryCode)}
+                      className="text-blue-500 hover:text-blue-700"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                );
+              })}
             </div>
+            <select
+              onChange={(e) => {
+                const selectedCode = e.target.value;
+                if (selectedCode) {
+                  toggleCategory(selectedCode);
+                  e.target.value = ""; // Reset the dropdown
+                }
+              }}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <option value="">カテゴリを選択...</option>
+              {categories
+                .filter((c) => !searchConditions.categories.includes(c.code))
+                .map((category) => (
+                  <option key={category.code} value={category.code}>
+                    {category.name}
+                  </option>
+                ))}
+            </select>
           </div>
 
           {/* 検索ボタン */}
