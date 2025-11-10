@@ -293,6 +293,23 @@ func CreateAttribute(c echo.Context) error {
 		})
 	}
 
+	// リクエストの内容をログ出力
+	log.Printf("[Controller] リクエスト内容 - code: %s, name: %s, value_type: %s, description: %s",
+		req.Code, req.Name, req.ValueType, req.Description)
+
+	// value_typeのバリデーション
+	if req.ValueType == "" {
+		req.ValueType = "text" // デフォルト値
+		log.Printf("[Controller] value_typeが空のため、デフォルト値'text'を設定")
+	}
+	validTypes := map[string]bool{"text": true, "number": true, "boolean": true, "date": true}
+	if !validTypes[req.ValueType] {
+		log.Printf("[Controller] エラー: 無効なvalue_type: %s", req.ValueType)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "value_typeは text, number, boolean, date のいずれかである必要があります",
+		})
+	}
+
 	attribute, err := service.CreateAttribute(req.Code, req.Name, req.ValueType, req.Description)
 	if err != nil {
 		log.Printf("[Controller] エラー: 属性作成に失敗しました: %v", err)
@@ -325,6 +342,23 @@ func UpdateAttribute(c echo.Context) error {
 		log.Printf("[Controller] エラー: リクエストのバインドに失敗しました: %v", err)
 		return c.JSON(http.StatusBadRequest, map[string]string{
 			"error": "リクエストが不正です",
+		})
+	}
+
+	// リクエストの内容をログ出力
+	log.Printf("[Controller] リクエスト内容 - code: %s, name: %s, value_type: %s, description: %s",
+		req.Code, req.Name, req.ValueType, req.Description)
+
+	// value_typeのバリデーション
+	if req.ValueType == "" {
+		req.ValueType = "text" // デフォルト値
+		log.Printf("[Controller] value_typeが空のため、デフォルト値'text'を設定")
+	}
+	validTypes := map[string]bool{"text": true, "number": true, "boolean": true, "date": true}
+	if !validTypes[req.ValueType] {
+		log.Printf("[Controller] エラー: 無効なvalue_type: %s", req.ValueType)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "value_typeは text, number, boolean, date のいずれかである必要があります",
 		})
 	}
 
