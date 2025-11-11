@@ -72,9 +72,7 @@ const navigation: NavItem[] = [
     subItems: [
       { name: 'システム設定', href: '/settings/system', requiredRole: 'admin' },
       { name: 'ユーザー管理', href: '/settings/users', requiredRole: 'admin' },
-      { name: 'カテゴリ設定', href: '/settings/categories', requiredRole: 'admin' },
-      { name: '単位設定', href: '/settings/units', requiredRole: 'admin' },
-      { name: '属性設定', href: '/settings/attributes', requiredRole: 'admin' },
+      { name: 'マスタ管理', href: '/settings/masters', requiredRole: 'admin' },
     ]
   },
 ];
