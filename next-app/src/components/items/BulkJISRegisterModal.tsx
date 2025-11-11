@@ -22,11 +22,8 @@ export default function BulkJISRegisterModal({ open, onClose, onScan }: BulkJISR
         { 
           fps: 10, 
           qrbox: { width: 250, height: 250 },
-          aspectRatio: 1.0,
-          supportedScanTypes: [
-            "SCAN_TYPE_CAMERA",
-            "SCAN_TYPE_FILE"
-          ]
+          aspectRatio: 1.0
+          // supportedScanTypesは削除 - デフォルトでカメラとファイルの両方がサポートされる
         },
         false
       )
