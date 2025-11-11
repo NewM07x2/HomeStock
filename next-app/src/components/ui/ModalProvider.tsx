@@ -16,9 +16,13 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [detailId, setDetailId] = useState<string | null>(null)
   const [detailItem, setDetailItem] = useState<any | null>(null)
   const [detailEditable, setDetailEditable] = useState<boolean>(false)
+  const [initialCode, setInitialCode] = useState<string | null>(null)
 
   const openCreateItem = () => setCreateOpen(true)
-  const closeCreateItem = () => setCreateOpen(false)
+  const closeCreateItem = () => {
+    setCreateOpen(false)
+    setInitialCode(null)
+  }
 
   React.useEffect(() => {
     const handler = () => setCreateOpen(true)
@@ -28,6 +32,15 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       const payload = ce.detail
       const id = typeof payload === 'string' ? payload : payload?.id
       const editable = typeof payload === 'object' && payload?.editable === true
+      const initialCodeValue = typeof payload === 'object' && payload?.initialCode ? payload.initialCode : null
+      
+      // initialCodeがある場合は新規登録モード
+      if (initialCodeValue && !id) {
+        setInitialCode(initialCodeValue)
+        setCreateOpen(true)
+        return
+      }
+      
       // fetch data first, then set detail to open modal with data ready
       fetchItemById(id).then(i => {
         setDetailItem(i)
@@ -47,7 +60,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   return (
     <ModalContext.Provider value={{ openCreateItem, closeCreateItem }}>
       {children}
-  {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} />}
+  {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} initialCode={initialCode} />}
   {detailId && detailEditable && (
     <CreateItemModal handleCloseClick={() => { setDetailId(null); setDetailItem(null); setDetailEditable(false) }} item={detailItem} isEdit={true} />
   )}

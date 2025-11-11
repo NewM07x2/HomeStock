@@ -5,7 +5,7 @@ import { createItem, updateItem } from '@/lib/api'
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
-export default function CreateItemModal({ handleCloseClick, item, isEdit }: handleCloseClickModel & { item?: any; isEdit?: boolean }) {
+export default function CreateItemModal({ handleCloseClick, item, isEdit, initialCode }: handleCloseClickModel & { item?: any; isEdit?: boolean; initialCode?: string | null }) {
   const [form, setForm] = useState<any>({ 
     code: '',
     name: '', 
@@ -36,6 +36,17 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         unit_price: item.unit_price !== undefined ? String(item.unit_price) : '',
         status: item.status || 'active'
       })
+    } else if (initialCode) {
+      // バーコード読み取りから来た場合
+      setForm({ 
+        code: initialCode,
+        name: '', 
+        category: '', 
+        unit: '',
+        quantity: '',
+        unit_price: '',
+        status: 'active'
+      })
     } else {
       setForm({ 
         code: '',
@@ -47,7 +58,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         status: 'active'
       })
     }
-  }, [item, isEdit])
+  }, [item, isEdit, initialCode])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target

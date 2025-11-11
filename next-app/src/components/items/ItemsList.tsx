@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import SearchBar from './SearchBar'
 import CreateButton from './CreateButton'
 import Pagination from './Pagination'
+import BulkJISRegisterModal from './BulkJISRegisterModal'
 import { fetchItemsWithSearch, fetchCategories, type Category } from '@/lib/api'
 import { useRefresh } from '@/components/ui/RefreshContext'
 import { useModal } from '@/components/ui/ModalProvider'
@@ -36,6 +37,8 @@ export default function ItemsList() {
   const [categoryOptions, setCategoryOptions] = useState<CategoryOption[]>([])
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
+  const [bulkModalOpen, setBulkModalOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
   const limit = 10
 
   // 検索条件（即座に検索が実行される）
@@ -48,6 +51,20 @@ export default function ItemsList() {
   })
 
   const { refreshCount } = useRefresh()
+
+  // モバイルデバイスの判定
+  useEffect(() => {
+    const checkMobile = () => {
+      const userAgent = navigator.userAgent || navigator.vendor || (window as any).opera
+      const isMobileDevice = /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent.toLowerCase())
+      setIsMobile(isMobileDevice)
+    }
+    
+    checkMobile()
+    // リサイズ時にも再チェック（念のため）
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
 
   // カテゴリマスタをAPIから取得
   useEffect(() => {
@@ -103,6 +120,19 @@ export default function ItemsList() {
     })
     return () => { mounted = false }
   }, [searchConditions, page, limit, refreshCount])
+
+  // バーコード読み取り後の処理
+  const handleBulkScan = (decodedText: string) => {
+    console.log('読み取ったコード:', decodedText)
+    // 新規登録モーダルを開き、コードを設定
+    window.dispatchEvent(new CustomEvent('open-item-detail', { 
+      detail: { 
+        id: null, 
+        editable: true,
+        initialCode: decodedText 
+      } 
+    }))
+  }
 
   return (
     <div className="space-y-6">
@@ -250,7 +280,17 @@ export default function ItemsList() {
         {/* ヘッダー */}
         <div className="p-4 border-b border-gray-200 flex justify-between items-center">
           <h2 className="text-lg font-semibold text-gray-800">検索結果</h2>
-          <CreateButton />
+          <div className="flex gap-2">
+            {isMobile && (
+              <button
+                onClick={() => setBulkModalOpen(true)}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+              >
+                一括JIS登録
+              </button>
+            )}
+            <CreateButton />
+          </div>
         </div>
 
       {/* アイテムリスト */}
@@ -336,6 +376,13 @@ export default function ItemsList() {
         </div>
       </div>
       </div>
+
+      {/* バーコード/QR読み取りモーダル */}
+      <BulkJISRegisterModal
+        open={bulkModalOpen}
+        onClose={() => setBulkModalOpen(false)}
+        onScan={handleBulkScan}
+      />
     </div>
   )
 }
