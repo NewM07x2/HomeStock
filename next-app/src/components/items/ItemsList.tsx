@@ -14,6 +14,7 @@ type Item = {
   name: string
   category?: string
   qty: number
+  unit_price?: number
 }
 
 type SearchConditions = {
@@ -89,7 +90,8 @@ export default function ItemsList() {
         code: item.code,
         name: item.name,
         category: item.category?.name,
-        qty: item.quantity || 0
+        qty: item.quantity || 0,
+        unit_price: item.unit_price
       })))
       setTotal(res.total)
     }).catch(err => {
@@ -268,6 +270,9 @@ export default function ItemsList() {
               <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
                 在庫数
               </th>
+              <th className="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                金額
+              </th>
               <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider">
                 操作
               </th>
@@ -276,7 +281,7 @@ export default function ItemsList() {
           <tbody className="bg-white divide-y divide-gray-200">
             {items.length === 0 ? (
               <tr>
-                <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                <td colSpan={6} className="px-4 py-8 text-center text-gray-500">
                   データがありません
                 </td>
               </tr>
@@ -299,6 +304,9 @@ export default function ItemsList() {
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
                     {item.qty}
+                  </td>
+                  <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
+                    {item.unit_price ?? '-'}
                   </td>
                   <td className="px-4 py-3 text-sm text-center whitespace-nowrap">
                     <button 

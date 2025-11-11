@@ -14,7 +14,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 
 	rows, err := common.DB.Query(`
         SELECT 
-					i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.status, 
+					i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.unit_price, i.status, 
 					i.created_at, i.updated_at,
 					c.id, c.code, c.name,
 					u.id, u.code, u.name
@@ -45,6 +45,7 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 			&item.CategoryID,
 			&item.UnitID,
 			&item.Quantity,
+			&item.UnitPrice,
 			&item.Status,
 			&item.CreatedAt,
 			&item.UpdatedAt,

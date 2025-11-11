@@ -40,6 +40,7 @@ export interface Item {
   category_id?: string;
   unit_id: string;
   quantity?: number;
+  unit_price?: number;
   status: string;
   created_at: string;
   updated_at: string;

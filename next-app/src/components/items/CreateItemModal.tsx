@@ -12,6 +12,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     category: '', 
     unit: '',
     quantity: '',
+    unit_price: '',
     status: 'active'
   })
   const [loading, setLoading] = useState(false)
@@ -32,6 +33,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         category: item.category || '',
         unit: item.unit || '',
         quantity: item.quantity !== undefined ? String(item.quantity) : '',
+        unit_price: item.unit_price !== undefined ? String(item.unit_price) : '',
         status: item.status || 'active'
       })
     } else {
@@ -41,6 +43,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         category: '', 
         unit: '',
         quantity: '',
+        unit_price: '',
         status: 'active'
       })
     }
@@ -74,6 +77,9 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     if (form.quantity && isNaN(Number(form.quantity))) {
       newErrors.quantity = '在庫数は数値で入力してください'
     }
+    if (form.unit_price && isNaN(Number(form.unit_price))) {
+      newErrors.unit_price = '金額は数値で入力してください'
+    }
 
     setErrors(newErrors)
     return Object.keys(newErrors).length === 0
@@ -89,7 +95,8 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
     try {
       const submitData = {
         ...form,
-        quantity: form.quantity ? Number(form.quantity) : undefined
+        quantity: form.quantity ? Number(form.quantity) : undefined,
+        unit_price: form.unit_price ? Number(form.unit_price) : undefined
       }
 
       if (isEdit && item) {
@@ -254,6 +261,29 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
             />
             {errors.quantity && (
               <p className="mt-1 text-sm text-red-500">{errors.quantity}</p>
+            )}
+          </div>
+
+          {/* 金額 */}
+          <div>
+            <label htmlFor="unit_price" className="block text-sm font-medium text-gray-700 mb-1">
+              金額（円）
+            </label>
+            <input
+              type="number"
+              id="unit_price"
+              name="unit_price"
+              value={form.unit_price}
+              onChange={handleChange}
+              className={`w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+                errors.unit_price ? 'border-red-500' : 'border-gray-300'
+              }`}
+              placeholder="例: 1500"
+              disabled={loading}
+              step="0.01"
+            />
+            {errors.unit_price && (
+              <p className="mt-1 text-sm text-red-500">{errors.unit_price}</p>
             )}
           </div>
 

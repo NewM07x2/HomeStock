@@ -38,6 +38,7 @@ export default async function RecentItems() {
                 <th className="py-3 px-2 font-medium text-gray-700">名称</th>
                 <th className="py-3 px-2 font-medium text-gray-700">カテゴリ</th>
                 <th className="py-3 px-2 font-medium text-gray-700">在庫数</th>
+                  <th className="py-3 px-2 font-medium text-gray-700">金額</th>
                 <th className="py-3 px-2 font-medium text-gray-700">ステータス</th>
               </tr>
             </thead>
@@ -51,6 +52,7 @@ export default async function RecentItems() {
                     {item.quantity !== null && item.quantity !== undefined 
                       ? `${item.quantity} ${item.unit?.name || ''}` 
                       : '-'}
+                    <td className="py-3 px-2 text-gray-900">{item.unit_price ?? '-'}</td>
                   </td>
                   <td className="py-3 px-2">
                     <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${
