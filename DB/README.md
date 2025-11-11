@@ -208,7 +208,7 @@ DROP COLUMN IF EXISTS supplier_name;
 
 ```powershell
 # Dockerコンテナ内でマイグレーションを実行
-docker-compose exec db psql -U postgres -d homestock -f /docker-entrypoint-initdb.d/04_add_column_example.sql
+docker-compose exec db psql -U postgres -d homestock -f /docker-entrypoint-initdb.d/04_insert_sample_stock_history.sql
 
 # または、ホストからファイルをコピーして実行
 docker cp DB/04_add_column_example.sql homestock-db-1:/tmp/
