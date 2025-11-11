@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
     // レスポンス形式に変換
     const response = {
       year,
-      month: month - 1, // JavaScriptの月は0-11なので調整
+      month, // パラメータで受け取った月をそのまま返す（1-12）
       totalAmount: Math.round(totalAmount),
       dailyAmounts: Object.entries(dailyAmounts).map(([date, amount]) => ({
         date: parseInt(date),

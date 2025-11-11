@@ -156,12 +156,16 @@ export interface MonthlySummaryData {
 
 /**
  * 月別利用金額を取得
+ * @param year 年
+ * @param month 月（0-11のJavaScript形式）
  */
 export const fetchMonthlySummary = async (year: number, month: number): Promise<MonthlySummaryData> => {
   try {
+    // monthは0-11なので、API用に1-12に変換
     const response = await axios.get<MonthlySummaryData>(
       `/api/monthly-summary?year=${year}&month=${month + 1}`
     );
+    console.log('[fetchMonthlySummary] Response:', response.data);
     return response.data;
   } catch (error) {
     console.error('Failed to fetch monthly summary:', error);
