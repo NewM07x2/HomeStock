@@ -30,8 +30,8 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
       setForm({
         code: item.code || '',
         name: item.name || '',
-        category: item.category || '',
-        unit: item.unit || '',
+        category: item.category_id || item.category?.id || '',
+        unit: item.unit_id || item.unit?.id || '',
         quantity: item.quantity !== undefined ? String(item.quantity) : '',
         unit_price: item.unit_price !== undefined ? String(item.unit_price) : '',
         status: item.status || 'active'
@@ -65,13 +65,15 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
   const validate = () => {
     const newErrors: Record<string, string> = {}
     
-    if (!form.code.trim()) {
+    if (!form.code || !form.code.trim()) {
       newErrors.code = 'アイテムコードは必須です'
     }
-    if (!form.name.trim()) {
+    if (!form.name || !form.name.trim()) {
       newErrors.name = 'アイテム名称は必須です'
     }
-    if (!form.unit.trim()) {
+    // unitは文字列またはオブジェクトの可能性があるため、適切にチェック
+    const unitValue = typeof form.unit === 'string' ? form.unit : form.unit?.id || ''
+    if (!unitValue || !unitValue.trim()) {
       newErrors.unit = '単位は必須です'
     }
     if (form.quantity && isNaN(Number(form.quantity))) {
@@ -94,9 +96,13 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
 
     try {
       const submitData = {
-        ...form,
+        code: form.code,
+        name: form.name,
+        unit_id: form.unit,
+        category_id: form.category || undefined,
         quantity: form.quantity ? Number(form.quantity) : undefined,
-        unit_price: form.unit_price ? Number(form.unit_price) : undefined
+        unit_price: form.unit_price ? Number(form.unit_price) : undefined,
+        status: form.status
       }
 
       if (isEdit && item) {
@@ -112,6 +118,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
         category: '', 
         unit: '',
         quantity: '',
+        unit_price: '',
         status: 'active'
       })
       setErrors({})
@@ -134,6 +141,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
       category: '', 
       unit: '',
       quantity: '',
+      unit_price: '',
       status: 'active'
     })
     setErrors({})
