@@ -135,13 +135,13 @@ export default function ItemsList() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* 検索エリア */}
       <div className="bg-white rounded-lg shadow">
-        <div className="p-6">
-          <h2 className="text-lg font-semibold text-gray-800 mb-4">検索条件</h2>
+        <div className="p-4 sm:p-6">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-800 mb-4">検索条件</h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
             {/* アイテムコード */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -278,23 +278,74 @@ export default function ItemsList() {
       {/* 検索結果エリア */}
       <div className="bg-white rounded-lg shadow">
         {/* ヘッダー */}
-        <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-lg font-semibold text-gray-800">検索結果</h2>
-          <div className="flex gap-2">
+        <div className="p-3 sm:p-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 sm:gap-0">
+          <h2 className="text-base sm:text-lg font-semibold text-gray-800">検索結果</h2>
+          <div className="flex gap-2 w-full sm:w-auto">
             {isMobile && (
               <button
                 onClick={() => setBulkModalOpen(true)}
-                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+                className="flex-1 sm:flex-none px-3 sm:px-4 py-2 bg-green-600 text-white text-sm rounded-lg hover:bg-green-700 transition-colors focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
               >
                 一括JIS登録
               </button>
             )}
-            <CreateButton />
+            <div className="flex-1 sm:flex-none">
+              <CreateButton />
+            </div>
           </div>
         </div>
 
-      {/* アイテムリスト */}
-      <div className="overflow-x-auto">
+      {/* アイテムリスト - スマホではカード表示、デスクトップはテーブル */}
+      
+      {/* カード表示（スマホ） */}
+      <div className="md:hidden divide-y divide-gray-200">
+        {items.length === 0 ? (
+          <div className="px-4 py-8 text-center text-gray-500">
+            データがありません
+          </div>
+        ) : (
+          items.map(item => (
+            <div key={item.id} className="px-4 py-4 hover:bg-gray-50">
+              <div className="flex justify-between items-start mb-2">
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-item-detail', { detail: { id: item.id, editable: true } }))} 
+                  className="text-blue-600 hover:text-blue-800 font-medium text-sm"
+                >
+                  {item.code}
+                </button>
+                <span className="text-xs text-gray-500">{item.category ?? '-'}</span>
+              </div>
+              <h3 className="font-medium text-gray-900 mb-2">{item.name}</h3>
+              <div className="flex justify-between items-center text-sm">
+                <div>
+                  <span className="text-gray-500">在庫: </span>
+                  <span className="font-medium text-gray-900">{item.qty}</span>
+                </div>
+                <div>
+                  <span className="text-gray-500">金額: </span>
+                  <span className="font-medium text-gray-900">
+                    {item.unit_price ? `¥${Math.floor(item.unit_price)}` : '-'}
+                  </span>
+                </div>
+              </div>
+              <div className="mt-3 flex gap-2">
+                <button 
+                  onClick={() => window.dispatchEvent(new CustomEvent('open-item-detail', { detail: { id: item.id, editable: true } }))}
+                  className="flex-1 text-blue-600 hover:text-blue-800 text-sm py-1 px-3 border border-blue-600 rounded hover:bg-blue-50"
+                >
+                  詳細
+                </button>
+                <button className="flex-1 text-red-600 hover:text-red-800 text-sm py-1 px-3 border border-red-600 rounded hover:bg-red-50">
+                  削除
+                </button>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+      
+      {/* テーブル表示（中画面以上） */}
+      <div className="hidden md:block overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
             <tr>
@@ -367,9 +418,9 @@ export default function ItemsList() {
       </div>
 
       {/* ページネーション */}
-      <div className="px-4 py-3 border-t border-gray-200 bg-gray-50">
-        <div className="flex items-center justify-between">
-          <div className="text-sm text-gray-700">
+      <div className="px-3 sm:px-4 py-3 border-t border-gray-200 bg-gray-50">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+          <div className="text-xs sm:text-sm text-gray-700">
             <span className="font-medium">{total}</span> 件のアイテム
           </div>
           <Pagination page={page} total={total} limit={limit} onChange={p => setPage(p)} />

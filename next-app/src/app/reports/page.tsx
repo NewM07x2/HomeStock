@@ -8,17 +8,17 @@ import YearlyUsageChart from '@/components/reports/YearlyUsageChart'
 export default function ReportsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         {/* ヘッダー */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">レポート</h1>
-          <p className="mt-2 text-sm text-gray-600">
+        <div className="mb-6 sm:mb-8">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900">レポート</h1>
+          <p className="mt-2 text-xs sm:text-sm text-gray-600">
             在庫アイテムの統計情報と利用金額の推移を確認できます
           </p>
         </div>
 
         {/* レポートコンテンツ */}
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8">
           {/* カテゴリ別割合 */}
           <div className="bg-white rounded-lg shadow">
             <div className="p-6 border-b border-gray-200">

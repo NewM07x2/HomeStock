@@ -80,11 +80,15 @@ const navigation: NavItem[] = [
 interface SidebarProps {
   userRole?: 'admin' | 'operator' | 'viewer';
   userPlan?: 'free' | 'basic' | 'premium' | 'enterprise';
+  onClose?: () => void;
+  isMobile?: boolean;
 }
 
 export default function Sidebar({
   userRole = 'admin', // デフォルトは管理者（開発用）
   userPlan = 'enterprise', // デフォルトはエンタープライズ（開発用）
+  onClose,
+  isMobile = false,
 }: SidebarProps) {
   const pathname = usePathname();
   const [expandedItems, setExpandedItems] = useState<string[]>([]); // 初期状態は空配列で閉じた状態
@@ -137,23 +141,46 @@ export default function Sidebar({
   // 表示可能なナビゲーション項目をフィルタリング
   const visibleNavigation = navigation.filter(canShowItem);
 
+  // リンククリック時の処理（モバイルの場合はメニューを閉じる）
+  const handleLinkClick = () => {
+    if (isMobile && onClose) {
+      onClose();
+    }
+  };
+
   return (
-    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col">
+    <aside className="w-64 bg-white border-r border-gray-200 flex flex-col h-full">
       {/* サイドバーヘッダー */}
       <div className="p-4 border-b border-gray-200 flex items-center justify-between">
         <div className="flex flex-col items-start">
           <h2 className="text-lg font-semibold text-gray-800">HomeStock</h2>
           <p className="mt-1 text-xs text-gray-500">在庫管理システム</p>
         </div>
-        {/* プラン表示（開発用） */}
-        <div className="flex flex-col items-end justify-between mt-1 space-y-1">
-          <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
-            {userPlan.toUpperCase()}
-          </span>
-          <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700">
-            {userRole}
-          </span>
-        </div>
+        
+        {/* モバイル用閉じるボタン */}
+        {isMobile && onClose && (
+          <button
+            onClick={onClose}
+            className="p-1 rounded-lg text-gray-600 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="メニューを閉じる"
+          >
+            <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        )}
+        
+        {/* プラン表示（デスクトップのみ） */}
+        {!isMobile && (
+          <div className="flex flex-col items-end justify-between mt-1 space-y-1">
+            <span className="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 font-medium">
+              {userPlan.toUpperCase()}
+            </span>
+            <span className="text-xs px-2 py-1 rounded bg-gray-100 text-gray-700">
+              {userRole}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* ナビゲーションメニュー */}
@@ -215,6 +242,7 @@ export default function Sidebar({
                         <Link
                           key={subItem.href}
                           href={subItem.href}
+                          onClick={handleLinkClick}
                           className={`
                             flex items-center px-4 py-2 text-sm rounded-lg
                             transition-colors duration-150 ease-in-out
@@ -242,6 +270,7 @@ export default function Sidebar({
             <Link
               key={item.name}
               href={item.href!}
+              onClick={handleLinkClick}
               className={`
                 flex items-center px-4 py-3 text-sm font-medium rounded-lg
                 transition-colors duration-150 ease-in-out

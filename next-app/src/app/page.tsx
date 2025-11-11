@@ -15,16 +15,16 @@ export default function Home() {
       />
 
       {/* メインコンテンツ */}
-      <div className="ml-6 mr-6">
+      <div className="px-4 sm:px-6 lg:px-8 py-4">
         {/* コンテンツエリア */}
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* ヒーローセクション */}
           <div className="bg-white rounded-lg shadow">
             <HomeHero />
           </div>
 
           {/* メインコンテンツグリッド */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
             {/* 最近のアイテム（2/3幅） */}
             <div className="lg:col-span-2">
               <RecentItems />

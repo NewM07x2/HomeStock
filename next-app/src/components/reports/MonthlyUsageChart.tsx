@@ -87,17 +87,17 @@ export default function MonthlyUsageChart() {
         <div className="inline-flex rounded-lg border border-gray-300 bg-white">
           <button
             onClick={() => setChartType('line')}
-            className={`px-4 py-2 text-sm font-medium rounded-l-lg transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-l-lg transition-colors ${
               chartType === 'line'
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-700 hover:bg-gray-50'
             }`}
           >
-            折れ線グラフ
+            折れ線
           </button>
           <button
             onClick={() => setChartType('bar')}
-            className={`px-4 py-2 text-sm font-medium rounded-r-lg transition-colors ${
+            className={`px-3 sm:px-4 py-2 text-xs sm:text-sm font-medium rounded-r-lg transition-colors ${
               chartType === 'bar'
                 ? 'bg-blue-600 text-white'
                 : 'text-gray-700 hover:bg-gray-50'
@@ -109,7 +109,7 @@ export default function MonthlyUsageChart() {
       </div>
 
       {/* グラフ */}
-      <ResponsiveContainer width="100%" height={400}>
+      <ResponsiveContainer width="100%" height={300}>
         {chartType === 'line' ? (
           <LineChart data={data}>
             <CartesianGrid strokeDasharray="3 3" />
