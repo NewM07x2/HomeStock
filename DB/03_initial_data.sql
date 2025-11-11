@@ -319,3 +319,9 @@ WHERE NOT EXISTS (
 -- ======================================================
 -- 上記のサンプルデータで基本的な動作確認が可能です。
 -- より多くのテストデータが必要な場合は insert_sample_data.sql を実行してください。
+
+-- アイテムの金額を追加
+UPDATE items SET unit_price = 50.0 WHERE code = 'HSM-0001';
+UPDATE items SET unit_price = 30.0 WHERE code = 'HSM-0002';
+UPDATE items SET unit_price = 10.0 WHERE code = 'HSM-0003';
+UPDATE items SET unit_price = 100.0 WHERE code = 'HSM-0004';

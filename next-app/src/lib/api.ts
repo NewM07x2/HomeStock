@@ -71,7 +71,7 @@ export const getPosts = async (): Promise<BlogPost[]> => {
  */
 export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
   try {
-    const response = await axios.get<ItemsResponse>('/api/items', {
+    const response = await axios.get<ItemsResponse>(`${process.env.API_BASE_URL}/api/items`, {
       params: {
         limit,
         page: 1
