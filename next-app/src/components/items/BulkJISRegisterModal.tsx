@@ -24,15 +24,8 @@ export default function BulkJISRegisterModal({ open, onClose, onScan }: BulkJISR
           qrbox: { width: 250, height: 250 },
           aspectRatio: 1.0,
           supportedScanTypes: [
-            0, // QRコード
-            1, // UPC-A
-            2, // UPC-E
-            3, // EAN-8
-            4, // EAN-13
-            5, // CODE-128
-            6, // CODE-39
-            7, // CODE-93
-            8, // ITF
+            "SCAN_TYPE_CAMERA",
+            "SCAN_TYPE_FILE"
           ]
         },
         false
@@ -41,12 +34,12 @@ export default function BulkJISRegisterModal({ open, onClose, onScan }: BulkJISR
       scannerRef.current = scanner
 
       scanner.render(
-        (decodedText) => {
+        (decodedText: string) => {
           console.log('読み取り成功:', decodedText)
           onScan(decodedText)
           handleClose()
         },
-        (errorMessage) => {
+        (errorMessage: string) => {
           // エラーは無視（スキャン中の通常のエラーメッセージ）
           // console.log('スキャン中:', errorMessage)
         }
@@ -110,7 +103,7 @@ export default function BulkJISRegisterModal({ open, onClose, onScan }: BulkJISR
               カメラでバーコードまたはQRコードをスキャンしてください。
             </p>
             <p className="text-xs text-gray-500 mt-1">
-              対応形式: QRコード、JAN/EAN、UPC、CODE-128、CODE-39、ITFなど
+              対応形式: QRコード、JAN/EAN、UPC、CODE-128など
             </p>
           </div>
 
