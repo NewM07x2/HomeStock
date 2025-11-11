@@ -60,3 +60,14 @@ SET unit_price = 1000,
     total_amount = ABS(qty_delta) * 1000
 WHERE unit_price IS NULL OR unit_price = 0;
 ```
+
+1. docker exec を使用して直接実行
+SQL ファイルがコンテナ内に存在する場合、以下のコマンドで実行できます：
+
+docker exec -it hsm-db psql -U hsm -d "hsm-db" -f /docker-entrypoint-initdb.d/04_add_price_columns.sql
+
+
+2. docker cp を使用してファイルをコピーしてから実行
+SQL ファイルがコンテナ内に存在しない場合、ホストからコンテナにコピーして実行します：
+docker cp .\DB\04_add_price_columns.sql hsm-db:/tmp/04_add_price_columns.sql
+docker exec -it hsm-db psql -U hsm -d "hsm-db" -f /tmp/04_add_price_columns.sql
