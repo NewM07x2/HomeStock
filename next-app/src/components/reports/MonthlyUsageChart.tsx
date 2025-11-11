@@ -13,6 +13,7 @@ export default function MonthlyUsageChart() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [chartType, setChartType] = useState<'line' | 'bar'>('line')
+  const [visibleCount, setVisibleCount] = useState(5) // 表示する行数
 
   useEffect(() => {
     let mounted = true
@@ -24,6 +25,7 @@ export default function MonthlyUsageChart() {
         const usage = await fetchMonthlyUsage()
         if (!mounted) return
         setData(usage)
+        setVisibleCount(5) // データ更新時に表示件数をリセット
       } catch (err) {
         console.error('月別利用金額の取得に失敗しました:', err)
         if (mounted) {
@@ -39,6 +41,11 @@ export default function MonthlyUsageChart() {
     loadData()
     return () => { mounted = false }
   }, [])
+
+  // さらに表示
+  const handleShowMore = () => {
+    setVisibleCount(prev => prev + 5)
+  }
 
   if (loading) {
     return (
@@ -68,6 +75,10 @@ export default function MonthlyUsageChart() {
   const formatAmount = (value: number) => {
     return `¥${value.toLocaleString()}`
   }
+
+  // 表示するデータ（ページネーション適用）
+  const visibleData = data.slice(0, visibleCount)
+  const hasMore = visibleCount < data.length
 
   return (
     <div className="w-full">
@@ -171,7 +182,7 @@ export default function MonthlyUsageChart() {
             </tr>
           </thead>
           <tbody className="bg-white divide-y divide-gray-200">
-            {data.map((item, index) => (
+            {visibleData.map((item, index) => (
               <tr key={index}>
                 <td className="px-4 py-3 text-sm text-gray-900">
                   {item.month}
@@ -185,14 +196,26 @@ export default function MonthlyUsageChart() {
           <tfoot className="bg-gray-50 border-t-2 border-gray-300">
             <tr>
               <td className="px-4 py-3 text-sm font-semibold text-gray-900">
-                合計
+                合計（表示分）
               </td>
               <td className="px-4 py-3 text-sm font-semibold text-gray-900 text-right">
-                {formatAmount(data.reduce((sum, item) => sum + item.amount, 0))}
+                {formatAmount(visibleData.reduce((sum, item) => sum + item.amount, 0))}
               </td>
             </tr>
           </tfoot>
         </table>
+        
+        {/* More ボタン */}
+        {hasMore && (
+          <div className="mt-4 text-center">
+            <button
+              onClick={handleShowMore}
+              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+            >
+              More（残り {data.length - visibleCount} 件）
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

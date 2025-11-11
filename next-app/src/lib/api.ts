@@ -294,4 +294,23 @@ export const fetchDailyUsage = async (year: number, month: number): Promise<Dail
   }
 };
 
+/**
+ * 年別利用金額を取得
+ * @param baseYear 基準年（この年を中心に前後のデータを取得）
+ */
+export interface YearlyUsage {
+  year: string;
+  amount: number;
+}
+
+export const fetchYearlyUsage = async (baseYear: number): Promise<YearlyUsage[]> => {
+  try {
+    const response = await axios.get<YearlyUsage[]>(`/api/reports/yearly-usage?year=${baseYear}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch yearly usage:', error);
+    throw new Error('Failed to fetch yearly usage');
+  }
+};
+
 export { saveItem, fetchItems };
