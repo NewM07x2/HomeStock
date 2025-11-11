@@ -1,10 +1,253 @@
-2025-11-11 02:07:07.523 UTC [67] ERROR: column "unit_price" of relation "items" does not exist at character 18
+app-index.js:35 The above error occurred in the <NotFoundErrorBoundary> component:
 
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
+    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
+    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
+    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
+    at main
+    at div
+    at div
+    at ResponsiveLayout (webpack-internal:///(app-pages-browser)/./src/components/base/ResponsiveLayout.tsx:16:11)
+    at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
+    at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
+    at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
+    at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
+    at body
+    at html
+    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
+    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
+    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
+    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
+    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
+    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
+    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
+    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
+    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
+    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
+    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
+    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
+    at RSCComponent
+    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
 
-2025-11-11 02:07:07.523 UTC [67] STATEMENT: UPDATE items SET unit_price = 50 WHERE code = 'HSM-0001';
-
-
-psql:/docker-entrypoint-initdb.d/03_initial_data.sql:324: ERROR: column "unit_price" of relation "items" does not exist
-
-
-LINE 1: UPDATE items SET unit_price = 50 WHERE code = 'HSM-0001';
+React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundaryHandler.
+window.console.error @ app-index.js:35
+console.error @ hydration-error-info.js:41
+logCapturedError @ react-dom.development.js:13282
+update.callback @ react-dom.development.js:13321
+callCallback @ react-dom.development.js:7440
+commitCallbacks @ react-dom.development.js:7480
+commitClassCallbacks @ react-dom.development.js:18255
+commitLayoutEffectOnFiber @ react-dom.development.js:18336
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18331
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18385
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18385
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18385
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18385
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18385
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18331
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18331
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18331
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18331
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18323
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18457
+recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
+commitLayoutEffectOnFiber @ react-dom.development.js:18345
+commitLayoutEffects @ react-dom.development.js:19549
+commitRootImpl @ react-dom.development.js:22229
+commitRoot @ react-dom.development.js:22114
+performSyncWorkOnRoot @ react-dom.development.js:21156
+flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
+flushSyncWorkOnAllRoots @ react-dom.development.js:9085
+processRootScheduleInMicrotask @ react-dom.development.js:9207
+eval @ react-dom.development.js:9353Understand this error
+error.tsx:13 Max 2 values expected for supportedScanTypes
+window.console.error @ app-index.js:35
+console.error @ hydration-error-info.js:41
+eval @ error.tsx:13
+commitHookEffectListMount @ react-dom.development.js:18071
+commitHookPassiveMountEffects @ react-dom.development.js:19742
+commitPassiveMountOnFiber @ react-dom.development.js:19826
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19824
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19918
+recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
+commitPassiveMountOnFiber @ react-dom.development.js:19832
+commitPassiveMountEffects @ react-dom.development.js:19799
+flushPassiveEffectsImpl @ react-dom.development.js:22446
+flushPassiveEffects @ react-dom.development.js:22398
+commitRootImpl @ react-dom.development.js:22318
+commitRoot @ react-dom.development.js:22114
+performSyncWorkOnRoot @ react-dom.development.js:21156
+flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
+flushSyncWorkOnAllRoots @ react-dom.development.js:9085
+processRootScheduleInMicrotask @ react-dom.development.js:9207
+eval @ react-dom.development.js:9353Understand this error
+error.tsx:13 Max 2 values expected for supportedScanTypes
