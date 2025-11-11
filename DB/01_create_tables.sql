@@ -127,6 +127,7 @@ CREATE TABLE IF NOT EXISTS items (
   category_id   TEXT REFERENCES categories(id),
   unit_id       TEXT NOT NULL REFERENCES units(id),
   quantity      INTEGER,
+  unit_price    INTEGER DEFAULT 0,
   status        TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active','inactive')),
   created_by    TEXT REFERENCES users(id),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now(),
@@ -141,6 +142,7 @@ COMMENT ON COLUMN items.name IS 'アイテム名称';
 COMMENT ON COLUMN items.category_id IS 'カテゴリID（任意、categories.id への外部キー）';
 COMMENT ON COLUMN items.unit_id IS '単位ID（必須、units.id への外部キー）';
 COMMENT ON COLUMN items.quantity IS '在庫数量（任意、NULL = 未設定）';
+COMMENT ON COLUMN items.unit_price IS 'アイテムの単価（円）';
 COMMENT ON COLUMN items.status IS 'ステータス（active: 有効, inactive: 無効）';
 COMMENT ON COLUMN items.created_by IS '作成者（users.id への外部キー）';
 
@@ -217,6 +219,8 @@ CREATE TABLE IF NOT EXISTS stock_history (
   location_to   TEXT REFERENCES locations(id),
   reason        TEXT,
   meta          JSONB NOT NULL DEFAULT '{}'::jsonb,
+  unit_price    INTEGER DEFAULT 0,
+  total_amount  INTEGER DEFAULT 0,
   created_by    TEXT REFERENCES users(id),
   created_at    TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -230,6 +234,8 @@ COMMENT ON COLUMN stock_history.location_from IS '移動元ロケーション（
 COMMENT ON COLUMN stock_history.location_to IS '移動先ロケーション（TRANSFER時に使用）';
 COMMENT ON COLUMN stock_history.reason IS '理由・備考';
 COMMENT ON COLUMN stock_history.meta IS '補足情報（JSON形式、参照番号など）';
+COMMENT ON COLUMN stock_history.unit_price IS '取引時のアイテム単価（円）';
+COMMENT ON COLUMN stock_history.total_amount IS '取引金額（qty_delta × unit_price）';
 COMMENT ON COLUMN stock_history.created_by IS '実行者（users.id への外部キー）';
 
 -- bulk_jobs table: 一括処理ジョブ

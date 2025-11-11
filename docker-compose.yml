@@ -51,7 +51,6 @@ services:
       - ./DB/01_create_tables.sql:/docker-entrypoint-initdb.d/01_create_tables.sql
       - ./DB/02_create_indexes.sql:/docker-entrypoint-initdb.d/02_create_indexes.sql
       - ./DB/03_initial_data.sql:/docker-entrypoint-initdb.d/03_initial_data.sql
-      - ./DB/04_add_price_columns.sql:/docker-entrypoint-initdb.d/04_add_price_columns.sql
     # DBサービスの説明（日本語）:
     # - コンテナ名: hsm-db
     # - image: Postgres 15 を利用
