@@ -12,8 +12,8 @@ export async function GET(request: NextRequest) {
 
     console.log('[API /api/monthly-summary] GET request received:', { year, month, API_BASE_URL });
 
-    // バックエンドAPIから在庫履歴を取得
-    const stockHistoryResponse = await axios.get(`${API_BASE_URL}/api/stock-history`, {
+    // バックエンドAPIからアイテムを取得
+    const itemsResponse = await axios.get(`${API_BASE_URL}/api/items`, {
       params: {
         page: 1,
         limit: 10000
@@ -21,8 +21,8 @@ export async function GET(request: NextRequest) {
       timeout: 5000
     })
 
-    const histories = stockHistoryResponse.data.items || []
-    console.log('[API /api/monthly-summary] 履歴データ取得成功:', histories.length, '件')
+    const items = itemsResponse.data.items || []
+    console.log('[API /api/monthly-summary] アイテムデータ取得成功:', items.length, '件')
 
     // 指定された年月の日付範囲を計算
     const startDate = new Date(year, month - 1, 1)
@@ -37,20 +37,19 @@ export async function GET(request: NextRequest) {
 
     let totalAmount = 0
 
-    // 履歴データから金額を集計
-    histories.forEach((history: any) => {
-      const createdAt = new Date(history.created_at)
+    // アイテムの登録日と単価から金額を集計
+    items.forEach((item: any) => {
+      const createdAt = new Date(item.created_at)
       
       // 指定された年月の範囲内かチェック
       if (createdAt >= startDate && createdAt <= endDate) {
         const day = createdAt.getDate()
         
-        // 金額を計算
+        // 金額を計算（単価 × 数量）
         let amount = 0
-        if (history.total_amount !== null && history.total_amount !== undefined) {
-          amount = Math.abs(history.total_amount)
-        } else if (history.unit_price !== null && history.unit_price !== undefined) {
-          amount = Math.abs(history.qty_delta || 0) * (history.unit_price || 0)
+        if (item.unit_price !== null && item.unit_price !== undefined) {
+          const quantity = item.quantity !== null && item.quantity !== undefined ? item.quantity : 1
+          amount = item.unit_price * quantity
         }
         
         dailyAmounts[day] += amount
@@ -69,7 +68,14 @@ export async function GET(request: NextRequest) {
       }))
     }
 
-    console.log('[API /api/monthly-summary] レスポンス:', { totalAmount: response.totalAmount, days: response.dailyAmounts.length })
+    console.log('[API /api/monthly-summary] レスポンス:', { 
+      totalAmount: response.totalAmount, 
+      days: response.dailyAmounts.length,
+      itemsInMonth: items.filter((item: any) => {
+        const createdAt = new Date(item.created_at)
+        return createdAt >= startDate && createdAt <= endDate
+      }).length
+    })
 
     return NextResponse.json(response)
   } catch (error) {

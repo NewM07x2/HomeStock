@@ -9,8 +9,8 @@ export async function GET(request: NextRequest) {
   try {
     console.log('[monthly-usage] APIベースURL:', API_BASE_URL)
     
-    // バックエンドAPIから在庫履歴を取得
-    const stockHistoryResponse = await axios.get(`${API_BASE_URL}/api/stock-history`, {
+    // バックエンドAPIからアイテムを取得
+    const itemsResponse = await axios.get(`${API_BASE_URL}/api/items`, {
       params: {
         page: 1,
         limit: 10000 // 全件取得
@@ -18,8 +18,8 @@ export async function GET(request: NextRequest) {
       timeout: 5000 // 5秒のタイムアウト
     })
 
-    const histories = stockHistoryResponse.data.items || []
-    console.log('[monthly-usage] 履歴データ取得成功:', histories.length, '件')
+    const items = itemsResponse.data.items || []
+    console.log('[monthly-usage] アイテムデータ取得成功:', items.length, '件')
 
     // 月別に集計
     const monthlyData: Record<string, number> = {}
@@ -34,18 +34,17 @@ export async function GET(request: NextRequest) {
 
     console.log('[monthly-usage] 初期化された月:', Object.keys(monthlyData))
 
-    // 履歴データから金額を集計
-    histories.forEach((history: any) => {
-      const createdAt = new Date(history.created_at)
+    // アイテムの登録日から金額を集計
+    items.forEach((item: any) => {
+      const createdAt = new Date(item.created_at)
       const monthKey = `${createdAt.getFullYear()}/${String(createdAt.getMonth() + 1).padStart(2, '0')}`
       
       if (monthlyData.hasOwnProperty(monthKey)) {
-        // total_amountがある場合はそれを使用、なければ計算
+        // 単価 × 数量で金額を計算
         let amount = 0
-        if (history.total_amount !== null && history.total_amount !== undefined) {
-          amount = Math.abs(history.total_amount)
-        } else if (history.unit_price !== null && history.unit_price !== undefined) {
-          amount = Math.abs(history.qty_delta || 0) * (history.unit_price || 0)
+        if (item.unit_price !== null && item.unit_price !== undefined) {
+          const quantity = item.quantity !== null && item.quantity !== undefined ? item.quantity : 1
+          amount = item.unit_price * quantity
         }
         monthlyData[monthKey] += amount
       }
