@@ -1,17 +1,21 @@
 import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+// サーバーサイドでは NEXT_PUBLIC_ プレフィックスのない環境変数を使用
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080'
 
 // カテゴリ別統計APIエンドポイント
 export async function GET(request: NextRequest) {
   try {
+    console.log('[category-stats] APIベースURL:', API_BASE_URL)
+    
     // バックエンドAPIからアイテムとカテゴリ情報を取得
     const itemsResponse = await axios.get(`${API_BASE_URL}/api/items`, {
       params: {
         page: 1,
         limit: 10000 // 全件取得
-      }
+      },
+      timeout: 5000
     })
 
     const items = itemsResponse.data.items || []

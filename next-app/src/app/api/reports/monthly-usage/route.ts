@@ -1,18 +1,24 @@
 import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080'
+// サーバーサイドでは NEXT_PUBLIC_ プレフィックスのない環境変数を使用
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080'
 
 // 月別利用金額APIエンドポイント
 export async function GET(request: NextRequest) {
   try {
+    console.log('[monthly-usage] APIベースURL:', API_BASE_URL)
+    
     // バックエンドAPIから在庫履歴を取得
     const stockHistoryResponse = await axios.get(`${API_BASE_URL}/api/stock-history`, {
       params: {
         page: 1,
         limit: 10000 // 全件取得
-      }
+      },
+      timeout: 5000 // 5秒のタイムアウト
     })
+
+    console.log('[monthly-usage] 履歴データ取得成功:', stockHistoryResponse.data.items?.length || 0, '件')
 
     const histories = stockHistoryResponse.data.items || []
 

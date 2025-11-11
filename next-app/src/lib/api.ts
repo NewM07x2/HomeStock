@@ -57,14 +57,8 @@ export interface ItemsResponse {
 
 export const getPosts = async (): Promise<BlogPost[]> => {
   try {
-    const res = await fetch(API_URL.POSTS, {
-      next: { revalidate: 60 },
-      cache: 'force-cache'
-    });
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-    return res.json();
+    const res = await axios.get<BlogPost[]>(API_URL.POSTS);
+    return res.data;
   } catch (error) {
     console.error('Failed to fetch posts:', error);
     throw new Error('Failed to fetch posts. Please try again later.');
@@ -77,48 +71,19 @@ export const getPosts = async (): Promise<BlogPost[]> => {
  */
 export const fetchRecentItems = async (limit: number = 10): Promise<Item[]> => {
   try {
-    // Server Component（サーバーサイド）の場合は、内部的に相対パスで呼び出す
-    // クライアントサイドの場合は、相対パスで呼び出す
-    const isServer = typeof window === 'undefined';
-    
-    // サーバーサイドでは絶対URLが必要な場合があるため、ベースURLを設定
-    const baseUrl = isServer 
-      ? (process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000')
-      : '';
-    
-    const url = `${baseUrl}/api/items?limit=${limit}&page=1`;
-    
-    console.log('[fetchRecentItems] Fetching from:', url);
-    console.log('[fetchRecentItems] Environment:', {
-      isServer,
-      NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL,
-      nodeEnv: process.env.NODE_ENV
+    const response = await axios.get<ItemsResponse>('/api/items', {
+      params: {
+        limit,
+        page: 1
+      }
     });
     
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // Server Componentではキャッシュを使用
-      next: { revalidate: 60 }
-    });
-
-    console.log('[fetchRecentItems] Response status:', response.status);
-
-    if (!response.ok) {
-      const errorText = await response.text();
-      console.error('[fetchRecentItems] Response error:', errorText);
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('[fetchRecentItems] Success, items count:', data.items?.length || 0);
-    return data.items || [];
+    console.log('[fetchRecentItems] Success, items count:', response.data.items?.length || 0);
+    return response.data.items || [];
   } catch (error) {
     console.error('[fetchRecentItems] Failed to fetch recent items:', error);
-    if (error instanceof Error) {
-      throw error;
+    if (axios.isAxiosError(error)) {
+      throw new Error(`Failed to fetch items: ${error.message}`);
     }
     throw new Error('Failed to fetch items. Please try again later.');
   }
@@ -161,32 +126,13 @@ export const fetchItemsWithSearch = async (params: {
   maxQty?: string;
 }): Promise<{ items: Item[]; total: number }> => {
   try {
-    const queryParams = new URLSearchParams();
-    
-    if (params.page) queryParams.append('page', String(params.page));
-    if (params.limit) queryParams.append('limit', String(params.limit));
-    if (params.code) queryParams.append('code', params.code);
-    if (params.name) queryParams.append('name', params.name);
-    if (params.categories) queryParams.append('categories', params.categories);
-    if (params.minQty) queryParams.append('minQty', params.minQty);
-    if (params.maxQty) queryParams.append('maxQty', params.maxQty);
-
-    const response = await fetch(`/api/items?${queryParams.toString()}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store' // クライアントサイドなので常に最新データを取得
+    const response = await axios.get<{ items: Item[]; total: number }>('/api/items', {
+      params
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
     return {
-      items: data.items || [],
-      total: data.total || 0
+      items: response.data.items || [],
+      total: response.data.total || 0
     };
   } catch (error) {
     console.error('Failed to fetch items with search:', error);
@@ -231,10 +177,7 @@ export const fetchMonthlySummary = async (year: number, month: number): Promise<
  */
 export const fetchCategories = async (): Promise<Category[]> => {
   try {
-    const apiBaseUrl = typeof window === 'undefined' 
-      ? (process.env.API_BASE_URL || 'http://localhost:8080')
-      : (process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080');
-    
+    const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8080';
     const response = await axios.get<Category[]>(`${apiBaseUrl}/api/categories`);
     return response.data;
   } catch (error) {
@@ -248,19 +191,8 @@ export const fetchCategories = async (): Promise<Category[]> => {
  */
 export const fetchItemById = async (id: string): Promise<any> => {
   try {
-    const response = await fetch(`/api/items/${id}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      cache: 'no-store'
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    const response = await axios.get(`/api/items/${id}`);
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch item by id:', error);
     throw new Error('Failed to fetch item');
@@ -272,19 +204,8 @@ export const fetchItemById = async (id: string): Promise<any> => {
  */
 export const createItem = async (payload: any): Promise<any> => {
   try {
-    const response = await fetch('/api/items', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    const response = await axios.post('/api/items', payload);
+    return response.data;
   } catch (error) {
     console.error('Failed to create item:', error);
     throw new Error('Failed to create item');
@@ -296,19 +217,8 @@ export const createItem = async (payload: any): Promise<any> => {
  */
 export const updateItem = async (id: string, payload: any): Promise<any> => {
   try {
-    const response = await fetch(`/api/items/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    const response = await axios.put(`/api/items/${id}`, payload);
+    return response.data;
   } catch (error) {
     console.error('Failed to update item:', error);
     throw new Error('Failed to update item');
@@ -326,18 +236,8 @@ export interface CategoryStat {
 
 export const fetchCategoryStats = async (): Promise<CategoryStat[]> => {
   try {
-    const response = await fetch('/api/reports/category-stats', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    const response = await axios.get<CategoryStat[]>('/api/reports/category-stats');
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch category stats:', error);
     throw new Error('Failed to fetch category stats');
@@ -354,18 +254,8 @@ export interface MonthlyUsage {
 
 export const fetchMonthlyUsage = async (): Promise<MonthlyUsage[]> => {
   try {
-    const response = await fetch('/api/reports/monthly-usage', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    return await response.json();
+    const response = await axios.get<MonthlyUsage[]>('/api/reports/monthly-usage');
+    return response.data;
   } catch (error) {
     console.error('Failed to fetch monthly usage:', error);
     throw new Error('Failed to fetch monthly usage');
