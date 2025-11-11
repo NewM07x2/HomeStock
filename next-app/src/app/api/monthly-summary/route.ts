@@ -24,10 +24,28 @@ export async function GET(request: NextRequest) {
     const items = itemsResponse.data.items || []
     console.log('[API /api/monthly-summary] アイテムデータ取得成功:', items.length, '件')
 
+    // デバッグ: 最初の3件のアイテムを出力
+    if (items.length > 0) {
+      console.log('[API /api/monthly-summary] サンプルアイテム:', items.slice(0, 3).map((item: any) => ({
+        id: item.id,
+        name: item.name,
+        created_at: item.created_at,
+        unit_price: item.unit_price,
+        quantity: item.quantity
+      })))
+    }
+
     // 指定された年月の日付範囲を計算
     const startDate = new Date(year, month - 1, 1)
     const endDate = new Date(year, month, 0, 23, 59, 59)
     const daysInMonth = endDate.getDate()
+
+    console.log('[API /api/monthly-summary] 対象期間:', {
+      startDate: startDate.toISOString(),
+      endDate: endDate.toISOString(),
+      year,
+      month
+    })
 
     // 日別の金額を初期化
     const dailyAmounts: Record<number, number> = {}
@@ -36,10 +54,23 @@ export async function GET(request: NextRequest) {
     }
 
     let totalAmount = 0
+    const itemsInPeriod: any[] = []
 
     // アイテムの登録日と単価から金額を集計
     items.forEach((item: any) => {
+      // 日付文字列をパース（タイムゾーンを考慮）
       const createdAt = new Date(item.created_at)
+      
+      // デバッグ: 日付のパース結果を確認
+      if (itemsInPeriod.length < 3) {
+        console.log('[API /api/monthly-summary] 日付パース:', {
+          original: item.created_at,
+          parsed: createdAt.toISOString(),
+          year: createdAt.getFullYear(),
+          month: createdAt.getMonth() + 1,
+          date: createdAt.getDate()
+        })
+      }
       
       // 指定された年月の範囲内かチェック
       if (createdAt >= startDate && createdAt <= endDate) {
@@ -54,8 +85,24 @@ export async function GET(request: NextRequest) {
         
         dailyAmounts[day] += amount
         totalAmount += amount
+        
+        // デバッグ用
+        itemsInPeriod.push({
+          id: item.id,
+          name: item.name,
+          created_at: item.created_at,
+          day,
+          unit_price: item.unit_price,
+          quantity: item.quantity,
+          amount
+        })
       }
     })
+
+    console.log('[API /api/monthly-summary] 対象期間内のアイテム:', itemsInPeriod.length, '件')
+    if (itemsInPeriod.length > 0) {
+      console.log('[API /api/monthly-summary] 対象アイテムサンプル:', itemsInPeriod.slice(0, 5))
+    }
 
     // レスポンス形式に変換
     const response = {
@@ -71,11 +118,15 @@ export async function GET(request: NextRequest) {
     console.log('[API /api/monthly-summary] レスポンス:', { 
       totalAmount: response.totalAmount, 
       days: response.dailyAmounts.length,
-      itemsInMonth: items.filter((item: any) => {
-        const createdAt = new Date(item.created_at)
-        return createdAt >= startDate && createdAt <= endDate
-      }).length
+      itemsInMonth: itemsInPeriod.length,
+      nonZeroDays: response.dailyAmounts.filter(d => d.amount > 0).length
     })
+    
+    // デバッグ: 金額がある日のサンプルを表示
+    const daysWithAmount = response.dailyAmounts.filter(d => d.amount > 0)
+    if (daysWithAmount.length > 0) {
+      console.log('[API /api/monthly-summary] 金額がある日:', daysWithAmount.slice(0, 5))
+    }
 
     return NextResponse.json(response)
   } catch (error) {

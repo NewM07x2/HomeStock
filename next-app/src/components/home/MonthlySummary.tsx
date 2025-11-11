@@ -40,26 +40,12 @@ export default function MonthlySummary() {
         })
       } catch (err) {
         console.error('Failed to fetch monthly summary:', err)
-        setError('データの取得に失敗しました')
+        setError(`データの取得に失敗しました: ${err instanceof Error ? err.message : String(err)}`)
         
-        // エラー時はモックデータを表示
-        const year = currentDate.getFullYear()
-        const month = currentDate.getMonth()
-        const daysInMonth = new Date(year, month + 1, 0).getDate()
-        
-        const dailyAmounts: DailyAmount[] = []
-        let total = 0
-        
-        const seed = year * 12 + month
-        for (let i = 1; i <= daysInMonth; i++) {
-          const amount = Math.floor((Math.sin(seed * 100 + i) * 10000 + 10000) / 4)
-          dailyAmounts.push({ date: i, amount })
-          total += amount
-        }
-        
+        // エラー時は空のデータをセット（モックデータは表示しない）
         setMonthlyData({
-          totalAmount: total,
-          dailyAmounts
+          totalAmount: 0,
+          dailyAmounts: []
         })
       } finally {
         setLoading(false)

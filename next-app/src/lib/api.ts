@@ -162,12 +162,23 @@ export interface MonthlySummaryData {
 export const fetchMonthlySummary = async (year: number, month: number): Promise<MonthlySummaryData> => {
   try {
     // monthは0-11なので、API用に1-12に変換
+    const apiMonth = month + 1
+    console.log('[fetchMonthlySummary] Request:', { year, month: apiMonth, jsMonth: month })
+    
     const response = await axios.get<MonthlySummaryData>(
-      `/api/monthly-summary?year=${year}&month=${month + 1}`
+      `/api/monthly-summary?year=${year}&month=${apiMonth}`
     );
-    console.log('[fetchMonthlySummary] Response:', response.data);
+    
+    console.log('[fetchMonthlySummary] Response:', {
+      totalAmount: response.data.totalAmount,
+      dailyAmountsCount: response.data.dailyAmounts?.length || 0,
+      year: response.data.year,
+      month: response.data.month
+    });
+    
     return response.data;
   } catch (error) {
+    console.error('[fetchMonthlySummary] Error:', error);
     console.error('Failed to fetch monthly summary:', error);
     throw new Error('Failed to fetch monthly summary');
   }
