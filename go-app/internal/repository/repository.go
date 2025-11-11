@@ -97,6 +97,81 @@ func FetchRecentItems(limit int) ([]model.Item, error) {
 	return items, nil
 }
 
+// FetchItemByID はIDでアイテムを取得します
+func FetchItemByID(id string) (*model.Item, error) {
+	log.Printf("[Repository] FetchItemByID - id: %s", id)
+
+	var item model.Item
+	var categoryID, categoryCode, categoryName sql.NullString
+	var unitID, unitCode, unitName string
+
+	err := common.DB.QueryRow(`
+        SELECT 
+			i.id, i.code, i.name, i.category_id, i.unit_id, i.quantity, i.unit_price, i.status, 
+			i.created_at, i.updated_at,
+			c.id, c.code, c.name,
+			u.id, u.code, u.name
+        FROM items i
+        LEFT JOIN categories c ON i.category_id = c.id AND c.deleted_at IS NULL
+        INNER JOIN units u ON i.unit_id = u.id AND u.deleted_at IS NULL
+        WHERE i.id = $1 AND i.deleted_at IS NULL
+    `, id).Scan(
+		&item.ID,
+		&item.Code,
+		&item.Name,
+		&item.CategoryID,
+		&item.UnitID,
+		&item.Quantity,
+		&item.UnitPrice,
+		&item.Status,
+		&item.CreatedAt,
+		&item.UpdatedAt,
+		&categoryID,
+		&categoryCode,
+		&categoryName,
+		&unitID,
+		&unitCode,
+		&unitName,
+	)
+
+	if err != nil {
+		if err == sql.ErrNoRows {
+			log.Printf("[Repository] アイテムが見つかりません: %s", id)
+			return nil, sql.ErrNoRows
+		}
+		log.Printf("[Repository] DBクエリエラー: %v", err)
+		return nil, err
+	}
+
+	// カテゴリ情報をセット（NULLの場合はnilのまま）
+	if categoryID.Valid {
+		item.Category = &model.Category{
+			ID:   categoryID.String,
+			Code: categoryCode.String,
+			Name: categoryName.String,
+		}
+	}
+
+	// 単位情報をセット
+	item.Unit = &model.Unit{
+		ID:   unitID,
+		Code: unitCode,
+		Name: unitName,
+	}
+
+	// 属性情報を取得
+	attributes, err := fetchItemAttributes(item.ID)
+	if err != nil {
+		log.Printf("[Repository] 属性取得エラー (item_id: %s): %v", item.ID, err)
+		// エラーがあっても続行（属性は空配列）
+	} else {
+		item.Attributes = attributes
+	}
+
+	log.Printf("[Repository] アイテム取得成功: %s", id)
+	return &item, nil
+}
+
 // fetchItemAttributes は指定されたアイテムIDの属性情報を取得します
 func fetchItemAttributes(itemID string) ([]model.ItemAttributeDetail, error) {
 	rows, err := common.DB.Query(`
@@ -682,4 +757,97 @@ func FetchStockHistory(limit, offset int) ([]model.StockHistory, int, error) {
 
 	log.Printf("[Repository] 在庫履歴取得成功: %d件", len(histories))
 	return histories, total, nil
+}
+
+// CreateItem はアイテムを作成します
+func CreateItem(code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64) (*model.Item, error) {
+	log.Printf("[Repository] CreateItem - code: %s, name: %s", code, name)
+
+	var item model.Item
+	err := common.DB.QueryRow(`
+		INSERT INTO items (code, name, category_id, unit_id, quantity, unit_price, status, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, 'active', CURRENT_TIMESTAMP, CURRENT_TIMESTAMP)
+		RETURNING id, code, name, category_id, unit_id, quantity, unit_price, status, created_at, updated_at
+	`, code, name, categoryID, unitID, quantity, unitPrice).Scan(
+		&item.ID,
+		&item.Code,
+		&item.Name,
+		&item.CategoryID,
+		&item.UnitID,
+		&item.Quantity,
+		&item.UnitPrice,
+		&item.Status,
+		&item.CreatedAt,
+		&item.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] アイテム作成エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] アイテム作成成功: %s", item.ID)
+	return &item, nil
+}
+
+// UpdateItem はアイテムを更新します
+func UpdateItem(id, code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64, status string) (*model.Item, error) {
+	log.Printf("[Repository] UpdateItem - id: %s", id)
+
+	var item model.Item
+	err := common.DB.QueryRow(`
+		UPDATE items
+		SET code = $2, name = $3, category_id = $4, unit_id = $5, quantity = $6, unit_price = $7, status = $8, updated_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+		RETURNING id, code, name, category_id, unit_id, quantity, unit_price, status, created_at, updated_at
+	`, id, code, name, categoryID, unitID, quantity, unitPrice, status).Scan(
+		&item.ID,
+		&item.Code,
+		&item.Name,
+		&item.CategoryID,
+		&item.UnitID,
+		&item.Quantity,
+		&item.UnitPrice,
+		&item.Status,
+		&item.CreatedAt,
+		&item.UpdatedAt,
+	)
+
+	if err != nil {
+		log.Printf("[Repository] アイテム更新エラー: %v", err)
+		return nil, err
+	}
+
+	log.Printf("[Repository] アイテム更新成功: %s", item.ID)
+	return &item, nil
+}
+
+// DeleteItem はアイテムを削除します（論理削除）
+func DeleteItem(id string) error {
+	log.Printf("[Repository] DeleteItem - id: %s", id)
+
+	result, err := common.DB.Exec(`
+		UPDATE items
+		SET deleted_at = CURRENT_TIMESTAMP
+		WHERE id = $1 AND deleted_at IS NULL
+	`, id)
+
+	if err != nil {
+		log.Printf("[Repository] アイテム削除エラー: %v", err)
+		return err
+	}
+
+	rowsAffected, err := result.RowsAffected()
+	if err != nil {
+		log.Printf("[Repository] RowsAffected取得エラー: %v", err)
+		return err
+	}
+
+	if rowsAffected == 0 {
+		log.Printf("[Repository] アイテムが見つかりません: %s", id)
+		return sql.ErrNoRows
+	}
+
+	log.Printf("[Repository] アイテム削除成功: %s", id)
+	return nil
 }

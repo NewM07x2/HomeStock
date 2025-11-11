@@ -1,4 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
+import axios from 'axios'
+
+// サーバーサイドでは NEXT_PUBLIC_ プレフィックスのない環境変数を使用
+const API_BASE_URL = process.env.API_BASE_URL || 'http://localhost:8080'
 
 export async function GET(request: NextRequest) {
   try {
@@ -6,41 +10,77 @@ export async function GET(request: NextRequest) {
     const year = parseInt(searchParams.get('year') || String(new Date().getFullYear()))
     const month = parseInt(searchParams.get('month') || String(new Date().getMonth() + 1))
 
-    console.log('[API /api/monthly-summary] GET request received:', { year, month });
+    console.log('[API /api/monthly-summary] GET request received:', { year, month, API_BASE_URL });
 
-    // TODO: Goバックエンドに月次サマリーAPIを実装後、以下のように変更してください
-    // const apiBaseUrl = process.env.API_BASE_URL || 'http://localhost:8080'
-    // const backendUrl = `${apiBaseUrl}/api/monthly-summary?year=${year}&month=${month}`
-    // const response = await axios.get(backendUrl, { timeout: 10000 })
-    // return NextResponse.json(response.data)
-    
-    // 現在は一時的なモックデータを返却
-    // 実装時には stock_history テーブルの meta フィールドに price 情報を追加するか、
-    // 別途価格テーブルを作成する必要があります
-    console.log('[API /api/monthly-summary] WARNING: Using mock data - backend API not yet implemented');
-    
-    const daysInMonth = new Date(year, month, 0).getDate()
-    const dailyAmounts: { date: number; amount: number }[] = []
-    let totalAmount = 0
+    // バックエンドAPIから在庫履歴を取得
+    const stockHistoryResponse = await axios.get(`${API_BASE_URL}/api/stock-history`, {
+      params: {
+        page: 1,
+        limit: 10000
+      },
+      timeout: 5000
+    })
 
-    // 月ごとに再現性のあるデータを生成
-    const seed = year * 12 + (month - 1)
+    const histories = stockHistoryResponse.data.items || []
+    console.log('[API /api/monthly-summary] 履歴データ取得成功:', histories.length, '件')
+
+    // 指定された年月の日付範囲を計算
+    const startDate = new Date(year, month - 1, 1)
+    const endDate = new Date(year, month, 0, 23, 59, 59)
+    const daysInMonth = endDate.getDate()
+
+    // 日別の金額を初期化
+    const dailyAmounts: Record<number, number> = {}
     for (let i = 1; i <= daysInMonth; i++) {
-      const amount = Math.floor((Math.sin(seed * 100 + i) * 10000 + 10000) / 4)
-      dailyAmounts.push({ date: i, amount })
-      totalAmount += amount
+      dailyAmounts[i] = 0
     }
 
+    let totalAmount = 0
+
+    // 履歴データから金額を集計
+    histories.forEach((history: any) => {
+      const createdAt = new Date(history.created_at)
+      
+      // 指定された年月の範囲内かチェック
+      if (createdAt >= startDate && createdAt <= endDate) {
+        const day = createdAt.getDate()
+        
+        // 金額を計算
+        let amount = 0
+        if (history.total_amount !== null && history.total_amount !== undefined) {
+          amount = Math.abs(history.total_amount)
+        } else if (history.unit_price !== null && history.unit_price !== undefined) {
+          amount = Math.abs(history.qty_delta || 0) * (history.unit_price || 0)
+        }
+        
+        dailyAmounts[day] += amount
+        totalAmount += amount
+      }
+    })
+
+    // レスポンス形式に変換
     const response = {
       year,
       month: month - 1, // JavaScriptの月は0-11なので調整
-      totalAmount,
-      dailyAmounts
+      totalAmount: Math.round(totalAmount),
+      dailyAmounts: Object.entries(dailyAmounts).map(([date, amount]) => ({
+        date: parseInt(date),
+        amount: Math.round(amount)
+      }))
     }
+
+    console.log('[API /api/monthly-summary] レスポンス:', { totalAmount: response.totalAmount, days: response.dailyAmounts.length })
 
     return NextResponse.json(response)
   } catch (error) {
     console.error('[API /api/monthly-summary] Error fetching monthly summary:', error)
+    if (axios.isAxiosError(error)) {
+      console.error('Axios error details:', {
+        message: error.message,
+        code: error.code,
+        response: error.response?.data
+      })
+    }
     return NextResponse.json(
       { error: 'Failed to fetch monthly summary' },
       { status: 500 }

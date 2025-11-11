@@ -10,6 +10,11 @@ func GetRecentItems(limit int) ([]model.Item, error) {
 	return repository.FetchRecentItems(limit)
 }
 
+// GetItemByID はIDでアイテムを取得します
+func GetItemByID(id string) (*model.Item, error) {
+	return repository.FetchItemByID(id)
+}
+
 // GetCategories はリポジトリからカテゴリ一覧を取得して返します
 func GetCategories() ([]model.Category, error) {
 	return repository.FetchCategories()
@@ -93,4 +98,19 @@ func DeleteUser(id string) error {
 // GetStockHistory は在庫履歴を取得します
 func GetStockHistory(limit, offset int) ([]model.StockHistory, int, error) {
 	return repository.FetchStockHistory(limit, offset)
+}
+
+// CreateItem はアイテムを作成します
+func CreateItem(code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64) (*model.Item, error) {
+	return repository.CreateItem(code, name, unitID, categoryID, quantity, unitPrice)
+}
+
+// UpdateItem はアイテムを更新します
+func UpdateItem(id, code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64, status string) (*model.Item, error) {
+	return repository.UpdateItem(id, code, name, unitID, categoryID, quantity, unitPrice, status)
+}
+
+// DeleteItem はアイテムを削除します
+func DeleteItem(id string) error {
+	return repository.DeleteItem(id)
 }

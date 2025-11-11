@@ -158,12 +158,8 @@ export interface MonthlySummaryData {
  */
 export const fetchMonthlySummary = async (year: number, month: number): Promise<MonthlySummaryData> => {
   try {
-    const apiBaseUrl = typeof window === 'undefined' 
-      ? (process.env.API_BASE_URL || 'http://localhost:3000')
-      : (process.env.NEXT_PUBLIC_API_BASE_URL || '');
-    
     const response = await axios.get<MonthlySummaryData>(
-      `${apiBaseUrl}/api/monthly-summary?year=${year}&month=${month + 1}`
+      `/api/monthly-summary?year=${year}&month=${month + 1}`
     );
     return response.data;
   } catch (error) {

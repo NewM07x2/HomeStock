@@ -45,6 +45,32 @@ func GetRecentItems(c echo.Context) error {
 	})
 }
 
+// GetItemByID は GET /api/items/:id リクエストを処理します
+func GetItemByID(c echo.Context) error {
+	id := c.Param("id")
+	log.Printf("[Controller] GET /api/items/%s - リクエスト受信", id)
+
+	// サービス層からアイテムを取得
+	item, err := service.GetItemByID(id)
+	if err != nil {
+		if err.Error() == "sql: no rows in result set" {
+			log.Printf("[Controller] アイテムが見つかりません: %s", id)
+			return c.JSON(http.StatusNotFound, map[string]string{
+				"error":   "not_found",
+				"message": "Item not found",
+			})
+		}
+		log.Printf("[Controller] エラー: アイテム取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch item",
+		})
+	}
+
+	log.Printf("[Controller] 成功: アイテムを取得しました (ID: %s)", id)
+	return c.JSON(http.StatusOK, item)
+}
+
 // GetCategories は GET /api/categories リクエストを処理します
 func GetCategories(c echo.Context) error {
 	log.Printf("[Controller] GET /api/categories - リクエスト受信")
@@ -542,5 +568,89 @@ func GetStockHistory(c echo.Context) error {
 		"total": total,
 		"page":  page,
 		"limit": limit,
+	})
+}
+
+// CreateItem は POST /api/items リクエストを処理します
+func CreateItem(c echo.Context) error {
+	log.Printf("[Controller] POST /api/items - リクエスト受信")
+
+	var payload struct {
+		Code       string   `json:"code"`
+		Name       string   `json:"name"`
+		CategoryID *string  `json:"category_id"`
+		UnitID     string   `json:"unit_id"`
+		Quantity   *int     `json:"quantity"`
+		UnitPrice  *float64 `json:"unit_price"`
+	}
+
+	if err := c.Bind(&payload); err != nil {
+		log.Printf("[Controller] リクエストボディのパースエラー: %v", err)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "invalid_request",
+		})
+	}
+
+	item, err := service.CreateItem(payload.Code, payload.Name, payload.UnitID, payload.CategoryID, payload.Quantity, payload.UnitPrice)
+	if err != nil {
+		log.Printf("[Controller] エラー: アイテム作成に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "アイテムの作成に失敗しました",
+		})
+	}
+
+	log.Printf("[Controller] 成功: アイテムを作成しました (ID: %s)", item.ID)
+	return c.JSON(http.StatusCreated, item)
+}
+
+// UpdateItem は PUT /api/items/:id リクエストを処理します
+func UpdateItem(c echo.Context) error {
+	id := c.Param("id")
+	log.Printf("[Controller] PUT /api/items/%s - リクエスト受信", id)
+
+	var payload struct {
+		Code       string   `json:"code"`
+		Name       string   `json:"name"`
+		CategoryID *string  `json:"category_id"`
+		UnitID     string   `json:"unit_id"`
+		Quantity   *int     `json:"quantity"`
+		UnitPrice  *float64 `json:"unit_price"`
+		Status     string   `json:"status"`
+	}
+
+	if err := c.Bind(&payload); err != nil {
+		log.Printf("[Controller] リクエストボディのパースエラー: %v", err)
+		return c.JSON(http.StatusBadRequest, map[string]string{
+			"error": "invalid_request",
+		})
+	}
+
+	item, err := service.UpdateItem(id, payload.Code, payload.Name, payload.UnitID, payload.CategoryID, payload.Quantity, payload.UnitPrice, payload.Status)
+	if err != nil {
+		log.Printf("[Controller] エラー: アイテム更新に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "アイテムの更新に失敗しました",
+		})
+	}
+
+	log.Printf("[Controller] 成功: アイテムを更新しました (ID: %s)", id)
+	return c.JSON(http.StatusOK, item)
+}
+
+// DeleteItem は DELETE /api/items/:id リクエストを処理します
+func DeleteItem(c echo.Context) error {
+	id := c.Param("id")
+	log.Printf("[Controller] DELETE /api/items/%s - リクエスト受信", id)
+
+	if err := service.DeleteItem(id); err != nil {
+		log.Printf("[Controller] エラー: アイテム削除に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error": "アイテムの削除に失敗しました",
+		})
+	}
+
+	log.Printf("[Controller] 成功: アイテムを削除しました (ID: %s)", id)
+	return c.JSON(http.StatusOK, map[string]string{
+		"message": "アイテムを削除しました",
 	})
 }

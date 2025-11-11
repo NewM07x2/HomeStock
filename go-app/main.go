@@ -51,6 +51,7 @@ func main() {
 
 	// REST API エンドポイント - READ
 	e.GET("/api/items", controller.GetRecentItems)
+	e.GET("/api/items/:id", controller.GetItemByID)
 	e.GET("/api/categories", controller.GetCategories)
 	e.GET("/api/units", controller.GetUnits)
 	e.GET("/api/attributes", controller.GetAttributes)
@@ -58,6 +59,11 @@ func main() {
 	e.GET("/api/stock-history", controller.GetStockHistory)
 
 	// REST API エンドポイント - CREATE/UPDATE/DELETE
+	// Items
+	e.POST("/api/items", controller.CreateItem)
+	e.PUT("/api/items/:id", controller.UpdateItem)
+	e.DELETE("/api/items/:id", controller.DeleteItem)
+
 	// Categories
 	e.POST("/api/categories", controller.CreateCategory)
 	e.PUT("/api/categories/:id", controller.UpdateCategory)
