@@ -498,3 +498,49 @@ func DeleteUser(c echo.Context) error {
 		"message": "ユーザーを削除しました",
 	})
 }
+
+// GetStockHistory は GET /api/stock-history リクエストを処理します
+func GetStockHistory(c echo.Context) error {
+	log.Printf("[Controller] GET /api/stock-history - リクエスト受信")
+
+	// ページネーションパラメータを取得
+	pageStr := c.QueryParam("page")
+	limitStr := c.QueryParam("limit")
+
+	page := 1
+	if pageStr != "" {
+		if pageNum, err := strconv.Atoi(pageStr); err == nil && pageNum > 0 {
+			page = pageNum
+		}
+	}
+
+	limit := 100
+	if limitStr != "" {
+		if limitNum, err := strconv.Atoi(limitStr); err == nil && limitNum > 0 {
+			limit = limitNum
+		}
+	}
+
+	offset := (page - 1) * limit
+
+	log.Printf("[Controller] page: %d, limit: %d, offset: %d", page, limit, offset)
+
+	// サービス層から在庫履歴を取得
+	histories, total, err := service.GetStockHistory(limit, offset)
+	if err != nil {
+		log.Printf("[Controller] エラー: 在庫履歴取得に失敗しました: %v", err)
+		return c.JSON(http.StatusInternalServerError, map[string]string{
+			"error":   "internal_error",
+			"message": "Failed to fetch stock history",
+		})
+	}
+
+	log.Printf("[Controller] 成功: %d件の在庫履歴を取得しました (total: %d)", len(histories), total)
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"items": histories,
+		"total": total,
+		"page":  page,
+		"limit": limit,
+	})
+}

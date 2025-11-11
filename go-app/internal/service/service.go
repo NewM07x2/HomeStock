@@ -89,3 +89,8 @@ func UpdateUser(id, email, role string) (*model.User, error) {
 func DeleteUser(id string) error {
 	return repository.DeleteUser(id)
 }
+
+// GetStockHistory は在庫履歴を取得します
+func GetStockHistory(limit, offset int) ([]model.StockHistory, int, error) {
+	return repository.FetchStockHistory(limit, offset)
+}

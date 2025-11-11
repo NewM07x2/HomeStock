@@ -37,17 +37,8 @@ export default function ItemsList() {
   const [total, setTotal] = useState(0)
   const limit = 10
 
-  // 検索条件
+  // 検索条件（即座に検索が実行される）
   const [searchConditions, setSearchConditions] = useState<SearchConditions>({
-    code: '',
-    name: '',
-    categories: [],
-    minQty: '',
-    maxQty: '',
-  })
-
-  // 検索実行用の条件（検索ボタンを押したときに更新）
-  const [appliedConditions, setAppliedConditions] = useState<SearchConditions>({
     code: '',
     name: '',
     categories: [],
@@ -81,45 +72,15 @@ export default function ItemsList() {
     return () => { mounted = false }
   }, [])
 
-  // 検索実行
-  const handleSearch = () => {
-    setAppliedConditions({ ...searchConditions })
-    setPage(1)
-  }
-
-  // 検索条件クリア
-  const handleClearSearch = () => {
-    const emptyConditions = {
-      code: '',
-      name: '',
-      categories: [],
-      minQty: '',
-      maxQty: '',
-    }
-    setSearchConditions(emptyConditions)
-    setAppliedConditions(emptyConditions)
-    setPage(1)
-  }
-
-  // カテゴリ選択のトグル
-  const toggleCategory = (categoryCode: string) => {
-    setSearchConditions(prev => ({
-      ...prev,
-      categories: prev.categories.includes(categoryCode)
-        ? prev.categories.filter(c => c !== categoryCode)
-        : [...prev.categories, categoryCode]
-    }))
-  }
-
   useEffect(() => {
     let mounted = true
     // 検索条件をクエリパラメータに変換
     const params: any = { page, limit }
-    if (appliedConditions.code) params.code = appliedConditions.code
-    if (appliedConditions.name) params.name = appliedConditions.name
-    if (appliedConditions.categories.length > 0) params.categories = appliedConditions.categories.join(',')
-    if (appliedConditions.minQty) params.minQty = appliedConditions.minQty
-    if (appliedConditions.maxQty) params.maxQty = appliedConditions.maxQty
+    if (searchConditions.code) params.code = searchConditions.code
+    if (searchConditions.name) params.name = searchConditions.name
+    if (searchConditions.categories.length > 0) params.categories = searchConditions.categories.join(',')
+    if (searchConditions.minQty) params.minQty = searchConditions.minQty
+    if (searchConditions.maxQty) params.maxQty = searchConditions.maxQty
 
     fetchItemsWithSearch(params).then(res => {
       if (!mounted) return
@@ -139,7 +100,7 @@ export default function ItemsList() {
       }
     })
     return () => { mounted = false }
-  }, [appliedConditions, page, limit, refreshCount])
+  }, [searchConditions, page, limit, refreshCount])
 
   return (
     <div className="space-y-6">
@@ -159,6 +120,7 @@ export default function ItemsList() {
                 placeholder="コードで検索..."
                 value={searchConditions.code}
                 onChange={(e) => setSearchConditions(prev => ({ ...prev, code: e.target.value }))}
+                onBlur={() => setPage(1)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -173,6 +135,7 @@ export default function ItemsList() {
                 placeholder="名前で検索..."
                 value={searchConditions.name}
                 onChange={(e) => setSearchConditions(prev => ({ ...prev, name: e.target.value }))}
+                onBlur={() => setPage(1)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -192,6 +155,7 @@ export default function ItemsList() {
                 onChange={(selectedOptions: MultiValue<CategoryOption>) => {
                   const codes = selectedOptions ? selectedOptions.map((option: CategoryOption) => option.value) : []
                   setSearchConditions(prev => ({ ...prev, categories: codes }))
+                  setPage(1)
                 }}
                 placeholder="カテゴリを選択してください"
                 className="react-select-container"
@@ -256,6 +220,7 @@ export default function ItemsList() {
                 placeholder="0"
                 value={searchConditions.minQty}
                 onChange={(e) => setSearchConditions(prev => ({ ...prev, minQty: e.target.value }))}
+                onBlur={() => setPage(1)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
@@ -270,26 +235,10 @@ export default function ItemsList() {
                 placeholder="999999"
                 value={searchConditions.maxQty}
                 onChange={(e) => setSearchConditions(prev => ({ ...prev, maxQty: e.target.value }))}
+                onBlur={() => setPage(1)}
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
-          </div>
-
-          {/* 検索ボタン */}
-          <div className="flex justify-end gap-3">
-            <button
-              onClick={handleClearSearch}
-              className="px-6 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-colors font-medium"
-            >
-              クリア
-            </button>
-            <button
-              onClick={handleSearch}
-              className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
-            >
-              検索
-            </button>
-
           </div>
         </div>
       </div>

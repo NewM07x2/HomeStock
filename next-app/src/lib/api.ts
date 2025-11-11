@@ -315,4 +315,61 @@ export const updateItem = async (id: string, payload: any): Promise<any> => {
   }
 };
 
+/**
+ * カテゴリ別統計情報を取得
+ */
+export interface CategoryStat {
+  category: string;
+  count: number;
+  percentage: number;
+}
+
+export const fetchCategoryStats = async (): Promise<CategoryStat[]> => {
+  try {
+    const response = await fetch('/api/reports/category-stats', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch category stats:', error);
+    throw new Error('Failed to fetch category stats');
+  }
+};
+
+/**
+ * 月別利用金額を取得
+ */
+export interface MonthlyUsage {
+  month: string;
+  amount: number;
+}
+
+export const fetchMonthlyUsage = async (): Promise<MonthlyUsage[]> => {
+  try {
+    const response = await fetch('/api/reports/monthly-usage', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Failed to fetch monthly usage:', error);
+    throw new Error('Failed to fetch monthly usage');
+  }
+};
+
 export { saveItem, fetchItems };

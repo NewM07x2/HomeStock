@@ -622,3 +622,64 @@ func DeleteUser(id string) error {
 	log.Printf("[Repository] ユーザー削除成功: %s", id)
 	return nil
 }
+
+// FetchStockHistory は在庫履歴を取得します
+func FetchStockHistory(limit, offset int) ([]model.StockHistory, int, error) {
+	log.Printf("[Repository] FetchStockHistory - limit: %d, offset: %d", limit, offset)
+
+	// 総件数を取得
+	var total int
+	err := common.DB.QueryRow(`
+		SELECT COUNT(*) FROM stock_history
+	`).Scan(&total)
+	if err != nil {
+		log.Printf("[Repository] 在庫履歴の総件数取得エラー: %v", err)
+		return nil, 0, err
+	}
+
+	// 履歴データを取得
+	rows, err := common.DB.Query(`
+		SELECT 
+			id, item_id, qty_delta, kind, location_from, location_to, 
+			reason, meta, unit_price, total_amount, created_by, created_at
+		FROM stock_history
+		ORDER BY created_at DESC
+		LIMIT $1 OFFSET $2
+	`, limit, offset)
+	if err != nil {
+		log.Printf("[Repository] 在庫履歴取得エラー: %v", err)
+		return nil, 0, err
+	}
+	defer rows.Close()
+
+	var histories []model.StockHistory
+	for rows.Next() {
+		var history model.StockHistory
+		if err := rows.Scan(
+			&history.ID,
+			&history.ItemID,
+			&history.QtyDelta,
+			&history.Kind,
+			&history.LocationFrom,
+			&history.LocationTo,
+			&history.Reason,
+			&history.Meta,
+			&history.UnitPrice,
+			&history.TotalAmount,
+			&history.CreatedBy,
+			&history.CreatedAt,
+		); err != nil {
+			log.Printf("[Repository] 在庫履歴のスキャンエラー: %v", err)
+			return nil, 0, err
+		}
+		histories = append(histories, history)
+	}
+
+	if err = rows.Err(); err != nil {
+		log.Printf("[Repository] 在庫履歴の行エラー: %v", err)
+		return nil, 0, err
+	}
+
+	log.Printf("[Repository] 在庫履歴取得成功: %d件", len(histories))
+	return histories, total, nil
+}

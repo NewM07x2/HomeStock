@@ -55,6 +55,7 @@ func main() {
 	e.GET("/api/units", controller.GetUnits)
 	e.GET("/api/attributes", controller.GetAttributes)
 	e.GET("/api/users", controller.GetUsers)
+	e.GET("/api/stock-history", controller.GetStockHistory)
 
 	// REST API エンドポイント - CREATE/UPDATE/DELETE
 	// Categories

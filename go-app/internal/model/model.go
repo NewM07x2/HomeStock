@@ -71,6 +71,7 @@ type Item struct {
 	CategoryID *string    `json:"category_id,omitempty" db:"category_id"` // カテゴリID（任意、外部キー）
 	UnitID     string     `json:"unit_id" db:"unit_id"`                   // 単位ID（必須、外部キー）
 	Quantity   *int       `json:"quantity,omitempty" db:"quantity"`       // 在庫数（任意）
+	UnitPrice  *float64   `json:"unit_price,omitempty" db:"unit_price"`   // 単価（円）
 	Status     string     `json:"status" db:"status"`                     // ステータス（active: 有効、inactive: 無効）
 	CreatedBy  *string    `json:"created_by,omitempty" db:"created_by"`   // 作成者のユーザーID（UUID、任意）
 	CreatedAt  time.Time  `json:"created_at" db:"created_at"`             // 作成日時
@@ -81,4 +82,20 @@ type Item struct {
 	Category   *Category             `json:"category,omitempty" db:"-"`   // カテゴリ情報（結合取得）
 	Unit       *Unit                 `json:"unit,omitempty" db:"-"`       // 単位情報（結合取得）
 	Attributes []ItemAttributeDetail `json:"attributes,omitempty" db:"-"` // 属性情報（結合取得）
+}
+
+// StockHistory は在庫の入出庫履歴を表すモデル
+type StockHistory struct {
+	ID           string    `json:"id" db:"id"`                                 // 履歴ID
+	ItemID       string    `json:"item_id" db:"item_id"`                       // アイテムID
+	QtyDelta     float64   `json:"qty_delta" db:"qty_delta"`                   // 増減量（正: 増加、負: 減少）
+	Kind         string    `json:"kind" db:"kind"`                             // 履歴種別（IN, OUT, ADJUST, TRANSFER）
+	LocationFrom *string   `json:"location_from,omitempty" db:"location_from"` // 移動元ロケーション（任意）
+	LocationTo   *string   `json:"location_to,omitempty" db:"location_to"`     // 移動先ロケーション（任意）
+	Reason       *string   `json:"reason,omitempty" db:"reason"`               // 理由・備考（任意）
+	Meta         string    `json:"meta" db:"meta"`                             // 補足情報（JSON形式）
+	UnitPrice    *float64  `json:"unit_price,omitempty" db:"unit_price"`       // 取引時の単価（円）
+	TotalAmount  *float64  `json:"total_amount,omitempty" db:"total_amount"`   // 取引金額（qty_delta × unit_price）
+	CreatedBy    *string   `json:"created_by,omitempty" db:"created_by"`       // 実行者のユーザーID（任意）
+	CreatedAt    time.Time `json:"created_at" db:"created_at"`                 // 作成日時
 }
