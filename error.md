@@ -1,10 +1,19 @@
+_headerSent: true,
+
+
+_closed: true,
+
+
 socket: [Socket],
 
 
-_header: 'GET /api/stock-history?page=1&limit=10000 HTTP/1.1\r\n' +
+_header: 'GET /api/items/I00000008 HTTP/1.1\r\n' +
 
 
 'Accept: application/json, text/plain, */*\r\n' +
+
+
+'Content-Type: application/json\r\n' +
 
 
 'User-Agent: axios/1.12.2\r\n' +
@@ -13,7 +22,7 @@ _header: 'GET /api/stock-history?page=1&limit=10000 HTTP/1.1\r\n' +
 'Accept-Encoding: gzip, compress, deflate, br\r\n' +
 
 
-'Host: localhost:8080\r\n' +
+'Host: go-app:8080\r\n' +
 
 
 'Connection: keep-alive\r\n' +
@@ -46,19 +55,19 @@ insecureHTTPParser: undefined,
 joinDuplicateHeaders: undefined,
 
 
-path: '/api/stock-history?page=1&limit=10000',
+path: '/api/items/I00000008',
 
 
-_ended: false,
+_ended: true,
 
 
-res: null,
+res: [IncomingMessage],
 
 
 aborted: false,
 
 
-timeoutCb: [Function: emitRequestTimeout],
+timeoutCb: null,
 
 
 upgradeOrConnect: false,
@@ -70,16 +79,16 @@ parser: null,
 maxHeadersCount: null,
 
 
-reusedSocket: false,
+reusedSocket: true,
 
 
-host: 'localhost',
+host: 'go-app',
 
 
 protocol: 'http:',
 
 
-_redirectable: [Circular *1],
+_redirectable: [Writable],
 
 
 [Symbol(shapeMode)]: false,
@@ -115,46 +124,37 @@ _redirectable: [Circular *1],
 },
 
 
-_currentUrl: 'http://localhost:8080/api/stock-history?page=1&limit=10000',
-
-
-[Symbol(shapeMode)]: true,
-
-
-[Symbol(kCapture)]: false
+data: { message: 'Not Found' }
 
 
 },
 
 
-[cause]: Error: connect ECONNREFUSED 127.0.0.1:8080
-
-
-at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1611:16)
-
-
-at TCPConnectWrap.callbackTrampoline (node:internal/async_hooks:130:17) {
-
-
-errno: -111,
-
-
-code: 'ECONNREFUSED',
-
-
-syscall: 'connect',
-
-
-address: '127.0.0.1',
-
-
-port: 8080
+status: 404
 
 
 }
 
 
+[API /api/items] Axios error details: {
+
+
+message: 'Request failed with status code 404',
+
+
+code: 'ERR_BAD_REQUEST',
+
+
+status: 404,
+
+
+data: { message: 'Not Found' }
+
+
 }
 
 
-GET /api/reports/monthly-usage 500 in 26ms
+GET /api/items/I00000008 404 in 441ms
+
+
+GET /?_rsc=1bbjy 200 in 115ms
