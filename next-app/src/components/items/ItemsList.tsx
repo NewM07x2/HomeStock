@@ -122,16 +122,54 @@ export default function ItemsList() {
   }, [searchConditions, page, limit, refreshCount])
 
   // バーコード読み取り後の処理
-  const handleBulkScan = (decodedText: string) => {
+  const handleBulkScan = async (decodedText: string) => {
     console.log('読み取ったコード:', decodedText)
-    // 新規登録モーダルを開き、コードを設定
-    window.dispatchEvent(new CustomEvent('open-item-detail', { 
-      detail: { 
-        id: null, 
-        editable: true,
-        initialCode: decodedText 
-      } 
-    }))
+    
+    try {
+      // バーコードから商品情報を検索
+      const { searchProductByBarcode } = await import('@/lib/api')
+      const result = await searchProductByBarcode(decodedText)
+      
+      console.log('商品検索結果:', result)
+      
+      // 商品情報が見つかった場合
+      if (result.found) {
+        // 既存商品が見つかった場合は編集モードで開く
+        if (result.source === 'database') {
+          alert(`既存の商品が見つかりました: ${result.data.name}`)
+        }
+      } else {
+        // 商品が見つからない場合は手動入力を促す
+        if (result.message) {
+          alert(result.message)
+        }
+      }
+      
+      // 新規登録モーダルを開き、取得した商品情報を設定
+      window.dispatchEvent(new CustomEvent('open-item-detail', { 
+        detail: { 
+          id: null, 
+          editable: true,
+          initialCode: result.data.code,
+          initialName: result.data.name || '',
+          initialUnitPrice: result.data.unit_price || 0,
+          initialCategoryId: result.data.category_id || '',
+          initialUnitId: result.data.unit_id || ''
+        } 
+      }))
+    } catch (error) {
+      console.error('商品検索エラー:', error)
+      alert('商品情報の取得に失敗しました。手動で入力してください。')
+      
+      // エラーの場合でもモーダルは開く
+      window.dispatchEvent(new CustomEvent('open-item-detail', { 
+        detail: { 
+          id: null, 
+          editable: true,
+          initialCode: decodedText 
+        } 
+      }))
+    }
   }
 
   return (

@@ -313,4 +313,35 @@ export const fetchYearlyUsage = async (baseYear: number): Promise<YearlyUsage[]>
   }
 };
 
+/**
+ * バーコードから商品情報を検索
+ * @param barcode バーコード(JANコードなど)
+ */
+export interface ProductSearchResult {
+  found: boolean;
+  source: 'database' | 'amazon' | 'rakuten' | 'yahoo' | 'none';
+  data: {
+    code: string;
+    name: string;
+    unit_price?: number;
+    category?: string;
+    category_id?: string;
+    unit?: string;
+    unit_id?: string;
+    image_url?: string;
+    shop_name?: string;
+  };
+  message?: string;
+}
+
+export const searchProductByBarcode = async (barcode: string): Promise<ProductSearchResult> => {
+  try {
+    const response = await axios.get<ProductSearchResult>(`/api/products/search-by-barcode?barcode=${barcode}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to search product by barcode:', error);
+    throw new Error('Failed to search product by barcode');
+  }
+};
+
 export { saveItem, fetchItems };

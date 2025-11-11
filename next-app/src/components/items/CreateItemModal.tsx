@@ -5,7 +5,7 @@ import { createItem, updateItem } from '@/lib/api'
 import { handleCloseClickModel } from '@/model/modal'
 import { useRefresh } from '@/components/ui/RefreshContext'
 
-export default function CreateItemModal({ handleCloseClick, item, isEdit, initialCode }: handleCloseClickModel & { item?: any; isEdit?: boolean; initialCode?: string | null }) {
+export default function CreateItemModal({ handleCloseClick, item, isEdit, initialCode, initialData }: handleCloseClickModel & { item?: any; isEdit?: boolean; initialCode?: string | null; initialData?: any }) {
   const [form, setForm] = useState<any>({ 
     code: '',
     name: '', 
@@ -37,14 +37,14 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit, initia
         status: item.status || 'active'
       })
     } else if (initialCode) {
-      // バーコード読み取りから来た場合
+      // バーコード読み取りから来た場合（商品情報も含む）
       setForm({ 
         code: initialCode,
-        name: '', 
-        category: '', 
-        unit: '',
+        name: initialData?.name || '', 
+        category: initialData?.category_id || '', 
+        unit: initialData?.unit_id || '',
         quantity: '',
-        unit_price: '',
+        unit_price: initialData?.unit_price ? String(initialData.unit_price) : '',
         status: 'active'
       })
     } else {
@@ -58,7 +58,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit, initia
         status: 'active'
       })
     }
-  }, [item, isEdit, initialCode])
+  }, [item, isEdit, initialCode, initialData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target

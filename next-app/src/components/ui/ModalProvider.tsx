@@ -17,11 +17,13 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   const [detailItem, setDetailItem] = useState<any | null>(null)
   const [detailEditable, setDetailEditable] = useState<boolean>(false)
   const [initialCode, setInitialCode] = useState<string | null>(null)
+  const [initialData, setInitialData] = useState<any>(null)
 
   const openCreateItem = () => setCreateOpen(true)
   const closeCreateItem = () => {
     setCreateOpen(false)
     setInitialCode(null)
+    setInitialData(null)
   }
 
   React.useEffect(() => {
@@ -34,9 +36,15 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
       const editable = typeof payload === 'object' && payload?.editable === true
       const initialCodeValue = typeof payload === 'object' && payload?.initialCode ? payload.initialCode : null
       
-      // initialCodeがある場合は新規登録モード
+      // initialCodeがある場合は新規登録モード（商品情報も含む）
       if (initialCodeValue && !id) {
         setInitialCode(initialCodeValue)
+        setInitialData({
+          name: payload?.initialName || '',
+          unit_price: payload?.initialUnitPrice || '',
+          category_id: payload?.initialCategoryId || '',
+          unit_id: payload?.initialUnitId || ''
+        })
         setCreateOpen(true)
         return
       }
@@ -60,7 +68,7 @@ export function ModalProvider({ children }: { children: React.ReactNode }) {
   return (
     <ModalContext.Provider value={{ openCreateItem, closeCreateItem }}>
       {children}
-  {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} initialCode={initialCode} />}
+  {isCreateOpen && <CreateItemModal handleCloseClick={closeCreateItem} initialCode={initialCode} initialData={initialData} />}
   {detailId && detailEditable && (
     <CreateItemModal handleCloseClick={() => { setDetailId(null); setDetailItem(null); setDetailEditable(false) }} item={detailItem} isEdit={true} />
   )}
