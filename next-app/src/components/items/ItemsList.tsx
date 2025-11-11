@@ -306,7 +306,7 @@ export default function ItemsList() {
                     {item.qty}
                   </td>
                   <td className="px-4 py-3 text-sm text-gray-900 text-right font-medium">
-                    {item.unit_price ?? '-'}
+                    {item.unit_price ? `¥${Math.floor(item.unit_price)}` : '-'}
                   </td>
                   <td className="px-4 py-3 text-sm text-center whitespace-nowrap">
                     <button 

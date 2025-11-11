@@ -68,7 +68,7 @@ export default function ItemDetail({ id, item: initialItem, editable = false }: 
                 className="border rounded w-full px-2 py-1" 
                 value={form?.unit_price ?? ''} 
                 onChange={e => setForm({ ...form, unit_price: Number(e.target.value) })} 
-                step="0.01"
+                step="1"
               />
             </div>
             <div>
@@ -99,7 +99,7 @@ export default function ItemDetail({ id, item: initialItem, editable = false }: 
             <div><strong>カテゴリ</strong><div>{item.category?.name || '-'}</div></div>
             <div><strong>単位</strong><div>{item.unit?.name || '-'}</div></div>
             <div><strong>在庫</strong><div>{item.quantity ?? item.qty ?? 0}</div></div>
-            <div><strong>金額</strong><div>{item.unit_price ? `¥${item.unit_price}` : '-'}</div></div>
+            <div><strong>金額</strong><div>{item.unit_price ? `¥${Math.floor(item.unit_price)}` : '-'}</div></div>
             <div><strong>ステータス</strong><div>{item.status === 'active' ? '有効' : '無効'}</div></div>
             {item.attributes && item.attributes.length > 0 && (
               <div className="sm:col-span-2">

@@ -64,10 +64,10 @@ docker-compose exec db psql -U hsm -d "hsm-db" -c "\d+ stock_history"
 
 ```powershell
 # 03_initial_data.sqlに追加されたUPDATE文を実行
-docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 50.0 WHERE code = 'HSM-0001';"
-docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 30.0 WHERE code = 'HSM-0002';"
-docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 10.0 WHERE code = 'HSM-0003';"
-docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 100.0 WHERE code = 'HSM-0004';"
+docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 50 WHERE code = 'HSM-0001';"
+docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 30 WHERE code = 'HSM-0002';"
+docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 10 WHERE code = 'HSM-0003';"
+docker-compose exec db psql -U hsm -d "hsm-db" -c "UPDATE items SET unit_price = 100 WHERE code = 'HSM-0004';"
 ```
 
 ### データを確認

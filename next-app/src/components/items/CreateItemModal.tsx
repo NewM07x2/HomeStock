@@ -280,7 +280,7 @@ export default function CreateItemModal({ handleCloseClick, item, isEdit }: hand
               }`}
               placeholder="例: 1500"
               disabled={loading}
-              step="0.01"
+              step="1"
             />
             {errors.unit_price && (
               <p className="mt-1 text-sm text-red-500">{errors.unit_price}</p>

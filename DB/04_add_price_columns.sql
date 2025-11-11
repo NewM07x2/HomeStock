@@ -8,15 +8,15 @@
 
 -- itemsテーブルにunit_priceカラムを追加
 ALTER TABLE items 
-ADD COLUMN IF NOT EXISTS unit_price NUMERIC(20,2) DEFAULT 0;
+ADD COLUMN IF NOT EXISTS unit_price INTEGER DEFAULT 0;
 
 COMMENT ON COLUMN items.unit_price IS 'アイテムの単価（円）';
 
 -- stock_historyテーブルにunit_priceとtotal_amountカラムを追加
 -- 履歴作成時点の単価と合計金額を記録します
 ALTER TABLE stock_history 
-ADD COLUMN IF NOT EXISTS unit_price NUMERIC(20,2) DEFAULT 0,
-ADD COLUMN IF NOT EXISTS total_amount NUMERIC(20,2) DEFAULT 0;
+ADD COLUMN IF NOT EXISTS unit_price INTEGER DEFAULT 0,
+ADD COLUMN IF NOT EXISTS total_amount INTEGER DEFAULT 0;
 
 COMMENT ON COLUMN stock_history.unit_price IS '取引時のアイテム単価（円）';
 COMMENT ON COLUMN stock_history.total_amount IS '取引金額（qty_delta × unit_price）';

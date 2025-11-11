@@ -576,12 +576,12 @@ func CreateItem(c echo.Context) error {
 	log.Printf("[Controller] POST /api/items - リクエスト受信")
 
 	var payload struct {
-		Code       string   `json:"code"`
-		Name       string   `json:"name"`
-		CategoryID *string  `json:"category_id"`
-		UnitID     string   `json:"unit_id"`
-		Quantity   *int     `json:"quantity"`
-		UnitPrice  *float64 `json:"unit_price"`
+		Code       string  `json:"code"`
+		Name       string  `json:"name"`
+		CategoryID *string `json:"category_id"`
+		UnitID     string  `json:"unit_id"`
+		Quantity   *int    `json:"quantity"`
+		UnitPrice  *int    `json:"unit_price"`
 	}
 
 	if err := c.Bind(&payload); err != nil {
@@ -609,13 +609,13 @@ func UpdateItem(c echo.Context) error {
 	log.Printf("[Controller] PUT /api/items/%s - リクエスト受信", id)
 
 	var payload struct {
-		Code       string   `json:"code"`
-		Name       string   `json:"name"`
-		CategoryID *string  `json:"category_id"`
-		UnitID     string   `json:"unit_id"`
-		Quantity   *int     `json:"quantity"`
-		UnitPrice  *float64 `json:"unit_price"`
-		Status     string   `json:"status"`
+		Code       string  `json:"code"`
+		Name       string  `json:"name"`
+		CategoryID *string `json:"category_id"`
+		UnitID     string  `json:"unit_id"`
+		Quantity   *int    `json:"quantity"`
+		UnitPrice  *int    `json:"unit_price"`
+		Status     string  `json:"status"`
 	}
 
 	if err := c.Bind(&payload); err != nil {

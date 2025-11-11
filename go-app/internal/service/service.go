@@ -101,12 +101,12 @@ func GetStockHistory(limit, offset int) ([]model.StockHistory, int, error) {
 }
 
 // CreateItem はアイテムを作成します
-func CreateItem(code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64) (*model.Item, error) {
+func CreateItem(code, name, unitID string, categoryID *string, quantity *int, unitPrice *int) (*model.Item, error) {
 	return repository.CreateItem(code, name, unitID, categoryID, quantity, unitPrice)
 }
 
 // UpdateItem はアイテムを更新します
-func UpdateItem(id, code, name, unitID string, categoryID *string, quantity *int, unitPrice *float64, status string) (*model.Item, error) {
+func UpdateItem(id, code, name, unitID string, categoryID *string, quantity *int, unitPrice *int, status string) (*model.Item, error) {
 	return repository.UpdateItem(id, code, name, unitID, categoryID, quantity, unitPrice, status)
 }
 
