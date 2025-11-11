@@ -1,127 +1,88 @@
-GET /api/items?page=1&limit=10 200 in 16ms
+GET /api/reports/category-stats 200 in 363ms
 
 
-GET /?_rsc=1bbjy 200 in 72ms
+[monthly-usage] APIベースURL: http://go-app:8080⁠
 
 
-[API /api/monthly-summary] GET request received: { year: 2025, month: 11, API_BASE_URL: 'http://go-app:8080' }
+[category-stats] APIベースURL: http://go-app:8080⁠
 
 
-[API /api/monthly-summary] 履歴データ取得成功: 0 件
+月別利用金額の取得エラー: AxiosError: Request failed with status code 500
 
 
-[API /api/monthly-summary] レスポンス: { totalAmount: 0, days: 30 }
+at settle (webpack-internal:///(rsc)/./node_modules/axios/lib/core/settle.js:21:16)
 
 
-GET /api/monthly-summary?year=2025&month=11 200 in 23ms
+at IncomingMessage.handleStreamEnd (webpack-internal:///(rsc)/./node_modules/axios/lib/adapters/http.js:519:81)
 
 
-[API /api/monthly-summary] GET request received: { year: 2025, month: 11, API_BASE_URL: 'http://go-app:8080' }
+at IncomingMessage.emit (node:events:536:35)
 
 
-[API /api/monthly-summary] 履歴データ取得成功: 0 件
+at endReadableNT (node:internal/streams/readable:1698:12)
 
 
-[API /api/monthly-summary] レスポンス: { totalAmount: 0, days: 30 }
-
-
-GET /api/monthly-summary?year=2025&month=11 200 in 16ms
-
-
-[fetchRecentItems] Failed to fetch recent items: TypeError: Invalid URL
-
-
-at new URL (node:internal/url:806:29)
-
-
-at dispatchHttpRequest (webpack-internal:///(rsc)/./node_modules/axios/lib/adapters/http.js:228:24)
-
-
-at eval (webpack-internal:///(rsc)/./node_modules/axios/lib/adapters/http.js:157:9)
-
-
-at new Promise (<anonymous>)
-
-
-at wrapAsync (webpack-internal:///(rsc)/./node_modules/axios/lib/adapters/http.js:141:12)
-
-
-at http (webpack-internal:///(rsc)/./node_modules/axios/lib/adapters/http.js:174:12)
-
-
-at Axios.dispatchRequest (webpack-internal:///(rsc)/./node_modules/axios/lib/core/dispatchRequest.js:51:12)
-
-
-at Axios._request (webpack-internal:///(rsc)/./node_modules/axios/lib/core/Axios.js:168:83)
-
-
-at Axios.request (webpack-internal:///(rsc)/./node_modules/axios/lib/core/Axios.js:46:31)
-
-
-at Axios.<computed> [as get] (webpack-internal:///(rsc)/./node_modules/axios/lib/core/Axios.js:193:21)
-
-
-at Function.wrap [as get] (webpack-internal:///(rsc)/./node_modules/axios/lib/helpers/bind.js:8:19)
-
-
-at fetchRecentItems (webpack-internal:///(rsc)/./src/lib/api.ts:34:78)
-
-
-at RecentItems (webpack-internal:///(rsc)/./src/components/home/RecentItems.tsx:17:81)
-
-
-at ej (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:264151)
-
-
-at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:276953
-
-
-at Object.toJSON (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:281723)
-
-
-at stringify (<anonymous>)
-
-
-at /app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268079
-
-
-at ez (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268158)
-
-
-at eH (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:268559)
-
-
-at Timeout._onTimeout (/app/node_modules/next/dist/compiled/next-server/app-page.runtime.dev.js:35:265057)
-
-
-at listOnTimeout (node:internal/timers:581:17)
-
-
-at process.processTimers (node:internal/timers:519:7)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
 
 
 at Axios.request (webpack-internal:///(rsc)/./node_modules/axios/lib/core/Axios.js:50:49)
 
 
-at async fetchRecentItems (webpack-internal:///(rsc)/./src/lib/api.ts:34:26)
+at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
 
 
-at async RecentItems (webpack-internal:///(rsc)/./src/components/home/RecentItems.tsx:17:17) {
+at async GET (webpack-internal:///(rsc)/./src/app/api/reports/monthly-usage/route.ts:16:38)
 
 
-code: 'ERR_INVALID_URL',
+at async /app/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:63809
 
 
-input: '/api/items'
+at async eU.execute (/app/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:53964)
 
 
-}
+at async eU.handle (/app/node_modules/next/dist/compiled/next-server/app-route.runtime.dev.js:6:65062)
 
 
-Failed to load items: Error: Failed to fetch items. Please try again later.
+at async doRender (/app/node_modules/next/dist/server/base-server.js:1333:42)
 
 
-at fetchRecentItems (webpack-internal:///(rsc)/./src/lib/api.ts:47:15)
+at async cacheEntry.responseCache.get.routeKind (/app/node_modules/next/dist/server/base-server.js:1555:28)
 
 
-at async RecentItems (webpack-internal:///(rsc)/./src/components/home/RecentItems.tsx:17:17)
+at async DevServer.renderToResponseWithComponentsImpl (/app/node_modules/next/dist/server/base-server.js:1463:28)
+
+
+at async DevServer.renderPageComponent (/app/node_modules/next/dist/server/base-server.js:1856:24)
+
+
+at async DevServer.renderToResponseImpl (/app/node_modules/next/dist/server/base-server.js:1894:32)
+
+
+at async DevServer.pipeImpl (/app/node_modules/next/dist/server/base-server.js:911:25)
+
+
+at async NextNodeServer.handleCatchallRenderRequest (/app/node_modules/next/dist/server/next-server.js:271:17)
+
+
+at async DevServer.handleRequestImpl (/app/node_modules/next/dist/server/base-server.js:807:17)
+
+
+at async /app/node_modules/next/dist/server/dev/next-dev-server.js:331:20
+
+
+at async Span.traceAsyncFn (/app/node_modules/next/dist/trace/trace.js:151:20)
+
+
+at async DevServer.handleRequest (/app/node_modules/next/dist/server/dev/next-dev-server.js:328:24)
+
+
+at async invokeRender (/app/node_modules/next/dist/server/lib/router-server.js:163:21)
+
+
+at async handleRequest (/app/node_modules/next/dist/server/lib/router-server.js:342:24)
+
+
+at async requestHandlerImpl (/app/node_modules/next/dist/server/lib/router-server.js:366:13)
+
+
+at async Server.requestListener (/app/node_modules/next/dist/server/lib/start-server.js:140:13) {
