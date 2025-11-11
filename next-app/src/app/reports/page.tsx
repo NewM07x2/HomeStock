@@ -2,6 +2,7 @@
 import React from 'react'
 import CategoryChart from '@/components/reports/CategoryChart'
 import MonthlyUsageChart from '@/components/reports/MonthlyUsageChart'
+import DailyUsageChart from '@/components/reports/DailyUsageChart'
 
 export default function ReportsPage() {
   return (
@@ -27,6 +28,19 @@ export default function ReportsPage() {
             </div>
             <div className="p-6">
               <CategoryChart />
+            </div>
+          </div>
+
+          {/* 日付別利用金額推移 */}
+          <div className="bg-white rounded-lg shadow">
+            <div className="p-6 border-b border-gray-200">
+              <h2 className="text-xl font-semibold text-gray-800">日付別利用金額推移</h2>
+              <p className="mt-1 text-sm text-gray-600">
+                指定した月の日付別利用金額の推移を表示します
+              </p>
+            </div>
+            <div className="p-6">
+              <DailyUsageChart />
             </div>
           </div>
 

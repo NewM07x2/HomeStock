@@ -274,4 +274,24 @@ export const fetchMonthlyUsage = async (): Promise<MonthlyUsage[]> => {
   }
 };
 
+/**
+ * 日付別利用金額を取得
+ * @param year 年
+ * @param month 月（1-12）
+ */
+export interface DailyUsage {
+  date: string;
+  amount: number;
+}
+
+export const fetchDailyUsage = async (year: number, month: number): Promise<DailyUsage[]> => {
+  try {
+    const response = await axios.get<DailyUsage[]>(`/api/reports/daily-usage?year=${year}&month=${month}`);
+    return response.data;
+  } catch (error) {
+    console.error('Failed to fetch daily usage:', error);
+    throw new Error('Failed to fetch daily usage');
+  }
+};
+
 export { saveItem, fetchItems };
