@@ -1,492 +1,110 @@
-react-dom.development.js:17796 Uncaught Unsupported scan type SCAN_TYPE_CAMERA
-eval @ react-dom.development.js:17796
-callCallback @ react-dom.development.js:17629
-invokeGuardedCallbackImpl @ react-dom.development.js:17667
-invokeGuardedCallback @ react-dom.development.js:17729
-reportUncaughtErrorInDEV @ react-dom.development.js:17795
-captureCommitPhaseError @ react-dom.development.js:22517
-commitHookPassiveMountEffects @ react-dom.development.js:19744
-commitPassiveMountOnFiber @ react-dom.development.js:19826
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19832
-commitPassiveMountEffects @ react-dom.development.js:19799
-flushPassiveEffectsImpl @ react-dom.development.js:22446
-flushPassiveEffects @ react-dom.development.js:22398
-commitRootImpl @ react-dom.development.js:22318
-commitRoot @ react-dom.development.js:22114
-performSyncWorkOnRoot @ react-dom.development.js:21156
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-2redirect-boundary.js:57 Uncaught Unsupported scan type SCAN_TYPE_CAMERA
-getDerivedStateFromError @ redirect-boundary.js:57
-update.payload @ react-dom.development.js:13315
-getStateFromUpdate @ react-dom.development.js:7252
-processUpdateQueue @ react-dom.development.js:7376
-updateClassInstance @ react-dom.development.js:13151
-updateClassComponent @ react-dom.development.js:14257
-beginWork$1 @ react-dom.development.js:15955
-callCallback @ react-dom.development.js:17629
-invokeGuardedCallbackImpl @ react-dom.development.js:17667
-invokeGuardedCallback @ react-dom.development.js:17729
-beginWork @ react-dom.development.js:22805
-performUnitOfWork @ react-dom.development.js:21852
-workLoopSync @ react-dom.development.js:21617
-renderRootSync @ react-dom.development.js:21584
-performSyncWorkOnRoot @ react-dom.development.js:21124
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-not-found-boundary.js:37 Uncaught Unsupported scan type SCAN_TYPE_CAMERA
-getDerivedStateFromError @ not-found-boundary.js:37
-update.payload @ react-dom.development.js:13315
-getStateFromUpdate @ react-dom.development.js:7252
-processUpdateQueue @ react-dom.development.js:7376
-updateClassInstance @ react-dom.development.js:13151
-updateClassComponent @ react-dom.development.js:14257
-beginWork$1 @ react-dom.development.js:15955
-callCallback @ react-dom.development.js:17629
-invokeGuardedCallbackImpl @ react-dom.development.js:17667
-invokeGuardedCallback @ react-dom.development.js:17729
-beginWork @ react-dom.development.js:22805
-performUnitOfWork @ react-dom.development.js:21852
-workLoopSync @ react-dom.development.js:21617
-renderRootSync @ react-dom.development.js:21584
-performSyncWorkOnRoot @ react-dom.development.js:21124
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-2redirect-boundary.js:57 Uncaught Unsupported scan type SCAN_TYPE_CAMERA
-getDerivedStateFromError @ redirect-boundary.js:57
-update.payload @ react-dom.development.js:13315
-getStateFromUpdate @ react-dom.development.js:7252
-processUpdateQueue @ react-dom.development.js:7376
-updateClassInstance @ react-dom.development.js:13151
-updateClassComponent @ react-dom.development.js:14257
-beginWork$1 @ react-dom.development.js:15955
-callCallback @ react-dom.development.js:17629
-invokeGuardedCallbackImpl @ react-dom.development.js:17667
-invokeGuardedCallback @ react-dom.development.js:17729
-beginWork @ react-dom.development.js:22805
-performUnitOfWork @ react-dom.development.js:21852
-workLoopSync @ react-dom.development.js:21617
-renderRootSync @ react-dom.development.js:21584
-recoverFromConcurrentError @ react-dom.development.js:20917
-performSyncWorkOnRoot @ react-dom.development.js:21134
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-not-found-boundary.js:37 Uncaught Unsupported scan type SCAN_TYPE_CAMERA
-getDerivedStateFromError @ not-found-boundary.js:37
-update.payload @ react-dom.development.js:13315
-getStateFromUpdate @ react-dom.development.js:7252
-processUpdateQueue @ react-dom.development.js:7376
-updateClassInstance @ react-dom.development.js:13151
-updateClassComponent @ react-dom.development.js:14257
-beginWork$1 @ react-dom.development.js:15955
-callCallback @ react-dom.development.js:17629
-invokeGuardedCallbackImpl @ react-dom.development.js:17667
-invokeGuardedCallback @ react-dom.development.js:17729
-beginWork @ react-dom.development.js:22805
-performUnitOfWork @ react-dom.development.js:21852
-workLoopSync @ react-dom.development.js:21617
-renderRootSync @ react-dom.development.js:21584
-recoverFromConcurrentError @ react-dom.development.js:20917
-performSyncWorkOnRoot @ react-dom.development.js:21134
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-app-index.js:35 The above error occurred in the <NotFoundErrorBoundary> component:
+api
 
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at LoadingBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:335:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at InnerScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:152:9)
-    at ScrollAndFocusHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:227:11)
-    at RenderFromTemplateContext (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/render-from-template-context.js:16:44)
-    at OuterLayoutRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/layout-router.js:354:11)
-    at main
-    at div
-    at div
-    at ResponsiveLayout (webpack-internal:///(app-pages-browser)/./src/components/base/ResponsiveLayout.tsx:16:11)
-    at ModalProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/ModalProvider.tsx:20:11)
-    at RefreshProvider (webpack-internal:///(app-pages-browser)/./src/components/ui/RefreshContext.tsx:14:11)
-    at Provider (webpack-internal:///(app-pages-browser)/./node_modules/react-redux/dist/react-redux.mjs:984:11)
-    at Providers (webpack-internal:///(app-pages-browser)/./src/app/providers.tsx:16:11)
-    at body
-    at html
-    at RedirectErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:73:9)
-    at RedirectBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/redirect-boundary.js:81:11)
-    at NotFoundErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:76:9)
-    at NotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/not-found-boundary.js:84:11)
-    at DevRootNotFoundBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/dev-root-not-found-boundary.js:33:11)
-    at ReactDevOverlay (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/internal/ReactDevOverlay.js:84:9)
-    at HotReload (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/react-dev-overlay/hot-reloader-client.js:307:11)
-    at Router (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:181:11)
-    at ErrorBoundaryHandler (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:114:9)
-    at ErrorBoundary (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/error-boundary.js:161:11)
-    at AppRouter (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/components/app-router.js:536:13)
-    at ServerRoot (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:129:11)
-    at RSCComponent
-    at Root (webpack-internal:///(app-pages-browser)/./node_modules/next/dist/client/app-index.js:145:11)
+Process SpawnProcess-1:
 
-React will try to recreate this component tree from scratch using the error boundary you provided, ErrorBoundaryHandler.
-window.console.error @ app-index.js:35
-console.error @ hydration-error-info.js:41
-logCapturedError @ react-dom.development.js:13282
-update.callback @ react-dom.development.js:13321
-callCallback @ react-dom.development.js:7440
-commitCallbacks @ react-dom.development.js:7480
-commitClassCallbacks @ react-dom.development.js:18255
-commitLayoutEffectOnFiber @ react-dom.development.js:18336
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18331
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18385
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18385
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18385
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18385
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18385
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18331
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18331
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18331
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18331
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18323
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18457
-recursivelyTraverseLayoutEffects @ react-dom.development.js:19560
-commitLayoutEffectOnFiber @ react-dom.development.js:18345
-commitLayoutEffects @ react-dom.development.js:19549
-commitRootImpl @ react-dom.development.js:22229
-commitRoot @ react-dom.development.js:22114
-performSyncWorkOnRoot @ react-dom.development.js:21156
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-error.tsx:13 Unsupported scan type SCAN_TYPE_CAMERA
-window.console.error @ app-index.js:35
-console.error @ hydration-error-info.js:41
-eval @ error.tsx:13
-commitHookEffectListMount @ react-dom.development.js:18071
-commitHookPassiveMountEffects @ react-dom.development.js:19742
-commitPassiveMountOnFiber @ react-dom.development.js:19826
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19824
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19918
-recursivelyTraversePassiveMountEffects @ react-dom.development.js:19808
-commitPassiveMountOnFiber @ react-dom.development.js:19832
-commitPassiveMountEffects @ react-dom.development.js:19799
-flushPassiveEffectsImpl @ react-dom.development.js:22446
-flushPassiveEffects @ react-dom.development.js:22398
-commitRootImpl @ react-dom.development.js:22318
-commitRoot @ react-dom.development.js:22114
-performSyncWorkOnRoot @ react-dom.development.js:21156
-flushSyncWorkAcrossRoots_impl @ react-dom.development.js:9119
-flushSyncWorkOnAllRoots @ react-dom.development.js:9085
-processRootScheduleInMicrotask @ react-dom.development.js:9207
-eval @ react-dom.development.js:9353Understand this error
-error.tsx:13 Unsupported scan type SCAN_TYPE_CAMERA
+
+Traceback (most recent call last):
+
+
+File "/usr/local/lib/python3.11/multiprocessing/process.py", line 314, in _bootstrap
+
+
+self.run()
+
+
+File "/usr/local/lib/python3.11/multiprocessing/process.py", line 108, in run
+
+
+self._target(*self._args, **self._kwargs)
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/_subprocess.py", line 80, in subprocess_started
+
+
+target(sockets=sockets)
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 66, in run
+
+
+return asyncio.run(self.serve(sockets=sockets))
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+
+
+return runner.run(main)
+
+
+^^^^^^^^^^^^^^^^
+
+
+File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+
+
+return self._loop.run_until_complete(task)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+File "uvloop/loop.pyx", line 1518, in uvloop.loop.Loop.run_until_complete
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 70, in serve
+
+
+await self._serve(sockets)
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 77, in _serve
+
+
+config.load()
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 435, in load
+
+
+self.loaded_app = import_from_string(self.app)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+
+
+module = importlib.import_module(module_str)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+
+
+return _bootstrap._gcd_import(name[level:], package, level)
+
+
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+
+File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+
+
+File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+
+
+File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+
+
+File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+
+
+
+
+
